@@ -2545,3 +2545,66 @@ body {
   .manifiesto__cta-btn,
   .manifiesto__cta-btn svg { transition: none; }
 }
+
+/* ============================================
+   FRANJA INFO — reemplaza Banner CTA
+   ============================================ */
+.cta-banner { display: none; } /* oculta el original si quedara */
+
+.info-strip {
+  background: var(--c-plum);
+  padding: 0;
+  border-top: 1px solid rgba(194,138,154,0.12);
+  border-bottom: 1px solid rgba(194,138,154,0.12);
+}
+
+.info-strip__inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 18px clamp(16px, 4vw, 48px);
+}
+
+.info-strip__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: rgba(212,170,185,0.8);
+  letter-spacing: 0.2px;
+  padding: 6px 20px;
+}
+
+.info-strip__item svg {
+  color: var(--c-rose);
+  flex-shrink: 0;
+}
+
+.info-strip__sep {
+  width: 1px;
+  height: 20px;
+  background: rgba(194,138,154,0.2);
+  flex-shrink: 0;
+}
+
+@media (max-width: 639px) {
+  .info-strip__inner {
+    gap: 4px 0;
+    padding: 14px 16px;
+  }
+  .info-strip__item {
+    padding: 5px 12px;
+    font-size: 0.78rem;
+  }
+  .info-strip__sep {
+    height: 16px;
+  }
+  .info-strip__item--hide-sm,
+  .info-strip__sep--hide-sm { display: none; }
+}

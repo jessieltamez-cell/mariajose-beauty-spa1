@@ -2337,3 +2337,211 @@ body {
   display: block;
   color: rgba(194,138,154,0.4);
 }
+
+/* ============================================
+   FRANJA MANIFIESTO
+   ============================================ */
+
+/* Oculta la versión anterior */
+.ambiente-strip { display: none; }
+
+.manifiesto {
+  background: var(--c-plum);
+  padding: 80px 24px 72px;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+
+/* Fondo con luces radiales */
+.manifiesto::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 80% at 50% 0%,   rgba(194,138,154,0.14) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 60% at 10% 100%,  rgba(194,138,154,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 90% 100%,  rgba(194,138,154,0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* ── Frase ── */
+.manifiesto__quote-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 64px;
+  position: relative;
+}
+
+.manifiesto__deco {
+  flex-shrink: 0;
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(194,138,154,0.5));
+}
+
+.manifiesto__deco--right {
+  background: linear-gradient(to left, transparent, rgba(194,138,154,0.5));
+}
+
+.manifiesto__quote {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.manifiesto__quote-line {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: var(--c-champagne);
+}
+
+.manifiesto__quote-line--em {
+  font-style: italic;
+  color: var(--c-rose);
+  font-size: clamp(2.4rem, 6vw, 4.8rem);
+}
+
+/* ── Stats ── */
+.manifiesto__stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0;
+  margin-bottom: 52px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.manifiesto__stat {
+  flex: 1 1 140px;
+  padding: 20px 24px;
+  position: relative;
+}
+
+.manifiesto__stat-num {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  font-weight: 400;
+  line-height: 1;
+  color: var(--c-champagne);
+  letter-spacing: -0.04em;
+}
+
+.manifiesto__stat-unit {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+  color: var(--c-rose);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.manifiesto__stat-label {
+  font-family: var(--font-body);
+  font-size: 0.76rem;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(212,170,185,0.6);
+  margin: 8px 0 0;
+}
+
+.manifiesto__stat-sep {
+  width: 1px;
+  height: 48px;
+  background: rgba(194,138,154,0.2);
+  flex-shrink: 0;
+  align-self: center;
+}
+
+/* ── CTA ── */
+.manifiesto__cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.manifiesto__cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--c-plum);
+  background: var(--c-champagne);
+  text-decoration: none;
+  border-radius: 100px;
+  padding: 16px 36px;
+  transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+  letter-spacing: 0.3px;
+}
+
+.manifiesto__cta-btn:hover {
+  background: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+}
+
+.manifiesto__cta-btn svg {
+  transition: transform 0.25s ease;
+}
+
+.manifiesto__cta-btn:hover svg {
+  transform: translateX(4px);
+}
+
+.manifiesto__cta-sub {
+  font-family: var(--font-body);
+  font-size: 0.76rem;
+  color: rgba(212,170,185,0.5);
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+/* ── MOBILE ── */
+@media (max-width: 639px) {
+  .manifiesto {
+    padding: 60px 20px 56px;
+  }
+
+  .manifiesto__quote-wrap {
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+
+  .manifiesto__deco {
+    width: 28px;
+  }
+
+  .manifiesto__stat-sep {
+    display: none;
+  }
+
+  .manifiesto__stats {
+    gap: 8px 0;
+  }
+
+  .manifiesto__stat {
+    flex: 1 1 calc(50% - 16px);
+    padding: 16px 12px;
+  }
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .manifiesto__cta-btn,
+  .manifiesto__cta-btn svg { transition: none; }
+}

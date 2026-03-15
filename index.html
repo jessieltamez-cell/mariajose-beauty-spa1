@@ -28,6 +28,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/hero3d.css">
+  <link rel="stylesheet" href="css/enhancements.css">
 </head>
 <body>
 
@@ -58,36 +60,106 @@
   </header>
 
   <!-- ========== HERO ========== -->
-  <section class="hero" id="inicio">
-    <div class="hero__overlay"></div>
-    <div class="hero__content">
-      <h1 class="sr-only">Maria Jos&eacute; Beauty &amp; Spa</h1>
-      <img src="img/Logo.png" alt="Maria Jos&eacute; Beauty &amp; Spa" class="hero__logo">
-      <p class="hero__subtitle">Tu espacio de belleza y bienestar en Santa Catarina, N.L.</p>
-      <p class="hero__text">Resalta tu belleza natural en manos de expertos</p>
-      <div class="hero__cta-group">
-        <a href="https://wa.me/5218135727136?text=Hola%2C%20me%20gustar%C3%ADa%20agendar%20una%20cita%20%F0%9F%92%85" target="_blank" rel="noopener" class="btn btn--primary">
-          <svg class="btn__icon" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+  <section class="hero hero--cinematic" id="inicio">
+    <h1 class="sr-only">Maria Jos&eacute; Beauty &amp; Spa</h1>
+
+    <!-- Fondo degradado animado -->
+    <div class="hc__bg" aria-hidden="true"></div>
+
+    <!-- Flor 3D CSS — objeto central -->
+    <div class="hc__flower-stage" aria-hidden="true">
+      <div class="hc__flower">
+        <!-- 8 pétalos, cada uno es un par de capas CSS 3D -->
+        <div class="hc__petal hc__petal--1"><div class="hc__petal-inner"></div></div>
+        <div class="hc__petal hc__petal--2"><div class="hc__petal-inner"></div></div>
+        <div class="hc__petal hc__petal--3"><div class="hc__petal-inner"></div></div>
+        <div class="hc__petal hc__petal--4"><div class="hc__petal-inner"></div></div>
+        <div class="hc__petal hc__petal--5"><div class="hc__petal-inner"></div></div>
+        <div class="hc__petal hc__petal--6"><div class="hc__petal-inner"></div></div>
+        <div class="hc__petal hc__petal--7"><div class="hc__petal-inner"></div></div>
+        <div class="hc__petal hc__petal--8"><div class="hc__petal-inner"></div></div>
+        <!-- Centro de la flor -->
+        <div class="hc__flower-center">
+          <div class="hc__flower-center-inner"></div>
+        </div>
+      </div>
+      <!-- Anillos orbitales -->
+      <div class="hc__orbit hc__orbit--1"></div>
+      <div class="hc__orbit hc__orbit--2"></div>
+      <!-- Polvo de luz -->
+      <div class="hc__dust" aria-hidden="true">
+        <span class="hc__dust-p hc__dust-p--1"></span>
+        <span class="hc__dust-p hc__dust-p--2"></span>
+        <span class="hc__dust-p hc__dust-p--3"></span>
+        <span class="hc__dust-p hc__dust-p--4"></span>
+        <span class="hc__dust-p hc__dust-p--5"></span>
+        <span class="hc__dust-p hc__dust-p--6"></span>
+        <span class="hc__dust-p hc__dust-p--7"></span>
+        <span class="hc__dust-p hc__dust-p--8"></span>
+        <span class="hc__dust-p hc__dust-p--9"></span>
+        <span class="hc__dust-p hc__dust-p--10"></span>
+        <span class="hc__dust-p hc__dust-p--11"></span>
+        <span class="hc__dust-p hc__dust-p--12"></span>
+      </div>
+    </div>
+
+    <!-- Contenido de texto -->
+    <div class="hc__content">
+
+      <!-- Eyebrow -->
+      <p class="hc__eyebrow">
+        <span class="hc__eyebrow-line"></span>
+        Santa Catarina, N.L. &bull; Desde 2016
+        <span class="hc__eyebrow-line"></span>
+      </p>
+
+      <!-- Logo -->
+      <div class="hc__logo-wrap">
+        <img src="img/Logo.png" alt="Maria Jos&eacute; Beauty &amp; Spa" class="hc__logo">
+      </div>
+
+      <!-- Tagline -->
+      <p class="hc__tagline">
+        Resalta tu <em>belleza natural</em>
+      </p>
+
+      <!-- CTAs -->
+      <div class="hc__ctas">
+        <a href="https://wa.me/5218135727136?text=Hola%2C%20me%20gustar%C3%ADa%20agendar%20una%20cita%20%F0%9F%92%85"
+           target="_blank" rel="noopener" class="hc__btn hc__btn--primary">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18" aria-hidden="true">
             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
           </svg>
           Reserva tu cita
         </a>
-        <a href="#servicios" class="btn btn--ghost-light">Ver servicios</a>
+        <a href="#servicios" class="hc__btn hc__btn--ghost">
+          Ver servicios
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="15" height="15" aria-hidden="true">
+            <path d="M9 18l6-6-6-6"/>
+          </svg>
+        </a>
       </div>
-      <div class="hero__badges">
-        <span class="hero__badge">
-          <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+
+      <!-- Badges -->
+      <div class="hc__badges">
+        <span class="hc__badge">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
           Profesionales certificadas
         </span>
-        <span class="hero__badge-sep">&bull;</span>
-        <span class="hero__badge">+8 a&ntilde;os de experiencia</span>
-        <span class="hero__badge-sep">&bull;</span>
-        <span class="hero__badge">Santa Catarina, N.L.</span>
+        <span class="hc__badge-sep">&bull;</span>
+        <span class="hc__badge">+8 a&ntilde;os de experiencia</span>
+        <span class="hc__badge-sep">&bull;</span>
+        <span class="hc__badge">6 especialistas</span>
       </div>
+
     </div>
-    <div class="hero__scroll-indicator">
-      <span></span>
+
+    <!-- Scroll -->
+    <div class="hc__scroll" aria-hidden="true">
+      <div class="hc__scroll-bar"><div class="hc__scroll-bar-fill"></div></div>
+      <span>Descubrir</span>
     </div>
+
   </section>
 
   <!-- ========== SERVICIOS ========== -->
@@ -1162,6 +1234,8 @@
   </div>
 
   <script src="js/main.js"></script>
+  <script src="js/hero3d.js"></script>
+  <script src="js/enhancements.js"></script>
   <!-- ========== MODAL CARRUSEL DE TRABAJOS ========== -->
   <div class="gallery-modal" id="galleryModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="galleryTitle">
     <div class="gallery-modal__backdrop"></div>

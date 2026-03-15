@@ -2307,3 +2307,33 @@ body {
   .pricing--v2 .pricing__item,
   .pricing--v2 .pricing__item::before { transition: none; }
 }
+
+/* ============================================
+   ICONOS SVG — SISTEMA UNIFORME
+   ============================================ */
+
+/* Tab icon en precios */
+.pricing2__tab-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  display: block;
+}
+
+/* Pill icon en espacio */
+.pill-icon {
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 2px;
+  flex-shrink: 0;
+}
+
+/* Thumb placeholder icon en equipo */
+.team2__work-thumb-icon {
+  width: 24px;
+  height: 24px;
+  display: block;
+  color: rgba(194,138,154,0.4);
+}

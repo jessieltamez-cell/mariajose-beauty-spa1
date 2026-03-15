@@ -1936,36 +1936,49 @@ body {
 /* ── Foto ── */
 .team2__photo {
   position: relative;
-  height: 480px;
-  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(194,138,154,0.08);
   flex-shrink: 0;
+  padding: 32px 24px;
+}
+
+/* Marco circular/óvalo */
+.team2__photo-frame {
+  width: 260px;
+  height: 320px;
+  border-radius: 50% / 45%;
+  overflow: hidden;
+  border: 3px solid rgba(194,138,154,0.25);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.3), 0 0 0 6px rgba(194,138,154,0.08);
+  flex-shrink: 0;
+  position: relative;
 }
 
 .team2__photo img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center top;
   display: block;
   transition: transform 1s ease;
 }
 
 .team2__card:hover .team2__photo img {
-  transform: scale(1.04);
+  transform: scale(1.06);
 }
 
-/* Gradiente derecho sobre foto → cuerpo */
+/* Sin gradiente lateral — ya no aplica */
 .team2__photo::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to right, transparent 60%, rgba(30,18,24,0.6) 100%);
-  pointer-events: none;
+  display: none;
 }
 
 .team2__badge {
   position: absolute;
-  top: 20px;
-  left: 20px;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
   font-family: var(--font-body);
   font-size: 0.65rem;
   font-weight: 700;
@@ -2207,15 +2220,16 @@ body {
 @media (max-width: 767px) {
   .team2__card {
     grid-template-columns: 1fr;
-    grid-template-rows: 260px auto;
+    grid-template-rows: auto auto;
   }
 
   .team2__photo {
-    height: 260px;
+    padding: 24px 20px;
   }
 
-  .team2__photo::after {
-    background: linear-gradient(to bottom, transparent 50%, rgba(30,18,24,0.5) 100%);
+  .team2__photo-frame {
+    width: 180px;
+    height: 220px;
   }
 
   .team2__body {

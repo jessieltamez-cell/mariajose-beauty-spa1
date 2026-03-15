@@ -309,4 +309,94 @@ document.addEventListener('DOMContentLoaded', () => {
     // Solo aseguramos que el offset use la altura actual del header
   });
 
+  // ---------- Carrusel Equipo v2 ----------
+  const teamCarousel = document.getElementById('teamCarousel');
+  const teamPrev     = document.getElementById('teamPrev');
+  const teamNext     = document.getElementById('teamNext');
+  const teamDots     = document.getElementById('teamDots');
+  const teamSlideNum = document.getElementById('teamSlideNum');
+
+  if (teamCarousel && teamPrev && teamNext && teamDots) {
+    const cards = teamCarousel.querySelectorAll('.team2__card');
+    const dots  = teamDots.querySelectorAll('.team2__dot');
+    const total = cards.length;
+    let current = 0;
+    let isAnimating = false;
+
+    function goToSlide(index) {
+      if (isAnimating || index === current) return;
+      isAnimating = true;
+
+      cards[current].style.opacity = '0';
+      dots[current].classList.remove('is-active');
+
+      current = Math.max(0, Math.min(index, total - 1));
+
+      // Reordenamos el flex: mover la card activa al frente
+      cards.forEach((card, i) => {
+        card.style.order = String(i < current ? total : i - current);
+      });
+
+      cards[current].style.opacity = '1';
+      dots[current].classList.add('is-active');
+
+      if (teamSlideNum) teamSlideNum.textContent = String(current + 1);
+      teamPrev.disabled = current === 0;
+      teamNext.disabled = current === total - 1;
+
+      setTimeout(() => { isAnimating = false; }, 520);
+    }
+
+    // Init
+    cards.forEach((card, i) => {
+      card.style.transition = 'opacity 0.45s ease';
+      card.style.opacity = i === 0 ? '1' : '0';
+      card.style.order = String(i);
+    });
+    teamPrev.disabled = true;
+
+    teamNext.addEventListener('click', () => goToSlide(current + 1));
+    teamPrev.addEventListener('click', () => goToSlide(current - 1));
+
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => goToSlide(i));
+    });
+
+    // Touch swipe
+    let touchStartX = 0;
+    teamCarousel.addEventListener('touchstart', e => {
+      touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+    teamCarousel.addEventListener('touchend', e => {
+      const diff = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 50) {
+        diff > 0 ? goToSlide(current + 1) : goToSlide(current - 1);
+      }
+    }, { passive: true });
+
+    // Cargar thumbs de trabajos si las imágenes existen
+    document.querySelectorAll('.team2__work-thumb').forEach(thumb => {
+      const member = thumb.dataset.member;
+      const idx    = parseInt(thumb.dataset.idx, 10) + 1;
+      const imgSrc = `img/trabajos/${member}/${idx}.jpg`;
+      const probe  = new Image();
+      probe.onload = () => {
+        // La imagen existe — reemplazar placeholder
+        thumb.classList.remove('team2__work-thumb--placeholder');
+        const img = document.createElement('img');
+        img.src = imgSrc;
+        img.alt = `Trabajo ${idx}`;
+        img.loading = 'lazy';
+        thumb.innerHTML = '';
+        thumb.appendChild(img);
+        // Click abre galería en esa imagen
+        thumb.addEventListener('click', () => {
+          const galleryBtn = thumb.closest('.team2__card')?.querySelector('.team-card__gallery-btn');
+          if (galleryBtn) galleryBtn.click();
+        });
+      };
+      probe.src = imgSrc;
+    });
+  }
+
 });

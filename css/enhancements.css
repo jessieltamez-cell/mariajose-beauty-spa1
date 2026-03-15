@@ -1957,3 +1957,353 @@ body {
   .team2__dot,
   .team2__work-thumb { transition: none; }
 }
+
+/* ============================================
+   LISTA DE PRECIOS — UX UPGRADE v2
+   ============================================ */
+
+/* ── Encabezado editorial ── */
+.pricing2__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+  margin-bottom: 52px;
+}
+
+.pricing2__eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--c-rose);
+  margin: 0 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pricing2__eyebrow::before {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: var(--c-rose);
+  display: inline-block;
+}
+
+.pricing2__title {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 4vw, 3.6rem);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--c-plum);
+  margin: 0;
+}
+
+.pricing2__title em {
+  font-style: italic;
+  color: var(--c-rose);
+}
+
+.pricing2__header-right {
+  max-width: 360px;
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.pricing2__desc {
+  font-family: var(--font-body);
+  font-size: 0.93rem;
+  line-height: 1.7;
+  color: var(--c-plum-mid);
+  margin: 0 0 18px;
+}
+
+.pricing2__wa-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #25D366;
+  text-decoration: none;
+  border: 1.5px solid rgba(37,211,102,0.35);
+  border-radius: 100px;
+  padding: 9px 20px;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.pricing2__wa-link:hover {
+  background: #25D366;
+  color: #fff;
+  border-color: #25D366;
+}
+
+/* ── Tabs mejorados ── */
+.pricing2__tabs {
+  max-width: 860px !important;
+  gap: 4px !important;
+  padding: 5px !important;
+  background: rgba(194,138,154,0.1) !important;
+  border: 1px solid rgba(194,138,154,0.2) !important;
+}
+
+.pricing2__tab {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  font-size: 0.8rem !important;
+  padding: 10px 16px !important;
+}
+
+.pricing2__tab-icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+/* Tab activo más marcado */
+.pricing__tab--active.pricing2__tab {
+  background: var(--c-plum) !important;
+  color: var(--c-champagne) !important;
+  box-shadow: 0 2px 12px rgba(74,53,64,0.25) !important;
+}
+
+/* ── Items de precios mejorados ── */
+.pricing--v2 .pricing__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 22px;
+  border-radius: 12px;
+  border: 1px solid rgba(194,138,154,0.15);
+  background: #fff;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.pricing--v2 .pricing__item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, var(--c-rose), rgba(194,138,154,0.3));
+  border-radius: 3px 0 0 3px;
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.3s ease;
+}
+
+.pricing--v2 .pricing__item:hover::before {
+  transform: scaleY(1);
+}
+
+.pricing--v2 .pricing__item:hover {
+  transform: translateX(4px);
+  box-shadow: 0 4px 20px rgba(194,138,154,0.18);
+  border-color: rgba(194,138,154,0.3);
+}
+
+/* Separar nombre y desc como columna */
+.pricing--v2 .pricing__item-top {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  margin-bottom: 0;
+  flex: 1;
+}
+
+.pricing--v2 .pricing__item-name {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--c-plum);
+}
+
+.pricing--v2 .pricing__item-desc {
+  font-size: 0.79rem;
+  color: rgba(140, 93, 111, 0.7);
+  margin: 0;
+  line-height: 1.45;
+}
+
+/* Precio al extremo derecho, más grande */
+.pricing--v2 .pricing__item-price {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: var(--c-rose);
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Item destacado (highlight) */
+.pricing--v2 .pricing__item--highlight {
+  background: linear-gradient(135deg, var(--c-plum) 0%, #5a3545 100%);
+  border-color: transparent;
+}
+
+.pricing--v2 .pricing__item--highlight::before {
+  background: linear-gradient(to bottom, var(--c-champagne), rgba(212,170,185,0.4));
+}
+
+.pricing--v2 .pricing__item--highlight .pricing__item-name {
+  color: var(--c-champagne);
+}
+
+.pricing--v2 .pricing__item--highlight .pricing__item-price {
+  color: #F5D5A8;
+}
+
+.pricing--v2 .pricing__item--highlight .pricing__item-desc {
+  color: rgba(212,170,185,0.75);
+}
+
+/* Nota del panel mejorada */
+.pricing--v2 .pricing__note {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.82rem;
+  background: rgba(194,138,154,0.08);
+  border-left: 3px solid var(--c-rose);
+  border-radius: 0 10px 10px 0;
+  color: var(--c-plum-mid);
+  padding: 12px 18px;
+  max-width: 700px;
+  margin: 0 auto 28px;
+}
+
+.pricing--v2 .pricing__note::before {
+  content: 'ℹ';
+  font-size: 1rem;
+  color: var(--c-rose);
+  flex-shrink: 0;
+}
+
+/* ── Grid responsive ── */
+.pricing--v2 .pricing__grid {
+  gap: 10px;
+}
+
+/* ── CTA final ── */
+.pricing2__cta {
+  margin-top: 48px;
+  padding-top: 36px;
+  border-top: 1px solid rgba(194,138,154,0.2);
+}
+
+.pricing2__cta-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  background: linear-gradient(135deg, rgba(194,138,154,0.08) 0%, rgba(194,138,154,0.04) 100%);
+  border: 1px solid rgba(194,138,154,0.2);
+  border-radius: 16px;
+  padding: 28px 32px;
+}
+
+.pricing2__cta-text {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: var(--c-plum);
+  margin: 0;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.pricing2__cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #fff;
+  background: #25D366;
+  text-decoration: none;
+  border-radius: 100px;
+  padding: 14px 28px;
+  transition: background 0.25s ease, transform 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.pricing2__cta-btn:hover {
+  background: #1da851;
+  transform: translateY(-1px);
+}
+
+/* ── MOBILE ── */
+@media (max-width: 639px) {
+  .pricing2__header {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 36px;
+  }
+
+  .pricing2__header-right {
+    text-align: left;
+    max-width: 100%;
+  }
+
+  .pricing2__tabs {
+    max-width: 100% !important;
+    border-radius: 14px !important;
+  }
+
+  .pricing2__tab {
+    min-width: auto !important;
+    flex: 1 1 calc(33% - 4px) !important;
+    padding: 10px 8px !important;
+    font-size: 0.72rem !important;
+  }
+
+  .pricing2__tab-icon {
+    font-size: 0.9rem;
+  }
+
+  .pricing--v2 .pricing__item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .pricing--v2 .pricing__item-price {
+    font-size: 1.5rem;
+  }
+
+  .pricing2__cta-inner {
+    flex-direction: column;
+    text-align: center;
+    padding: 22px 20px;
+  }
+}
+
+/* ── TABLET ── */
+@media (min-width: 640px) and (max-width: 959px) {
+  .pricing2__header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .pricing2__header-right {
+    text-align: left;
+    max-width: 100%;
+  }
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .pricing--v2 .pricing__item,
+  .pricing--v2 .pricing__item::before { transition: none; }
+}

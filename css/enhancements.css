@@ -1043,13 +1043,13 @@ a:focus-visible {
 
 @media (max-width: 639px) {
   .booking__form {
-    padding: 32px 24px;
+    padding: 32px 20px;
     border-radius: 24px;
   }
 
   .service-card {
     border-radius: 24px;
-    padding: 32px 24px;
+    padding: 32px 20px;
   }
 
   .team-card {
@@ -1066,13 +1066,57 @@ a:focus-visible {
   }
 
   .hero__content::before {
-    font-size: 0.75rem;
-    letter-spacing: 8px;
+    font-size: 0.8rem;
+    letter-spacing: 6px;
     margin-bottom: 20px;
   }
 
   .testimonial-card {
-    padding: 32px 24px;
+    padding: 32px 20px;
+  }
+
+  /* Mejora legibilidad general en mobile */
+  .section-header__label {
+    font-size: 0.72rem;
+    letter-spacing: 4px;
+  }
+
+  /* Más espacio en secciones en mobile */
+  .svc--v2 {
+    padding: 56px 0 48px;
+  }
+
+  /* Precio en tarjeta de servicio más visible */
+  .svc__price {
+    font-size: 0.88rem;
+    font-weight: 600;
+  }
+
+  /* Descripcion del servicio más legible */
+  .svc__desc {
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  /* Link de servicio con buen target táctil */
+  .svc__link {
+    font-size: 0.88rem;
+    min-height: 48px;
+    padding: 0 4px;
+  }
+
+  /* Manifiesto más cómodo en mobile */
+  .manifiesto__quote-line {
+    font-size: clamp(1.7rem, 7vw, 2.4rem);
+  }
+
+  .manifiesto__quote-line--em {
+    font-size: clamp(2rem, 8.5vw, 2.8rem);
+  }
+
+  .manifiesto__stat-label {
+    font-size: 0.72rem;
+    letter-spacing: 1.5px;
   }
 }
 
@@ -1486,8 +1530,8 @@ body {
   }
 
   .svc__tags li {
-    font-size: 0.72rem;
-    padding: 4px 10px;
+    font-size: 0.8rem;
+    padding: 5px 12px;
   }
 
   .svc__link {
@@ -1789,6 +1833,60 @@ body {
   color: #fff;
 }
 
+/* ── RESPONSIVE MOBILE (<640px) ── */
+@media (max-width: 639px) {
+  .espacio--v2 {
+    padding: 64px 0 56px;
+  }
+
+  .espacio__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 0 20px 40px;
+  }
+
+  .espacio__header-right {
+    max-width: 100%;
+  }
+
+  .espacio__eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+  }
+
+  .espacio__title {
+    font-size: clamp(2rem, 9vw, 2.6rem);
+  }
+
+  .espacio__desc {
+    font-size: 0.92rem;
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+
+  .espacio__gallery {
+    padding: 0 16px;
+    gap: 10px;
+  }
+
+  /* Alturas mejoradas en mobile para mejor lectura */
+  .espacio__card--hero   { height: 260px; }
+  .espacio__card--tall   { height: 200px; }
+  .espacio__card--square { height: 200px; }
+  .espacio__card--wide   { height: 200px; }
+
+  .espacio__trust {
+    gap: 12px 20px;
+    padding: 24px 16px;
+    margin-top: 32px;
+  }
+
+  .espacio__trust-badge {
+    font-size: 0.82rem;
+  }
+}
+
 /* ── RESPONSIVE TABLET (640px+) ── */
 @media (min-width: 640px) {
   .espacio__gallery {
@@ -2009,7 +2107,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(194,123,137,0.08);
+  background:
+    radial-gradient(ellipse 80% 60% at 50% -5%,  #e8c4ce 0%, transparent 55%),
+    radial-gradient(ellipse 60% 50% at 95% 100%,  #d49baa 0%, transparent 50%),
+    radial-gradient(ellipse 55% 65% at 0%  90%,   #c27b89 0%, transparent 52%),
+    linear-gradient(165deg, #f0dde2 0%, #e2c9b3 45%, #d4b8a0 100%);
   flex-shrink: 0;
   padding: 32px 24px;
 }
@@ -2020,8 +2122,9 @@ body {
   height: 320px;
   border-radius: 50% / 45%;
   overflow: hidden;
-  border: 3px solid rgba(194,123,137,0.25);
-  box-shadow: 0 8px 40px rgba(0,0,0,0.3), 0 0 0 6px rgba(194,123,137,0.08);
+  border: 3px solid rgba(166,96,111,0.35);
+  box-shadow: 0 8px 40px rgba(100,50,60,0.22), 0 0 0 6px rgba(166,96,111,0.12);
+  background: linear-gradient(165deg, #f0dde2 0%, #e2c9b3 45%, #d4b8a0 100%);
   flex-shrink: 0;
   position: relative;
 }
@@ -2294,6 +2397,32 @@ body {
     align-items: flex-start;
     gap: 0;
     padding-bottom: 36px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .team2__eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+  }
+
+  .team2__title {
+    font-size: clamp(2rem, 9vw, 2.6rem);
+  }
+
+  /* Descripción siempre visible y legible en mobile */
+  .team2__header-right {
+    display: block;
+    text-align: left;
+    margin-top: 20px;
+    width: 100%;
+  }
+
+  .team2__desc {
+    margin-left: 0;
+    max-width: 100%;
+    font-size: 0.9rem;
+    line-height: 1.72;
   }
 
   /* Card: foto arriba, info abajo */
@@ -2692,8 +2821,8 @@ body {
   .pricing2__tab {
     min-width: auto !important;
     flex: 1 1 calc(33% - 4px) !important;
-    padding: 10px 8px !important;
-    font-size: 0.72rem !important;
+    padding: 10px 6px !important;
+    font-size: 0.8rem !important;
   }
 
   .pricing2__tab-icon {
@@ -3024,16 +3153,21 @@ body {
 
 @media (max-width: 639px) {
   .info-strip__inner {
-    gap: 4px 0;
-    padding: 14px 16px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    padding: 16px 16px;
+    justify-items: center;
   }
   .info-strip__item {
-    padding: 5px 12px;
-    font-size: 0.78rem;
+    padding: 8px 10px;
+    font-size: 0.8rem;
+    justify-content: center;
+    text-align: center;
+    gap: 6px;
   }
-  .info-strip__sep {
-    height: 16px;
-  }
-  .info-strip__item--hide-sm,
-  .info-strip__sep--hide-sm { display: none; }
+  /* Ocultar separadores verticales en grid mobile */
+  .info-strip__sep { display: none; }
+  /* Mostrar todos los ítems en mobile */
+  .info-strip__item--hide-sm { display: flex; }
 }

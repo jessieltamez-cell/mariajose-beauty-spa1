@@ -1493,15 +1493,15 @@
         <form class="booking__form" id="bookingForm">
           <div class="form-group">
             <label for="clientName" class="form-label">Nombre completo</label>
-            <input type="text" id="clientName" name="clientName" class="form-input" placeholder="Tu nombre" required>
+            <input type="text" id="clientName" name="clientName" class="form-input" placeholder="Tu nombre" autocomplete="name" required>
           </div>
           <div class="form-group">
             <label for="clientPhone" class="form-label">Tel&eacute;fono / WhatsApp</label>
-            <input type="tel" id="clientPhone" name="clientPhone" class="form-input" placeholder="+00 000 000 0000" required>
+            <input type="tel" id="clientPhone" name="clientPhone" class="form-input" placeholder="+00 000 000 0000" autocomplete="tel" required>
           </div>
           <div class="form-group">
             <label for="clientEmail" class="form-label">Correo electr&oacute;nico</label>
-            <input type="email" id="clientEmail" name="clientEmail" class="form-input" placeholder="tu@correo.com" required>
+            <input type="email" id="clientEmail" name="clientEmail" class="form-input" placeholder="tu@correo.com" autocomplete="email" required>
           </div>
           <div class="form-group">
             <label for="serviceType" class="form-label">Servicio</label>
@@ -1695,7 +1695,7 @@
           <div class="chat-widget__avatar" aria-hidden="true">MJ</div>
           <div class="chat-widget__header-info">
             <p class="chat-widget__header-name">Asistente Maria Jos&eacute;</p>
-            <p class="chat-widget__header-status"><span class="chat-widget__status-dot"></span>En l&iacute;nea</p>
+            <p class="chat-widget__header-status"><span class="chat-widget__status-dot"></span>Respuesta autom&aacute;tica</p>
           </div>
         </div>
         <button class="chat-widget__close" id="chatClose" aria-label="Cerrar chat">

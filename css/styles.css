@@ -1654,9 +1654,10 @@ behold-branding { display: none !important; }
 }
 
 .form-input:focus {
-  outline: none;
+  outline: 2px solid var(--c-rose-mid);
+  outline-offset: 2px;
   border-color: var(--c-rose-mid);
-  box-shadow: 0 0 0 3px rgba(194,123,137,0.12);
+  box-shadow: 0 0 0 4px rgba(194,123,137,0.20);
   background: var(--c-white);
 }
 
@@ -2481,6 +2482,20 @@ input[type="date"].form-input::-webkit-calendar-picker-indicator {
    RESPONSIVE — MOBILE ONLY (max 639px)
    ============================================ */
 @media (max-width: 639px) {
+  /* Pricing tabs — horizontal scroll */
+  .pricing__tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    justify-content: flex-start;
+    border-radius: 999px;
+    mask-image: linear-gradient(to right, black 85%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
+  }
+  .pricing__tabs::-webkit-scrollbar { display: none; }
+  .pricing__tab { flex-shrink: 0; }
+
   /* Hero */
   .hero__logo {
     width: clamp(160px, 60vw, 260px);

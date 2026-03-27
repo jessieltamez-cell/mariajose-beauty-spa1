@@ -10,15 +10,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (navToggle && navMenu) {
     navToggle.addEventListener('click', () => {
+      const isOpen = navMenu.classList.toggle('open');
       navToggle.classList.toggle('active');
-      navMenu.classList.toggle('open');
-      document.body.style.overflow = navMenu.classList.contains('open') ? 'hidden' : '';
+      navToggle.setAttribute('aria-expanded', isOpen);
+      navToggle.setAttribute('aria-label', isOpen ? 'Cerrar men\u00fa' : 'Abrir men\u00fa');
+      navMenu.setAttribute('aria-hidden', !isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
     });
 
     navLinks.forEach(link => {
       link.addEventListener('click', () => {
         navToggle.classList.remove('active');
         navMenu.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+        navToggle.setAttribute('aria-label', 'Abrir men\u00fa');
+        navMenu.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
       });
     });
@@ -167,15 +173,30 @@ document.addEventListener('DOMContentLoaded', () => {
   const pricingTabs = document.querySelectorAll('.pricing__tab');
   const pricingPanels = document.querySelectorAll('.pricing__panel');
 
+  // ARIA setup
+  pricingPanels.forEach(p => p.setAttribute('role', 'tabpanel'));
   pricingTabs.forEach(tab => {
+    tab.setAttribute('aria-selected', tab.classList.contains('pricing__tab--active') ? 'true' : 'false');
+    tab.setAttribute('aria-controls', `panel-${tab.dataset.tab}`);
     tab.addEventListener('click', () => {
       const target = tab.dataset.tab;
-      pricingTabs.forEach(t => t.classList.remove('pricing__tab--active'));
+      pricingTabs.forEach(t => { t.classList.remove('pricing__tab--active'); t.setAttribute('aria-selected', 'false'); });
       pricingPanels.forEach(p => p.classList.remove('pricing__panel--active'));
       tab.classList.add('pricing__tab--active');
+      tab.setAttribute('aria-selected', 'true');
       const panel = document.getElementById(`panel-${target}`);
       if (panel) panel.classList.add('pricing__panel--active');
     });
+  });
+
+  // Arrow key navigation between tabs
+  const tabList = document.querySelector('[role="tablist"]');
+  tabList?.addEventListener('keydown', (e) => {
+    const tabs = [...pricingTabs];
+    const idx = tabs.indexOf(document.activeElement);
+    if (idx === -1) return;
+    if (e.key === 'ArrowRight') { e.preventDefault(); tabs[(idx + 1) % tabs.length].focus(); }
+    if (e.key === 'ArrowLeft')  { e.preventDefault(); tabs[(idx - 1 + tabs.length) % tabs.length].focus(); }
   });
 
   // Links de servicio que apuntan a un tab específico de precios
@@ -216,6 +237,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Show badge after 3s to draw attention
   setTimeout(() => chatBadge && chatBadge.classList.add('visible'), 3000);
+
+  // Escape key — cierra menú móvil y chat
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    if (chatWidget?.classList.contains('is-open')) closeChat();
+    if (navMenu?.classList.contains('open')) {
+      navToggle?.classList.remove('active');
+      navMenu.classList.remove('open');
+      navToggle?.setAttribute('aria-expanded', 'false');
+      navToggle?.setAttribute('aria-label', 'Abrir men\u00fa');
+      navMenu.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+  });
 
   function openChat() {
     chatWidget.classList.add('is-open');

@@ -2168,8 +2168,13 @@ body {
 .team2__body {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   padding: 36px 40px 32px;
+}
+
+/* Cuando sí hay works, vuelve a space-between */
+.team2__body:has(.team2__works) {
+  justify-content: space-between;
 }
 
 .team2__num {
@@ -2266,7 +2271,12 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-bottom: 4px;
 }
+.team2__works-strip::-webkit-scrollbar { display: none; }
 
 .team2__work-thumb {
   width: 72px;
@@ -2275,7 +2285,10 @@ body {
   overflow: hidden;
   border: 1px solid rgba(194,123,137,0.2);
   cursor: pointer;
-  background: none;
+  background-color: rgba(194,123,137,0.08);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   padding: 0;
   transition: transform 0.25s ease, border-color 0.25s ease;
   flex-shrink: 0;
@@ -2391,105 +2404,195 @@ body {
 
 /* ── MOBILE ── */
 @media (max-width: 767px) {
-  /* Encabezado: columna en mobile */
+  /* Sección: menos padding vertical, sin overflow */
+  .team--v2 {
+    padding: 60px 0 50px;
+    overflow-x: hidden;
+  }
+
+  /* Encabezado: columna centrada */
   .team2__header {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    text-align: center;
     gap: 0;
-    padding-bottom: 36px;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-bottom: 28px;
+    padding-left: 16px;
+    padding-right: 16px;
   }
 
   .team2__eyebrow {
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     letter-spacing: 4px;
+    justify-content: center;
   }
 
   .team2__title {
-    font-size: clamp(2rem, 9vw, 2.6rem);
+    font-size: clamp(1.9rem, 8vw, 2.4rem);
   }
 
-  /* Descripción siempre visible y legible en mobile */
   .team2__header-right {
     display: block;
-    text-align: left;
-    margin-top: 20px;
+    text-align: center;
+    margin-top: 14px;
     width: 100%;
   }
 
   .team2__desc {
-    margin-left: 0;
+    margin: 0 auto 8px;
     max-width: 100%;
-    font-size: 0.9rem;
-    line-height: 1.72;
+    font-size: 0.88rem;
+    line-height: 1.65;
   }
 
-  /* Card: foto arriba, info abajo */
-  .team2__card {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto;
-  }
-
-  .team2__photo {
-    padding: 28px 24px 20px;
-  }
-
-  .team2__photo-frame {
-    width: 200px;
-    height: 240px;
-  }
-
-  .team2__body {
-    padding: 24px 22px 22px;
-  }
-
-  .team2__num {
-    font-size: 2.4rem;
-    margin-bottom: 10px;
-  }
-
-  .team2__name {
-    font-size: 1.7rem;
-  }
-
-  /* Descripción visible en mobile */
-  .team2__header-right {
-    display: block;
-    text-align: left;
-    margin-top: 16px;
-    width: 100%;
-  }
-
-  .team2__desc {
-    margin-left: 0;
-    max-width: 100%;
-  }
-
-  /* Ocultar contador de slides (solo desktop) */
+  /* Ocultar contador de slides en mobile */
   .team2__counter {
     display: none;
   }
 
-  /* Thumbnails de trabajos */
-  .team2__works-all {
-    padding: 8px 14px;
-    font-size: 0.76rem;
+  /* Carrusel: contener overflow */
+  .team2__carousel-wrap {
+    padding: 0 4px;
+    overflow: hidden;
+  }
+
+  .team2__carousel {
+    overflow: hidden;
+    width: 100%;
+  }
+
+  /* Card: una columna, contenida en el viewport */
+  .team2__card {
+    display: flex !important;
+    flex-direction: column !important;
+    grid-template-columns: unset !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    box-sizing: border-box;
+    border-radius: 16px;
+    flex-shrink: 0;
+  }
+
+  /* Foto: fondo + oval centrado */
+  .team2__photo {
+    width: 100%;
+    padding: 32px 20px 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: unset;
+    position: relative;
+    box-sizing: border-box;
+  }
+
+  /* Marco oval proporcionado */
+  .team2__photo-frame {
+    width: 170px;
+    height: 210px;
+    flex-shrink: 0;
+  }
+
+  /* Badge absolutamente centrado en la foto */
+  .team2__badge {
+    position: absolute;
+    bottom: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+  }
+
+  /* Cuerpo: centrado */
+  .team2__body {
+    width: 100%;
+    padding: 20px 18px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  .team2__body-top {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .team2__num {
+    font-size: 1.8rem;
+    margin-bottom: 6px;
+  }
+
+  .team2__name {
+    font-size: 1.5rem;
+  }
+
+  .team2__specialty {
+    font-size: 0.72rem;
+    margin-bottom: 14px;
+  }
+
+  .team2__creds {
+    text-align: left;
+    width: 100%;
+    margin-bottom: 16px;
+    gap: 6px;
+  }
+
+  .team2__creds li {
+    font-size: 0.82rem;
+  }
+
+  .team2__tags {
+    justify-content: center;
+  }
+
+  /* Sección de trabajos */
+  .team2__works {
+    margin-top: 18px;
+    padding-top: 18px;
+    width: 100%;
+  }
+
+  .team2__works-label {
+    font-size: 0.65rem;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .team2__works-strip {
+    gap: 8px;
+    justify-content: flex-start;
   }
 
   .team2__work-thumb {
-    width: 58px;
-    height: 58px;
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
   }
 
-  /* Navegación de carrusel */
+  .team2__works-all {
+    padding: 7px 13px;
+    font-size: 0.74rem;
+    flex-shrink: 0;
+  }
+
+  /* Navegación de carrusel pegada a los bordes */
   .team2__nav {
-    width: 38px;
-    height: 38px;
+    width: 36px;
+    height: 36px;
   }
 
-  .team2__nav--prev { left: 0; }
-  .team2__nav--next { right: 0; }
+  .team2__nav--prev { left: -4px; }
+  .team2__nav--next { right: -4px; }
+
+  /* Dots más compactos */
+  .team2__dots {
+    margin-top: 20px;
+    gap: 6px;
+  }
 }
 
 /* ── TABLET ── */
@@ -2601,11 +2704,12 @@ body {
 
 /* ── Tabs mejorados ── */
 .pricing2__tabs {
-  max-width: 860px !important;
+  max-width: 100% !important;
   gap: 4px !important;
   padding: 5px !important;
   background: rgba(194,123,137,0.1) !important;
   border: 1px solid rgba(194,123,137,0.2) !important;
+  flex-wrap: wrap !important;
 }
 
 .pricing2__tab {
@@ -2615,6 +2719,7 @@ body {
   gap: 6px !important;
   font-size: 0.8rem !important;
   padding: 10px 16px !important;
+  flex: 1 1 auto !important;
 }
 
 .pricing2__tab-icon {
@@ -2816,17 +2921,25 @@ body {
   .pricing2__tabs {
     max-width: 100% !important;
     border-radius: 14px !important;
+    flex-wrap: wrap !important;
+    gap: 4px !important;
   }
 
   .pricing2__tab {
     min-width: auto !important;
-    flex: 1 1 calc(33% - 4px) !important;
-    padding: 10px 6px !important;
-    font-size: 0.8rem !important;
+    flex: 1 1 calc(33.333% - 6px) !important;
+    padding: 9px 4px !important;
+    font-size: 0.72rem !important;
+    gap: 4px !important;
   }
 
   .pricing2__tab-icon {
-    font-size: 0.9rem;
+    width: 14px !important;
+    height: 14px !important;
+  }
+
+  .pricing2__tab span {
+    white-space: nowrap;
   }
 
   .pricing--v2 .pricing__item {
@@ -2838,12 +2951,28 @@ body {
 
   .pricing--v2 .pricing__item-price {
     font-size: 1.2rem;
+    white-space: nowrap;
+  }
+
+  .pricing--v2 .pricing__item-name {
+    font-size: 0.92rem;
   }
 
   .pricing2__cta-inner {
     flex-direction: column;
     text-align: center;
     padding: 22px 20px;
+  }
+
+  /* Works strip en mobile — scroll horizontal */
+  .team2__works-strip {
+    gap: 8px;
+    padding-bottom: 6px;
+  }
+
+  .team2__works-label {
+    font-size: 0.72rem;
+    margin-bottom: 10px;
   }
 }
 

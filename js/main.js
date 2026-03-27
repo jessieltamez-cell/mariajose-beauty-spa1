@@ -62,11 +62,32 @@ document.addEventListener('DOMContentLoaded', () => {
   const bookingForm = document.getElementById('bookingForm');
 
   if (bookingForm) {
-    bookingForm.addEventListener('submit', (e) => {
+    // ── Rate limiting: máximo 3 envíos por hora ──────────────────────
+    function puedeEnviarCita() {
+      const KEY = 'booking_attempts';
+      const LIMIT = 3;
+      const WINDOW_MS = 60 * 60 * 1000; // 1 hora
+      const now = Date.now();
+      let attempts;
+      try { attempts = JSON.parse(localStorage.getItem(KEY) || '[]'); } catch { attempts = []; }
+      attempts = attempts.filter(t => now - t < WINDOW_MS);
+      if (attempts.length >= LIMIT) return false;
+      attempts.push(now);
+      try { localStorage.setItem(KEY, JSON.stringify(attempts)); } catch {}
+      return true;
+    }
+
+    bookingForm.addEventListener('submit', async (e) => {
       e.preventDefault();
+
+      if (!puedeEnviarCita()) {
+        alert('Has enviado demasiadas solicitudes. Por favor espera un momento e intenta de nuevo.');
+        return;
+      }
 
       const name = document.getElementById('clientName').value.trim();
       const phone = document.getElementById('clientPhone').value.trim();
+      const email = document.getElementById('clientEmail').value.trim();
       const service = document.getElementById('serviceType');
       const serviceText = service.options[service.selectedIndex].text;
       const date = document.getElementById('appointmentDate').value;
@@ -82,16 +103,30 @@ document.addEventListener('DOMContentLoaded', () => {
         day: 'numeric'
       });
 
-      // Build WhatsApp message
-      const message = encodeURIComponent(
-        `Hola, soy ${name}.\n` +
-        `Me gustaría reservar una cita:\n\n` +
-        `📋 Servicio: ${serviceText}\n` +
-        `📅 Fecha: ${formattedDate}\n` +
-        `🕐 Hora: ${timeText}\n` +
-        `📱 Mi teléfono: ${phone}\n\n` +
-        `¡Gracias!`
-      );
+      // Guardar en Supabase
+      const submitBtn = bookingForm.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Guardando...';
+
+      const empleadaEl  = document.getElementById('empleadaSelect');
+      const empleadaVal = empleadaEl ? (empleadaEl.value || null) : null;
+
+      const resultado = await guardarCita({
+        nombre:   name,
+        telefono: phone,
+        email:    email,
+        servicio: serviceText,
+        fecha:    date,
+        hora:     timeText,
+        empleada: empleadaVal,
+      });
+
+      if (!resultado.success) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Confirmar Cita';
+        alert('Hubo un problema al guardar tu cita. Por favor intenta de nuevo.');
+        return;
+      }
 
       // Show success state
       bookingForm.innerHTML = `
@@ -101,15 +136,10 @@ document.addEventListener('DOMContentLoaded', () => {
               <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
             </svg>
           </div>
-          <h3>¡Redirigiendo a WhatsApp!</h3>
-          <p>Te estamos conectando para confirmar tu cita de ${serviceText}.</p>
+          <h3>¡Cita registrada!</h3>
+          <p>Tu cita de ${serviceText} ha sido agendada. Te contactaremos para confirmar.</p>
         </div>
       `;
-
-      // Redirect to WhatsApp
-      setTimeout(() => {
-        window.open(`https://wa.me/5218135727136?text=${message}`, '_blank');
-      }, 800);
     });
   }
 
@@ -145,6 +175,21 @@ document.addEventListener('DOMContentLoaded', () => {
       tab.classList.add('pricing__tab--active');
       const panel = document.getElementById(`panel-${target}`);
       if (panel) panel.classList.add('pricing__panel--active');
+    });
+  });
+
+  // Links de servicio que apuntan a un tab específico de precios
+  document.querySelectorAll('a[data-goto-tab]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      const tabName = link.dataset.gotoTab;
+      const targetTab = document.querySelector(`.pricing__tab[data-tab="${tabName}"]`);
+      if (targetTab) {
+        pricingTabs.forEach(t => t.classList.remove('pricing__tab--active'));
+        pricingPanels.forEach(p => p.classList.remove('pricing__panel--active'));
+        targetTab.classList.add('pricing__tab--active');
+        const panel = document.getElementById(`panel-${tabName}`);
+        if (panel) panel.classList.add('pricing__panel--active');
+      }
     });
   });
 
@@ -216,7 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (mapsButton) {
       const mp = document.createElement('div');
       mp.className = 'chat-chips';
-      mp.innerHTML = `<a class="chat-maps-btn" href="${MAPS_URL}" target="_blank" rel="noopener">
+      mp.innerHTML = `<a class="chat-maps-btn" href="${MAPS_URL}" target="_blank" rel="noopener noreferrer">
         <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
         Ver en Google Maps
       </a>`;
@@ -226,7 +271,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (waButton) {
       const wa = document.createElement('div');
       wa.className = 'chat-chips';
-      wa.innerHTML = `<a class="chat-wa-btn" href="${WA_URL}" target="_blank" rel="noopener">
+      wa.innerHTML = `<a class="chat-wa-btn" href="${WA_URL}" target="_blank" rel="noopener noreferrer">
         <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
           <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
         </svg>
@@ -351,37 +396,73 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ---------- Gallery Modal ----------
-  // Agrega las fotos de trabajos en las carpetas correspondientes:
-  // img/trabajos/sofia/   → 1.jpg, 2.jpg, 3.jpg ...
-  // img/trabajos/daniela/ → 1.jpg, 2.jpg, 3.jpg ...
-  // img/trabajos/anette/  → 1.jpg, 2.jpg, 3.jpg ...
-  // img/trabajos/yuliana/ → 1.jpg, 2.jpg, 3.jpg ...
-  // img/trabajos/dafne/   → 1.jpg, 2.jpg, 3.jpg ...
-  // img/trabajos/perla/   → 1.jpg, 2.jpg, 3.jpg ...
+  // Imágenes de trabajos por colaboradora (nombres reales de archivo)
   const galleryData = {
-    sofia: {
-      name: 'Sofia Sustaita — Trabajos',
-      images: ['img/trabajos/sofia/1.jpg','img/trabajos/sofia/2.jpg','img/trabajos/sofia/3.jpg']
-    },
     daniela: {
       name: 'Daniela Loera — Trabajos',
-      images: ['img/trabajos/daniela/1.jpg','img/trabajos/daniela/2.jpg','img/trabajos/daniela/3.jpg']
+      images: [
+        'img/trabajos/daniela/DANIELA.jpg',
+        'img/trabajos/daniela/DANIELA_1.jpg',
+        'img/trabajos/daniela/DANIELA_2.jpg',
+        'img/trabajos/daniela/DANIELA_3.jpg',
+        'img/trabajos/daniela/DANIELA_4.jpg',
+        'img/trabajos/daniela/DANIELA_gel_liso.jpeg',
+        'img/trabajos/daniela/DANIELA_acrilico_liso.jpeg',
+        'img/trabajos/daniela/DANIELA_gel_sencillo.jpeg',
+        'img/trabajos/daniela/DANIELA_gel_pies.jpg',
+        'img/trabajos/daniela/DANIELA_rubber_liso.jpeg',
+        'img/trabajos/daniela/DANIELA_rubber_sencillo.jpeg'
+      ]
     },
     anette: {
       name: 'Anette Constantino — Trabajos',
-      images: ['img/trabajos/anette/1.jpg','img/trabajos/anette/2.jpg','img/trabajos/anette/3.jpg']
+      images: [
+        'img/trabajos/anette/ANETTE_0.jpeg',
+        'img/trabajos/anette/ANETTE_1_acrilico_french.jpeg',
+        'img/trabajos/anette/ANETTE_2_acrilico_elaborado.jpeg',
+        'img/trabajos/anette/ANETTE_3_acrilico_sencillo.jpeg',
+        'img/trabajos/anette/ANETTE_4_acripie.jpg',
+        'img/trabajos/anette/ANETTE_5_gel_sencillo.jpeg',
+        'img/trabajos/anette/ANETTE_6_rubber_sencillo.jpeg',
+        'img/trabajos/anette/ANETTE_7_lashlifting.jpg'
+      ]
     },
     yuliana: {
       name: 'Yuliana Pérez — Trabajos',
-      images: ['img/trabajos/yuliana/1.jpg','img/trabajos/yuliana/2.jpg','img/trabajos/yuliana/3.jpg']
+      images: [
+        'img/trabajos/yuliana/YULY_clasico.jpg',
+        'img/trabajos/yuliana/YULY_3d_rimel.jpg',
+        'img/trabajos/yuliana/YULY_hawaiano.jpg',
+        'img/trabajos/yuliana/YULY_mega_volumen.jpg',
+        'img/trabajos/yuliana/YULY_volumen_5d.jpg',
+        'img/trabajos/yuliana/YULY_wispy.jpg',
+        'img/trabajos/yuliana/YULY_hibrido.jpg'
+      ]
     },
     dafne: {
       name: 'Dafne Adame — Trabajos',
-      images: ['img/trabajos/dafne/1.jpg','img/trabajos/dafne/2.jpg','img/trabajos/dafne/3.jpg']
+      images: [
+        'img/trabajos/dafne/DAFNE.jpg',
+        'img/trabajos/dafne/DAFNE_1.jpg',
+        'img/trabajos/dafne/DAFNE_2.jpg',
+        'img/trabajos/dafne/DAFNE_3.jpg',
+        'img/trabajos/dafne/DAFNE_4.jpg'
+      ]
     },
     perla: {
       name: 'Perla Tobías — Trabajos',
-      images: ['img/trabajos/perla/1.jpg','img/trabajos/perla/2.jpg','img/trabajos/perla/3.jpg']
+      images: [
+        'img/trabajos/perla/PERLA_1.jpg',
+        'img/trabajos/perla/PERLA_2.jpg',
+        'img/trabajos/perla/PERLA_3.jpg',
+        'img/trabajos/perla/PERLA_4.jpg',
+        'img/trabajos/perla/PERLA_5.jpg',
+        'img/trabajos/perla/PERLA_6.jpg',
+        'img/trabajos/perla/PERLA_7.jpg',
+        'img/trabajos/perla/PERLA_8.jpg',
+        'img/trabajos/perla/PERLA_9.jpg',
+        'img/trabajos/perla/PERLA_10.jpg'
+      ]
     }
   };
 
@@ -397,23 +478,23 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentGallery = [];
   let currentIndex   = 0;
 
-  function openGallery(member) {
+  function openGallery(member, startIndex) {
     const data = galleryData[member];
     if (!data) return;
     currentGallery = data.images;
-    currentIndex   = 0;
+    currentIndex   = startIndex || 0;
     galleryTitle.textContent = data.name;
 
     galleryDots.innerHTML = '';
     currentGallery.forEach((_, i) => {
       const dot = document.createElement('button');
-      dot.className = 'gallery-modal__dot' + (i === 0 ? ' is-active' : '');
+      dot.className = 'gallery-modal__dot' + (i === currentIndex ? ' is-active' : '');
       dot.setAttribute('aria-label', `Imagen ${i + 1}`);
       dot.addEventListener('click', () => goTo(i));
       galleryDots.appendChild(dot);
     });
 
-    showSlide(0);
+    showSlide(currentIndex);
     galleryModal.classList.add('is-open');
     galleryModal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
@@ -462,6 +543,15 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.addEventListener('click', () => openGallery(btn.dataset.member));
   });
 
+  // Thumbs individuales abren galería en el índice correcto
+  document.querySelectorAll('.team2__work-thumb[data-idx]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const member = btn.dataset.member;
+      const idx = parseInt(btn.dataset.idx, 10);
+      openGallery(member, idx);
+    });
+  });
+
   // ---------- Active Nav Link on Scroll ----------
   const pageSections = document.querySelectorAll('section[id]');
   const sectionObserver = new IntersectionObserver((entries) => {
@@ -476,63 +566,224 @@ document.addEventListener('DOMContentLoaded', () => {
   }, { rootMargin: '-30% 0px -60% 0px' });
   pageSections.forEach(s => sectionObserver.observe(s));
 
-  // ---------- Dynamic Time Slots ----------
-  const sundayNote  = document.getElementById('sundayNote');
-  const timeSelect  = document.getElementById('appointmentTime');
-
-  const timeSlots = {
-    weekday:  [
-      { v: '10:00', l: '10:00 AM' }, { v: '11:00', l: '11:00 AM' },
-      { v: '12:00', l: '12:00 PM' }, { v: '13:00', l: '1:00 PM'  },
-      { v: '14:00', l: '2:00 PM'  }, { v: '15:00', l: '3:00 PM'  },
-      { v: '16:00', l: '4:00 PM'  }, { v: '17:00', l: '5:00 PM'  },
-      { v: '18:00', l: '6:00 PM'  }, { v: '19:00', l: '7:00 PM'  },
-      { v: '20:00', l: '8:00 PM'  },
-    ],
-    saturday: [
-      { v: '09:30', l: '9:30 AM'  }, { v: '10:00', l: '10:00 AM' },
-      { v: '11:00', l: '11:00 AM' }, { v: '12:00', l: '12:00 PM' },
-      { v: '13:00', l: '1:00 PM'  }, { v: '14:00', l: '2:00 PM'  },
-      { v: '15:00', l: '3:00 PM'  }, { v: '16:00', l: '4:00 PM'  },
-      { v: '17:00', l: '5:00 PM'  },
-    ],
-    sunday:   [
-      { v: '10:00', l: '10:00 AM' }, { v: '11:00', l: '11:00 AM' },
-      { v: '12:00', l: '12:00 PM' }, { v: '13:00', l: '1:00 PM'  },
-      { v: '14:00', l: '2:00 PM'  },
-    ],
+  // ---------- Disponibilidad: configuración ----------
+  const EMPLEADAS_POR_SERVICIO = {
+    'gel':        ['Daniela Loera', 'Anette Constantino'],
+    'rubber':     ['Daniela Loera', 'Anette Constantino'],
+    'acrilico':   ['Daniela Loera', 'Anette Constantino'],
+    'pedi':       ['Daniela Loera', 'Anette Constantino'],
+    'lash':       ['Yuliana Pérez'],
+    'maquillaje': ['Dafne Adame'],
+    'peinado':    ['Dafne Adame'],
+    'masaje':     ['Perla Tobías'],
+    'facial':     ['Perla Tobías'],
   };
 
-  const dayLabels = {
-    weekday:  'Lunes a Viernes  •  10:00 AM – 8:00 PM',
-    saturday: 'Sábado  •  9:30 AM – 6:00 PM',
-    sunday:   'Domingo  •  Solo Masajes con Cita Previa',
+  const TIME_SLOTS = {
+    weekday:  ['10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00'],
+    saturday: ['09:30','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00'],
+    sunday:   ['10:00','11:00','12:00','13:00','14:00'],
   };
 
-  function updateTimeOptions(dayOfWeek) {
-    if (!timeSelect) return;
-    const key = dayOfWeek === 0 ? 'sunday' : dayOfWeek === 6 ? 'saturday' : 'weekday';
-    timeSelect.innerHTML = '';
-    const ph = document.createElement('option');
-    ph.value = ''; ph.disabled = true; ph.selected = true;
-    ph.textContent = 'Selecciona un horario';
-    timeSelect.appendChild(ph);
-    const grp = document.createElement('optgroup');
-    grp.label = dayLabels[key];
-    timeSlots[key].forEach(({ v, l }) => {
-      const opt = document.createElement('option');
-      opt.value = v; opt.textContent = l;
-      grp.appendChild(opt);
-    });
-    timeSelect.appendChild(grp);
+  const TIME_LABELS = {
+    '09:30':'9:30 AM','10:00':'10:00 AM','11:00':'11:00 AM','12:00':'12:00 PM',
+    '13:00':'1:00 PM','14:00':'2:00 PM','15:00':'3:00 PM','16:00':'4:00 PM',
+    '17:00':'5:00 PM','18:00':'6:00 PM','19:00':'7:00 PM','20:00':'8:00 PM',
+  };
+
+  const sundayNote   = document.getElementById('sundayNote');
+  const timeSelect   = document.getElementById('appointmentTime');
+  const serviceSelect= document.getElementById('serviceType');
+  const empleadaGroup= document.getElementById('empleadaGroup');
+  const empleadaSel  = document.getElementById('empleadaSelect');
+
+  // Cache para no re-consultar Supabase en cada cambio
+  let cachedDate        = null;
+  let cachedCitas       = [];
+  let cachedDiasBloq    = [];
+  let cachedEmpBloq     = [];
+  let cachedHorasBloq   = new Set();
+
+  function getSlotKey(dayOfWeek) {
+    return dayOfWeek === 0 ? 'sunday' : dayOfWeek === 6 ? 'saturday' : 'weekday';
   }
 
+  function getEmpleadasParaServicio(serviceValue) {
+    if (!serviceValue) return null;
+    for (const [key, lista] of Object.entries(EMPLEADAS_POR_SERVICIO)) {
+      if (serviceValue.startsWith(key)) return lista;
+    }
+    return null;
+  }
+
+  async function cargarDisponibilidadFecha(fecha) {
+    if (cachedDate === fecha) return; // ya está cacheado
+    cachedDate = fecha;
+
+    const [citasRes, diasRes, empRes, horasRes] = await Promise.all([
+      supabaseClient.from('citas')
+        .select('hora, empleada, estado')
+        .eq('fecha', fecha)
+        .in('estado', ['pendiente', 'confirmada']),
+      supabaseClient.from('dias_bloqueados').select('fecha').eq('fecha', fecha),
+      supabaseClient.from('empleadas_bloqueadas').select('empleada').eq('fecha', fecha),
+      supabaseClient.from('horarios_bloqueados').select('hora').eq('fecha', fecha),
+    ]);
+
+    cachedCitas    = citasRes.data  || [];
+    cachedDiasBloq = diasRes.data   || [];
+    cachedEmpBloq  = empRes.data    || [];
+    cachedHorasBloq = new Set((horasRes.data || []).map(h => h.hora));
+  }
+
+  function isDiaBloqueado() {
+    return cachedDiasBloq.length > 0;
+  }
+
+  function getEmpleadasBloqueadasHoy() {
+    return new Set(cachedEmpBloq.map(e => e.empleada));
+  }
+
+  function getEmpleadasLibresEnHora(hora, empleadasDelServicio) {
+    const empBloqHoy = getEmpleadasBloqueadasHoy();
+    const ocupadasEnHora = new Set(
+      cachedCitas.filter(c => c.hora === hora && c.empleada).map(c => c.empleada)
+    );
+    return empleadasDelServicio.filter(emp =>
+      !empBloqHoy.has(emp) && !ocupadasEnHora.has(emp)
+    );
+  }
+
+  async function actualizarFormulario() {
+    const fecha       = dateInput ? dateInput.value : null;
+    const serviceVal  = serviceSelect ? serviceSelect.value : null;
+
+    if (!fecha) {
+      // Sin fecha: restablecer horarios
+      if (timeSelect) {
+        timeSelect.innerHTML = '<option value="" disabled selected>Selecciona una fecha primero</option>';
+      }
+      if (empleadaGroup) empleadaGroup.style.display = 'none';
+      return;
+    }
+
+    const d = new Date(fecha + 'T12:00:00');
+    const dayOfWeek = d.getDay();
+    if (sundayNote) sundayNote.classList.toggle('visible', dayOfWeek === 0);
+
+    // Cargar datos de disponibilidad
+    await cargarDisponibilidadFecha(fecha);
+
+    // Día bloqueado completo
+    if (isDiaBloqueado()) {
+      if (timeSelect) {
+        timeSelect.innerHTML = '<option value="" disabled selected>Fecha no disponible</option>';
+      }
+      if (empleadaGroup) empleadaGroup.style.display = 'none';
+      // Marcar el input de fecha visualmente
+      if (dateInput) dateInput.classList.add('input--bloqueado');
+      return;
+    }
+
+    if (dateInput) dateInput.classList.remove('input--bloqueado');
+
+    // Empleadas para este servicio
+    const empleadasServicio = serviceVal ? getEmpleadasParaServicio(serviceVal) : null;
+
+    // Construir horarios disponibles
+    const slotKey = getSlotKey(dayOfWeek);
+    const horas   = TIME_SLOTS[slotKey];
+
+    if (timeSelect) {
+      timeSelect.innerHTML = '';
+      const ph = document.createElement('option');
+      ph.value = ''; ph.disabled = true; ph.selected = true;
+      ph.textContent = 'Selecciona un horario';
+      timeSelect.appendChild(ph);
+
+      let alguno = false;
+      horas.forEach(hora => {
+        // Horario bloqueado manualmente
+        if (cachedHorasBloq.has(hora)) {
+          const opt = document.createElement('option');
+          opt.value = hora;
+          opt.textContent = `${TIME_LABELS[hora] || hora} — No disponible`;
+          opt.disabled = true;
+          timeSelect.appendChild(opt);
+          return;
+        }
+
+        let disponible = true;
+        if (empleadasServicio) {
+          const libres = getEmpleadasLibresEnHora(hora, empleadasServicio);
+          disponible = libres.length > 0;
+        }
+        const opt = document.createElement('option');
+        opt.value = hora;
+        opt.textContent = TIME_LABELS[hora] || hora;
+        if (!disponible) {
+          opt.disabled = true;
+          opt.textContent += ' — Sin disponibilidad';
+        } else {
+          alguno = true;
+        }
+        timeSelect.appendChild(opt);
+      });
+
+      if (!alguno) {
+        timeSelect.innerHTML = '<option value="" disabled selected>Sin horarios disponibles este día</option>';
+      }
+    }
+
+    // Actualizar empleadas según hora elegida
+    actualizarEmpleadasPorHora();
+  }
+
+  function actualizarEmpleadasPorHora() {
+    if (!empleadaGroup || !empleadaSel) return;
+    const serviceVal = serviceSelect ? serviceSelect.value : null;
+    const hora       = timeSelect    ? timeSelect.value    : null;
+    const fecha      = dateInput     ? dateInput.value     : null;
+
+    const empleadasServicio = getEmpleadasParaServicio(serviceVal);
+    if (!empleadasServicio || !fecha) {
+      empleadaGroup.style.display = 'none';
+      return;
+    }
+
+    const libres = hora
+      ? getEmpleadasLibresEnHora(hora, empleadasServicio)
+      : empleadasServicio.filter(emp => !getEmpleadasBloqueadasHoy().has(emp));
+
+    if (libres.length === 0) {
+      empleadaSel.innerHTML = '<option value="" disabled selected>Sin especialistas disponibles</option>';
+      empleadaGroup.style.display = '';
+      return;
+    }
+
+    empleadaSel.innerHTML =
+      '<option value="">Sin preferencia</option>' +
+      libres.map(e => `<option value="${e}">${e}</option>`).join('');
+    empleadaGroup.style.display = '';
+  }
+
+  // Listeners
   if (dateInput) {
     dateInput.addEventListener('change', () => {
-      const d = new Date(dateInput.value + 'T12:00:00');
-      const day = d.getDay();
-      if (sundayNote) sundayNote.classList.toggle('visible', day === 0);
-      updateTimeOptions(day);
+      cachedDate = null; // invalidar cache
+      actualizarFormulario();
+    });
+  }
+
+  if (serviceSelect) {
+    serviceSelect.addEventListener('change', () => {
+      actualizarFormulario();
+    });
+  }
+
+  if (timeSelect) {
+    timeSelect.addEventListener('change', () => {
+      actualizarEmpleadasPorHora();
     });
   }
 

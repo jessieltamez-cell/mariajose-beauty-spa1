@@ -7,9 +7,6 @@
 /* ============================================
    RESET HERO ORIGINAL
    ============================================ */
-.hero--cinematic {
-  background-image: none !important;
-}
 .hero--cinematic::before,
 .hero--cinematic::after { display: none !important; }
 .hero--cinematic .hero__overlay { display: none !important; }
@@ -29,42 +26,38 @@
 }
 
 /* ============================================
-   FONDO ANIMADO
+   FONDO — FOTO DEL LOCAL
    ============================================ */
 .hc__bg {
   position: absolute;
   inset: 0;
   z-index: 0;
-  background:
-    radial-gradient(ellipse 80% 60% at 50% -5%,  #e8c4ce 0%, transparent 55%),
-    radial-gradient(ellipse 60% 50% at 95% 100%,  #d49baa 0%, transparent 50%),
-    radial-gradient(ellipse 55% 65% at 0%  90%,   #c27b89 0%, transparent 52%),
-    linear-gradient(165deg, #f0dde2 0%, #e2c9b3 45%, #d4b8a0 100%);
-  animation: hcBgPulse 18s ease-in-out infinite alternate;
-  will-change: filter;
+  background-image: url('../img/local/hero.png');
+  background-size: cover;
+  background-position: center 50%;
 }
 
-@keyframes hcBgPulse {
-  0%   { filter: brightness(1)    hue-rotate(0deg);  }
-  50%  { filter: brightness(1.04) hue-rotate(4deg);  }
-  100% { filter: brightness(0.97) hue-rotate(-2deg); }
+/* Overlay: oscuro arriba/abajo, respira en el centro */
+.hc__bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 75% 55% at 50% 48%, rgba(20,8,12,0.22) 0%, transparent 100%),
+    linear-gradient(
+      to bottom,
+      rgba(20, 8, 12, 0.62) 0%,
+      rgba(20, 8, 12, 0.40) 30%,
+      rgba(20, 8, 12, 0.40) 65%,
+      rgba(20, 8, 12, 0.72) 100%
+    );
 }
 
 /* ============================================
-   ESCENARIO FLOR — posición absoluta mobile
+   ESCENARIO FLOR — oculto (fondo es foto real)
    ============================================ */
 .hc__flower-stage {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-  /* perspectiva para que la flor tenga profundidad */
-  perspective: 800px;
-  perspective-origin: 50% 50%;
-  will-change: transform;
+  display: none !important;
 }
 
 /* ============================================
@@ -361,10 +354,10 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  /* mobile: padding generoso arriba para no chocar con header */
   padding: 110px 28px 72px;
   width: 100%;
   max-width: 600px;
+  margin: 0 auto;
 }
 
 /* ============================================
@@ -379,9 +372,8 @@
   font-weight: 500;
   letter-spacing: 3.5px;
   text-transform: uppercase;
-  color: rgba(74,74,72,0.75);
+  color: rgba(255,235,235,0.80);
   margin-bottom: 22px;
-  /* en mobile, texto puede wrappear */
   white-space: normal;
   text-align: center;
   opacity: 0;
@@ -393,7 +385,7 @@
   flex-shrink: 0;
   width: 28px;
   height: 1px;
-  background: rgba(194,123,137,0.45);
+  background: rgba(240,190,200,0.55);
 }
 
 /* ============================================
@@ -406,29 +398,21 @@
 }
 
 .hc__logo {
-  /* mobile: más pequeño para que no compita con la flor */
   width: clamp(160px, 55vw, 300px);
   height: auto;
   mix-blend-mode: normal;
-  /* Invierte el logo blanco a oscuro para el fondo claro, luego tono rosa */
+  /* Logo blanco sobre fondo oscuro */
   filter:
-    invert(1)
-    sepia(0.4)
-    saturate(1.2)
-    hue-rotate(300deg)
-    brightness(0.65)
-    drop-shadow(0 2px 16px rgba(194,123,137,0.25));
+    brightness(0) invert(1)
+    drop-shadow(0 2px 24px rgba(0,0,0,0.50));
   transition: filter 0.5s ease;
 }
 
 .hc__logo:hover {
   filter:
-    invert(1)
-    sepia(0.4)
-    saturate(1.4)
-    hue-rotate(300deg)
-    brightness(0.58)
-    drop-shadow(0 4px 24px rgba(166,96,111,0.40));
+    brightness(0) invert(1)
+    drop-shadow(0 4px 32px rgba(0,0,0,0.60))
+    drop-shadow(0 0 20px rgba(240,190,200,0.30));
 }
 
 /* ============================================
@@ -436,9 +420,9 @@
    ============================================ */
 .hc__tagline {
   font-family: var(--font-sans);
-  font-size: clamp(0.88rem, 2.2vw, 0.98rem);
-  font-weight: 400;
-  color: rgba(74,74,72,0.80);
+  font-size: clamp(1rem, 2.5vw, 1.1rem);
+  font-weight: 500;
+  color: rgba(255,240,240,0.92);
   letter-spacing: 0.5px;
   margin-bottom: 36px;
   line-height: 1.7;
@@ -449,17 +433,16 @@
 .hc__tagline em {
   font-family: var(--font-serif);
   font-style: italic;
-  /* mobile: tamaño más contenido */
   font-size: clamp(1.6rem, 8vw, 2.2rem);
   font-weight: 300;
   display: block;
   margin-top: 4px;
   letter-spacing: -0.01em;
   background: linear-gradient(105deg,
-    rgba(166, 96,111,0.98)  0%,
-    rgba(194,123,137,0.95) 38%,
-    rgba(166, 96,111,0.98) 62%,
-    rgba(120, 60, 78,0.92) 100%
+    rgba(255,200,210,1.00)  0%,
+    rgba(240,160,175,0.98) 38%,
+    rgba(255,200,210,1.00) 62%,
+    rgba(220,140,160,0.95) 100%
   );
   background-size: 200% auto;
   -webkit-background-clip: text;
@@ -471,6 +454,22 @@
 @keyframes hcShimmer {
   0%   { background-position: 0%   center; }
   100% { background-position: 200% center; }
+}
+
+/* ============================================
+   LÍNEA DE SERVICIOS
+   ============================================ */
+.hc__services {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255,210,215,0.75);
+  margin-bottom: 36px;
+  margin-top: -20px;
+  opacity: 0;
+  animation: hcUp 0.8s cubic-bezier(0,0,0.2,1) 0.7s forwards;
 }
 
 /* ============================================
@@ -520,15 +519,15 @@
 }
 
 .hc__btn--ghost {
-  color: rgba(74,74,72,0.80);
-  border: 1px solid rgba(194,123,137,0.30);
-  background: rgba(255,255,255,0.35);
+  color: rgba(255,240,240,0.90);
+  border: 1px solid rgba(255,220,225,0.45);
+  background: rgba(255,255,255,0.12);
 }
 
 .hc__btn--ghost:hover {
-  background: rgba(255,255,255,0.55);
-  border-color: rgba(194,123,137,0.55);
-  color: rgba(74,74,72,0.95);
+  background: rgba(255,255,255,0.22);
+  border-color: rgba(255,220,225,0.70);
+  color: #fff;
   transform: translateY(-3px);
 }
 
@@ -557,13 +556,13 @@
   font-family: var(--font-sans);
   font-size: 0.76rem;
   font-weight: 400;
-  color: rgba(74,74,72,0.80);
+  color: rgba(255,235,235,0.85);
 }
 
-.hc__badge svg { color: rgba(166,96,111,0.88); flex-shrink: 0; }
+.hc__badge svg { color: rgba(255,190,200,0.95); flex-shrink: 0; }
 
 .hc__badge-sep {
-  color: rgba(194,123,137,0.35);
+  color: rgba(255,200,210,0.45);
   font-size: 0.55rem;
 }
 
@@ -590,7 +589,7 @@
   font-weight: 500;
   letter-spacing: 4px;
   text-transform: uppercase;
-  color: rgba(74,74,72,0.45);
+  color: rgba(255,235,235,0.55);
 }
 
 .hc__scroll-bar {
@@ -633,50 +632,80 @@
    RESPONSIVE — MOBILE PEQUEÑO (< 400px)
    ============================================ */
 @media (max-width: 399px) {
-  .hc__flower { width: 160px; height: 160px; }
-  .hc__petal  { width: 52px;  height: 80px; }
-  .hc__flower-center { width: 42px; height: 42px; }
-  .hc__orbit--1 { width: 220px; height: 220px; margin: -110px 0 0 -110px; }
-  .hc__orbit--2 { width: 310px; height: 310px; margin: -155px 0 0 -155px; }
-  .hc__flower-stage { opacity: 0.38; }
+  .hc__flower { width: 140px; height: 140px; }
+  .hc__petal  { width: 46px;  height: 70px; }
+  .hc__flower-center { width: 36px; height: 36px; }
+  .hc__orbit--1 { width: 190px; height: 190px; margin: -95px 0 0 -95px; }
+  .hc__orbit--2 { width: 270px; height: 270px; margin: -135px 0 0 -135px; }
+  /* Flor muy reducida para no interferir con el texto */
+  .hc__flower-stage { opacity: 0.22; }
   .hc__dust { display: none; }
   .hc__badge-sep { display: none; }
-  .hc__badges { flex-direction: column; gap: 6px; align-items: center; }
+  .hc__badges {
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+  }
+  .hc__badge {
+    font-size: 0.78rem;
+  }
+  .hc__eyebrow { font-size: 0.65rem; letter-spacing: 2.5px; }
   .hc__eyebrow-line { display: none; }
-  .hc__content { padding: 90px 22px 60px; }
-  .hc__tagline { font-size: 0.88rem; margin-bottom: 28px; }
-  .hc__tagline em { font-size: clamp(1.45rem, 9vw, 1.8rem); }
-  .hc__btn { font-size: 0.84rem; padding: 12px 22px; }
+  .hc__content { padding: 96px 24px 64px; }
+  .hc__tagline { font-size: 0.95rem; margin-bottom: 28px; line-height: 1.6; }
+  .hc__tagline em { font-size: clamp(1.5rem, 9.5vw, 1.9rem); }
+  .hc__ctas {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+  }
+  .hc__btn {
+    width: 100%;
+    max-width: 280px;
+    justify-content: center;
+    min-height: 50px;
+    font-size: 0.9rem;
+  }
 }
 
 /* ============================================
    RESPONSIVE — MOBILE (400px–639px)
    ============================================ */
 @media (min-width: 400px) and (max-width: 639px) {
-  .hc__flower { width: 200px; height: 200px; }
-  .hc__petal  { width: 66px;  height: 100px; }
-  .hc__flower-center { width: 50px; height: 50px; }
-  .hc__orbit--1 { width: 280px; height: 280px; margin: -140px 0 0 -140px; }
-  .hc__orbit--2 { width: 380px; height: 380px; margin: -190px 0 0 -190px; }
-  /* Flor más translúcida en mobile para no tapar texto */
-  .hc__flower-stage { opacity: 0.50; }
+  .hc__flower { width: 180px; height: 180px; }
+  .hc__petal  { width: 59px;  height: 90px; }
+  .hc__flower-center { width: 46px; height: 46px; }
+  .hc__orbit--1 { width: 250px; height: 250px; margin: -125px 0 0 -125px; }
+  .hc__orbit--2 { width: 340px; height: 340px; margin: -170px 0 0 -170px; }
+  /* Flor translúcida para que el texto sea protagonista */
+  .hc__flower-stage { opacity: 0.28; }
   .hc__dust { display: none; }
   .hc__badge-sep { display: none; }
-  .hc__badges { flex-direction: column; gap: 5px; align-items: center; }
+  .hc__badges {
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+  }
+  .hc__badge {
+    font-size: 0.8rem;
+  }
+  .hc__eyebrow { font-size: 0.68rem; letter-spacing: 3px; }
   /* Botones en columna en mobile */
   .hc__ctas {
     flex-direction: column;
     align-items: center;
     gap: 10px;
+    width: 100%;
   }
   .hc__btn {
     width: 100%;
     max-width: 300px;
     justify-content: center;
     min-height: 50px;
-    font-size: 0.88rem;
+    font-size: 0.92rem;
   }
-  .hc__tagline { font-size: clamp(0.86rem, 2.6vw, 0.95rem); }
+  .hc__tagline { font-size: clamp(0.9rem, 2.8vw, 1rem); line-height: 1.65; }
 }
 
 /* ============================================
@@ -693,65 +722,18 @@
 
 /* ============================================
    RESPONSIVE — DESKTOP (960px+)
-   Layout split: texto izquierda · flor derecha
+   Contenido centrado sobre foto de fondo
    ============================================ */
 @media (min-width: 960px) {
-  .hero--cinematic {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr;
-    align-items: center;
-  }
-
-  /* Flor ocupa la mitad derecha */
-  .hc__flower-stage {
-    position: relative;
-    inset: auto;
-    grid-column: 2;
-    grid-row: 1;
-    opacity: 1;
-    height: 100%;
-    min-height: 100svh;
-  }
-
-  /* Texto en la mitad izquierda */
   .hc__content {
-    grid-column: 1;
-    grid-row: 1;
-    align-items: flex-start;
-    text-align: left;
-    padding: 0 5% 0 10%;
-    max-width: none;
-    justify-self: stretch;
+    max-width: 680px;
+    padding: 0 32px;
   }
-
-  .hc__eyebrow { justify-content: flex-start; }
-  .hc__ctas    { justify-content: flex-start; }
-  .hc__badges  { justify-content: flex-start; }
 
   .hc__tagline em {
     display: inline;
     margin-top: 0;
     margin-left: 6px;
-  }
-
-  /* Scroll centrado bajo la columna izquierda */
-  .hc__scroll { left: 25%; }
-
-  /* Tamaño completo de flor en desktop */
-  .hc__flower { width: 320px; height: 320px; }
-  .hc__petal  { width: 104px; height: 152px; }
-  .hc__flower-center { width: 68px; height: 68px; }
-  .hc__orbit--1 { width: 470px; height: 470px; margin: -235px 0 0 -235px; }
-  .hc__orbit--2 { width: 630px; height: 630px; margin: -315px 0 0 -315px; }
-
-  /* Degradado de fondo adaptado al split — mismo tono claro que mobile */
-  .hc__bg {
-    background:
-      radial-gradient(ellipse 80% 60% at 50% -5%,  #e8c4ce 0%, transparent 55%),
-      radial-gradient(ellipse 60% 50% at 95% 100%,  #d49baa 0%, transparent 50%),
-      radial-gradient(ellipse 55% 65% at 0%  90%,   #c27b89 0%, transparent 52%),
-      linear-gradient(165deg, #f0dde2 0%, #e2c9b3 45%, #d4b8a0 100%);
   }
 }
 
@@ -759,35 +741,21 @@
    RESPONSIVE — WIDE (1200px+)
    ============================================ */
 @media (min-width: 1200px) {
-  .hc__content { padding: 0 6% 0 12%; }
-  .hc__flower { width: 360px; height: 360px; }
-  .hc__petal  { width: 116px; height: 170px; }
-  .hc__flower-center { width: 76px; height: 76px; }
-  .hc__orbit--1 { width: 530px; height: 530px; margin: -265px 0 0 -265px; }
-  .hc__orbit--2 { width: 700px; height: 700px; margin: -350px 0 0 -350px; }
+  .hc__content { max-width: 760px; }
 }
 
 /* ============================================
    ACCESIBILIDAD — reducir movimiento
    ============================================ */
 @media (prefers-reduced-motion: reduce) {
-  .hc__flower,
-  .hc__petal-inner,
-  .hc__flower-center,
-  .hc__orbit--1,
-  .hc__orbit--2,
-  .hc__dust-p,
-  .hc__scroll-bar-fill,
   .hc__bg,
+  .hc__scroll-bar-fill,
   .hc__tagline em {
     animation: none !important;
   }
   .hc__tagline em {
     background: none !important;
-    -webkit-text-fill-color: rgba(166,96,111,0.95) !important;
-    color: rgba(166,96,111,0.95) !important;
-  }
-  .hc__flower {
-    transform: rotateX(38deg) rotateZ(15deg) !important;
+    -webkit-text-fill-color: rgba(255,200,210,1) !important;
+    color: rgba(255,200,210,1) !important;
   }
 }

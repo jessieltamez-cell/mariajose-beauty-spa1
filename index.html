@@ -11,7 +11,7 @@
   <link rel="apple-touch-icon" href="img/Logo.png">
 
   <!-- Preload hero image -->
-  <link rel="preload" as="image" href="img/local/hero.jpg">
+  <link rel="preload" as="image" href="img/local/hero.png">
 
   <!-- Open Graph / Social Sharing -->
   <meta property="og:type" content="website">
@@ -23,6 +23,11 @@
   <meta name="twitter:title" content="Maria Jos&eacute; Beauty &amp; Spa">
   <meta name="twitter:description" content="Servicios profesionales de belleza en Santa Catarina, N.L. Reserva tu cita hoy.">
   <meta name="twitter:image" content="img/local/espacio-1.jpg">
+
+  <!-- Content Security Policy — capa de defensa contra XSS e inyección -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://w.behold.so 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://w.behold.so 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://graph.instagram.com https://*.behold.so; frame-ancestors 'none';">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -109,7 +114,7 @@
       <!-- Eyebrow -->
       <p class="hc__eyebrow">
         <span class="hc__eyebrow-line"></span>
-        Santa Catarina, N.L. &bull; Desde 2016
+        Santa Catarina, N.L. &bull; Desde 2020
         <span class="hc__eyebrow-line"></span>
       </p>
 
@@ -123,13 +128,12 @@
         Resalta tu <em>belleza natural</em>
       </p>
 
+      <!-- Servicios -->
+      <p class="hc__services">Uñas &nbsp;·&nbsp; Pedicura &nbsp;·&nbsp; Pestañas &nbsp;·&nbsp; Cejas</p>
+
       <!-- CTAs -->
       <div class="hc__ctas">
-        <a href="https://wa.me/5218135727136?text=Hola%2C%20me%20gustar%C3%ADa%20agendar%20una%20cita%20%F0%9F%92%85"
-           target="_blank" rel="noopener" class="hc__btn hc__btn--primary">
-          <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18" aria-hidden="true">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-          </svg>
+        <a href="#contacto" class="hc__btn hc__btn--primary">
           Reserva tu cita
         </a>
         <a href="#servicios" class="hc__btn hc__btn--ghost">
@@ -147,7 +151,7 @@
           Profesionales certificadas
         </span>
         <span class="hc__badge-sep">&bull;</span>
-        <span class="hc__badge">+8 a&ntilde;os de experiencia</span>
+        <span class="hc__badge">6 a&ntilde;os de experiencia</span>
         <span class="hc__badge-sep">&bull;</span>
         <span class="hc__badge">6 especialistas</span>
       </div>
@@ -258,7 +262,7 @@
         <article class="svc__card" style="--svc-hue: #7A4E5C;">
           <div class="svc__card-top">
             <span class="svc__num">05</span>
-            <span class="svc__price">Consultar</span>
+            <span class="svc__price">Desde $250</span>
           </div>
           <div class="svc__icon svc__icon--img" aria-hidden="true">
             <img src="img/servicios/masajes-icon.png" alt="Masajes y Terapias" class="svc__icon-img">
@@ -266,18 +270,18 @@
           <h3 class="svc__name">Masajes &amp; Terapias</h3>
           <p class="svc__desc">Fisioterapia corporal y est&eacute;tica. T&eacute;cnicas de relajaci&oacute;n y bienestar integral.</p>
           <ul class="svc__tags">
-            <li>Masaje relajante</li>
-            <li>Fisioterapia</li>
-            <li>4 a&ntilde;os exp.</li>
+            <li>Masaje descontracturante</li>
+            <li>Drenaje linf&aacute;tico</li>
+            <li>Reflexolog&iacute;a</li>
           </ul>
-          <a href="#contacto" class="svc__link">Agendar cita <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          <a href="#precios" class="svc__link" data-goto-tab="masajes">Ver precios <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         </article>
 
         <!-- 06 Cosmetología -->
         <article class="svc__card" style="--svc-hue: #B07A8A;">
           <div class="svc__card-top">
             <span class="svc__num">06</span>
-            <span class="svc__price">Consultar</span>
+            <span class="svc__price">Desde $350</span>
           </div>
           <div class="svc__icon svc__icon--img" aria-hidden="true">
             <img src="img/servicios/facial-icon.png" alt="Cosmetología y Faciales" class="svc__icon-img">
@@ -285,11 +289,11 @@
           <h3 class="svc__name">Cosmetolog&iacute;a &amp; Faciales</h3>
           <p class="svc__desc">Tratamientos de piel con especialidad universitaria. Limpieza, hidrataci&oacute;n y anti-edad.</p>
           <ul class="svc__tags">
-            <li>Limpieza profunda</li>
-            <li>Anti-edad</li>
+            <li>Facial b&aacute;sico</li>
+            <li>Facial completo 12 pasos</li>
             <li>Especialista certificada</li>
           </ul>
-          <a href="#contacto" class="svc__link">Agendar cita <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          <a href="#precios" class="svc__link" data-goto-tab="faciales">Ver precios <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         </article>
 
       </div>
@@ -320,7 +324,7 @@
 
       <div class="espacio__card espacio__card--hero">
         <div class="espacio__card-img-wrap">
-          <img src="img/local/espacio-1.jpg" alt="Área de pedicura spa" loading="lazy" style="object-position: center 20%;">
+          <img src="img/local/espacio-1.JPG" alt="Área de pedicura spa" loading="lazy" style="object-position: center 35%;">
         </div>
         <div class="espacio__card-overlay">
           <div class="espacio__card-info">
@@ -334,7 +338,7 @@
 
       <div class="espacio__card espacio__card--tall">
         <div class="espacio__card-img-wrap">
-          <img src="img/local/espacio-2.jpg" alt="Estaciones de manicura" loading="lazy" style="object-position: center 90%;">
+          <img src="img/local/espacio-2.JPG" alt="Estaciones de manicura" loading="lazy" style="object-position: center 40%;">
         </div>
         <div class="espacio__card-overlay">
           <div class="espacio__card-info">
@@ -348,7 +352,7 @@
 
       <div class="espacio__card espacio__card--square">
         <div class="espacio__card-img-wrap">
-          <img src="img/local/espacio-3.jpg" alt="Mostrador Maria José Beauty & Spa" loading="lazy" style="object-position: center 90%;">
+          <img src="img/local/espacio-3.JPG" alt="Mostrador Maria José Beauty & Spa" loading="lazy" style="object-position: center 30%;">
         </div>
         <div class="espacio__card-overlay">
           <div class="espacio__card-info">
@@ -362,7 +366,7 @@
 
       <div class="espacio__card espacio__card--wide">
         <div class="espacio__card-img-wrap">
-          <img src="img/local/espacio-4.jpg" alt="Estación de manicura y esmaltes" loading="lazy" style="object-position: center 45%;">
+          <img src="img/local/espacio-4.jpg" alt="Estación de manicura y esmaltes" loading="lazy" style="object-position: center 40%;">
         </div>
         <div class="espacio__card-overlay">
           <div class="espacio__card-info">
@@ -399,7 +403,7 @@
     <div class="info-strip__inner">
       <div class="info-strip__item">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-        <span>Mar – Sáb &nbsp;·&nbsp; 10:00 – 20:00</span>
+        <span>Lun&ndash;Vie: 10:00 AM &ndash; 8:00 PM &nbsp;|&nbsp; S&aacute;b: 9:30 AM &ndash; 6:00 PM &nbsp;|&nbsp; Dom: solo masajes con cita previa</span>
       </div>
       <div class="info-strip__sep"></div>
       <div class="info-strip__item">
@@ -409,7 +413,7 @@
       <div class="info-strip__sep"></div>
       <div class="info-strip__item">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.7A2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-        <span>Sin costo de reservación</span>
+        <span>Anticipo de $100 no reembolsable</span>
       </div>
       <div class="info-strip__sep info-strip__sep--hide-sm"></div>
       <div class="info-strip__item info-strip__item--hide-sm">
@@ -465,6 +469,21 @@
           <!-- Retoque / herramientas -->
           <svg class="pricing2__tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>
           <span>Retoques</span>
+        </button>
+        <button class="pricing__tab pricing2__tab" data-tab="masajes" role="tab">
+          <!-- Manos / masaje -->
+          <svg class="pricing2__tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 00-2-2v0a2 2 0 00-2 2v0"/><path d="M14 10V4a2 2 0 00-2-2v0a2 2 0 00-2 2v2"/><path d="M10 10.5V6a2 2 0 00-2-2v0a2 2 0 00-2 2v8"/><path d="M18 8a2 2 0 114 0v6a8 8 0 01-8 8H10a8 8 0 01-8-8 2 2 0 014 0"/></svg>
+          <span>Masajes</span>
+        </button>
+        <button class="pricing__tab pricing2__tab" data-tab="faciales" role="tab">
+          <!-- Cara / facial -->
+          <svg class="pricing2__tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M9 8h.01M15 8h.01"/><path d="M9 11c.5 1.5 5.5 1.5 6 0"/><path d="M3 20c0-3.3 4-6 9-6s9 2.7 9 6"/></svg>
+          <span>Faciales</span>
+        </button>
+        <button class="pricing__tab pricing2__tab" data-tab="cejas" role="tab">
+          <!-- Ceja / arco -->
+          <svg class="pricing2__tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10c2-4 6-6 9-6s7 2 9 6"/><path d="M7 14h10"/><circle cx="9" cy="17" r="1.5"/><circle cx="15" cy="17" r="1.5"/></svg>
+          <span>Cejas</span>
         </button>
       </div>
 
@@ -728,13 +747,141 @@
         </div>
       </div>
 
+      <!-- MASAJES & TERAPIAS CORPORALES -->
+      <div class="pricing__panel" id="panel-masajes">
+        <div class="pricing__note">Servicios de bienestar corporal y terapias especializadas</div>
+        <div class="pricing__grid">
+          <div class="pricing__item">
+            <div class="pricing__item-top">
+              <h4 class="pricing__item-name">Masaje Descontracturante</h4>
+              <span class="pricing__item-price">$400</span>
+            </div>
+            <p class="pricing__item-desc">Espalda, hombros y cuello. Presi&oacute;n profunda en m&uacute;sculos para eliminar contracturas.</p>
+          </div>
+          <div class="pricing__item">
+            <div class="pricing__item-top">
+              <h4 class="pricing__item-name">Drenaje Linf&aacute;tico</h4>
+              <span class="pricing__item-price">$300</span>
+            </div>
+            <p class="pricing__item-desc">Piernas, espalda y brazos. Sistema circulatorio, linf&aacute;tico y muscular. Desinflamar y reafirmar la piel.</p>
+          </div>
+          <div class="pricing__item pricing__item--highlight">
+            <div class="pricing__item-top">
+              <h4 class="pricing__item-name">Masaje Sueco</h4>
+              <span class="pricing__item-price">$650</span>
+            </div>
+            <p class="pricing__item-desc">Cuerpo completo. Distintas t&eacute;cnicas en un masaje relajante y descontracturante.</p>
+          </div>
+          <div class="pricing__item">
+            <div class="pricing__item-top">
+              <h4 class="pricing__item-name">Gotas de Lluvia</h4>
+              <span class="pricing__item-price">$300</span>
+            </div>
+            <p class="pricing__item-desc">Espalda, cuello y hombros. Terapia con 4 aceites esenciales. Fortalece el sistema inmunol&oacute;gico, equilibrio mental, estr&eacute;s y ansiedad.</p>
+          </div>
+          <div class="pricing__item">
+            <div class="pricing__item-top">
+              <h4 class="pricing__item-name">Conoterapia</h4>
+              <span class="pricing__item-price">$250</span>
+            </div>
+            <p class="pricing__item-desc">Velado de o&iacute;do y drenaje linf&aacute;tico facial. Elimina toxinas, activa la circulaci&oacute;n del rostro. Ayuda con problemas de v&eacute;rtigo y migra&ntilde;a.</p>
+          </div>
+          <div class="pricing__item">
+            <div class="pricing__item-top">
+              <h4 class="pricing__item-name">Reflexolog&iacute;a Podal</h4>
+              <span class="pricing__item-price">$250</span>
+            </div>
+            <p class="pricing__item-desc">Estimula y detecta funciones del sistema a trav&eacute;s de la planta del pie. Ayuda en pulmones, cervicales, tiroides, h&iacute;gado, est&oacute;mago, coraz&oacute;n.</p>
+          </div>
+          <div class="pricing__item">
+            <div class="pricing__item-top">
+              <h4 class="pricing__item-name">Relajante de Piernas</h4>
+              <span class="pricing__item-price">$250</span>
+            </div>
+            <p class="pricing__item-desc">T&eacute;cnicas suaves y relajantes para el mayor descanso y desinflamaci&oacute;n.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- FACIALES & COSMETOLOGÍA -->
+      <div class="pricing__panel" id="panel-faciales">
+        <div class="pricing__note">Tratamientos de piel con especialidad universitaria</div>
+        <div class="pricing__grid">
+          <div class="pricing__item">
+            <div class="pricing__item-top">
+              <h4 class="pricing__item-name">Facial B&aacute;sico + Microdermoabrasi&oacute;n</h4>
+              <span class="pricing__item-price">$350</span>
+            </div>
+            <p class="pricing__item-desc">Exfoliaci&oacute;n, vapor de ozono, skinscrubber, microdermoabrasi&oacute;n, vitaminas e hidrataci&oacute;n con protecci&oacute;n solar. Duraci&oacute;n: 35 min.</p>
+          </div>
+          <div class="pricing__item pricing__item--highlight">
+            <div class="pricing__item-top">
+              <h4 class="pricing__item-name">Facial Completo +12 Pasos</h4>
+              <span class="pricing__item-price">$500</span>
+            </div>
+            <p class="pricing__item-desc">Limpieza profunda, exfoliaci&oacute;n, vapor de ozono, extracci&oacute;n de comedones, microdermoabrasi&oacute;n, alta frecuencia, vitaminas, mascarilla, fototerapia LED, tonificaci&oacute;n e hidrataci&oacute;n. Duraci&oacute;n: 1 hora.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CEJAS & DEPILACIONES -->
+      <div class="pricing__panel" id="panel-cejas">
+        <div class="pricing__note">Servicios de cejas, pesta&ntilde;as y depilaci&oacute;n facial</div>
+        <div class="pricing__grid">
+          <div class="pricing__item">
+            <div class="pricing__item-top">
+              <h4 class="pricing__item-name">Laminado de Ceja</h4>
+              <span class="pricing__item-price">$240</span>
+            </div>
+            <p class="pricing__item-desc">Incluye depilaci&oacute;n. Tu ceja natural toma mejor forma y el bello se ve expandido. Duraci&oacute;n: 3&ndash;4 semanas.</p>
+          </div>
+          <div class="pricing__item pricing__item--highlight">
+            <div class="pricing__item-top">
+              <h4 class="pricing__item-name">Ceja HD</h4>
+              <span class="pricing__item-price">$360</span>
+            </div>
+            <p class="pricing__item-desc">Laminado de ceja, depilaci&oacute;n y pigmento. Tu ceja lucir&aacute; maquillada durante 5 d&iacute;as. Ideal para viajes y eventos.</p>
+          </div>
+          <div class="pricing__item">
+            <div class="pricing__item-top">
+              <h4 class="pricing__item-name">Lashlifting</h4>
+              <span class="pricing__item-price">$360</span>
+            </div>
+            <p class="pricing__item-desc">Rizamos tus pesta&ntilde;as naturales para hacerlas ver con m&aacute;s volumen y alineadas. Duraci&oacute;n: 3 semanas.</p>
+          </div>
+          <div class="pricing__item">
+            <div class="pricing__item-top">
+              <h4 class="pricing__item-name">Depilaci&oacute;n de Ceja</h4>
+              <span class="pricing__item-price">$70</span>
+            </div>
+          </div>
+          <div class="pricing__item">
+            <div class="pricing__item-top">
+              <h4 class="pricing__item-name">Depilaci&oacute;n Bozo</h4>
+              <span class="pricing__item-price">$40</span>
+            </div>
+          </div>
+          <div class="pricing__item">
+            <div class="pricing__item-top">
+              <h4 class="pricing__item-name">Depilaci&oacute;n Patillas</h4>
+              <span class="pricing__item-price">$100</span>
+            </div>
+          </div>
+          <div class="pricing__item">
+            <div class="pricing__item-top">
+              <h4 class="pricing__item-name">Depilaci&oacute;n Cara Completa</h4>
+              <span class="pricing__item-price">$270</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- CTA cierre de precios -->
       <div class="pricing2__cta">
         <div class="pricing2__cta-inner">
           <p class="pricing2__cta-text">¿Tienes dudas sobre alg&uacute;n servicio o quieres agendar?</p>
-          <a href="https://wa.me/5218135727136?text=Hola%2C%20quisiera%20consultar%20sobre%20precios%20y%20disponibilidad%20%F0%9F%92…" target="_blank" rel="noopener" class="pricing2__cta-btn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-            Consultar por WhatsApp
+          <a href="#contacto" class="pricing2__cta-btn">
+            Agendar cita
           </a>
         </div>
       </div>
@@ -765,7 +912,7 @@
       </div>
       <div class="manifiesto__stat-sep" aria-hidden="true"></div>
       <div class="manifiesto__stat">
-        <span class="manifiesto__stat-num stat-count" data-target="4">0</span>
+        <span class="manifiesto__stat-num stat-count" data-target="6">0</span>
         <span class="manifiesto__stat-unit"> años</span>
         <p class="manifiesto__stat-label">De experiencia</p>
       </div>
@@ -785,11 +932,11 @@
 
     <!-- CTA inline -->
     <div class="manifiesto__cta">
-      <a href="https://wa.me/5218135727136?text=Hola%2C%20quisiera%20agendar%20una%20cita%20%F0%9F%92%85" target="_blank" rel="noopener" class="manifiesto__cta-btn">
+      <a href="#contacto" class="manifiesto__cta-btn">
         Reserva tu momento
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
-      <p class="manifiesto__cta-sub">Sin costo de reservación &middot; Respuesta inmediata</p>
+      <p class="manifiesto__cta-sub">Anticipo de $100 no reembolsable &middot; Respuesta inmediata</p>
     </div>
 
   </div>
@@ -803,29 +950,19 @@
         <div class="section-header__divider"></div>
         <p class="section-header__description">
           S&iacute;guenos en
-          <a href="https://www.instagram.com/maria_josebys/" target="_blank" rel="noopener">@maria_josebys</a>
+          <a href="https://www.instagram.com/maria_josebys/" target="_blank" rel="noopener noreferrer">@maria_josebys</a>
           para ver m&aacute;s de nuestros trabajos
         </p>
       </div>
 
       <!-- Feed de Instagram @maria_josebys via Behold.so -->
-      <!-- INSTRUCCIONES: Reemplaza AQUI_TU_FEED_ID con el ID obtenido en behold.so -->
       <div class="gallery__instagram-feed">
-        <div data-behold-id="AQUI_TU_FEED_ID"></div>
-        <!-- Fallback mientras no esté configurado el widget -->
-        <div class="gallery__feed-placeholder" id="galleryFallback">
-          <div class="gallery__feed-icon">
-            <svg viewBox="0 0 24 24" fill="currentColor" width="48" height="48">
-              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-            </svg>
-          </div>
-          <p class="gallery__feed-text">@maria_josebys</p>
-          <p class="gallery__feed-subtext">Conéctate en Instagram para ver nuestros trabajos</p>
-        </div>
+        <behold-widget feed-id="QIJEdOPVSFMsoDDJyoE1"></behold-widget>
+        <div class="gallery__behold-cover"></div>
       </div>
 
       <div class="gallery__cta">
-        <a href="https://www.instagram.com/maria_josebys/" target="_blank" rel="noopener" class="btn btn--outline">
+        <a href="https://www.instagram.com/maria_josebys/" target="_blank" rel="noopener noreferrer" class="btn btn--outline">
           <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
             <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
           </svg>
@@ -858,7 +995,7 @@
     <div class="team2__carousel-wrap">
       <div class="team2__carousel" id="teamCarousel">
 
-        <!-- Sofia -->
+        <!-- Sofia (CEO — sin sección de trabajos) -->
         <article class="team2__card" data-member="sofia">
           <div class="team2__photo">
             <div class="team2__photo-frame">
@@ -880,21 +1017,6 @@
                 <span>Acr&iacute;lico Escultural</span>
                 <span>Gel Semipermanente</span>
                 <span>Instructora</span>
-              </div>
-            </div>
-            <div class="team2__works">
-              <p class="team2__works-label">Trabajos</p>
-              <div class="team2__works-strip">
-                <button class="team2__work-thumb team2__work-thumb--placeholder" data-member="sofia" data-idx="0" aria-label="Ver trabajo 1">
-                  <svg class="team2__work-thumb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-                </button>
-                <button class="team2__work-thumb team2__work-thumb--placeholder" data-member="sofia" data-idx="1" aria-label="Ver trabajo 2">
-                  <svg class="team2__work-thumb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-                </button>
-                <button class="team2__work-thumb team2__work-thumb--placeholder" data-member="sofia" data-idx="2" aria-label="Ver trabajo 3">
-                  <svg class="team2__work-thumb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-                </button>
-                <button class="team2__works-all team-card__gallery-btn" data-member="sofia">Ver todos &rarr;</button>
               </div>
             </div>
           </div>
@@ -926,9 +1048,17 @@
             <div class="team2__works">
               <p class="team2__works-label">Trabajos</p>
               <div class="team2__works-strip">
-                <button class="team2__work-thumb team2__work-thumb--placeholder" data-member="daniela" data-idx="0" aria-label="Ver trabajo 1"><svg class="team2__work-thumb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></button>
-                <button class="team2__work-thumb team2__work-thumb--placeholder" data-member="daniela" data-idx="1" aria-label="Ver trabajo 2"><svg class="team2__work-thumb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></button>
-                <button class="team2__work-thumb team2__work-thumb--placeholder" data-member="daniela" data-idx="2" aria-label="Ver trabajo 3"><svg class="team2__work-thumb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></button>
+                <button class="team2__work-thumb" data-member="daniela" data-idx="0" aria-label="Ver trabajo 1" style="background-image:url('img/trabajos/daniela/DANIELA.jpg')"></button>
+                <button class="team2__work-thumb" data-member="daniela" data-idx="1" aria-label="Ver trabajo 2" style="background-image:url('img/trabajos/daniela/DANIELA_1.jpg')"></button>
+                <button class="team2__work-thumb" data-member="daniela" data-idx="2" aria-label="Ver trabajo 3" style="background-image:url('img/trabajos/daniela/DANIELA_2.jpg')"></button>
+                <button class="team2__work-thumb" data-member="daniela" data-idx="3" aria-label="Ver trabajo 4" style="background-image:url('img/trabajos/daniela/DANIELA_3.jpg')"></button>
+                <button class="team2__work-thumb" data-member="daniela" data-idx="4" aria-label="Ver trabajo 5" style="background-image:url('img/trabajos/daniela/DANIELA_4.jpg')"></button>
+                <button class="team2__work-thumb" data-member="daniela" data-idx="5" aria-label="Ver trabajo 6" style="background-image:url('img/trabajos/daniela/DANIELA_gel_liso.jpeg')"></button>
+                <button class="team2__work-thumb" data-member="daniela" data-idx="6" aria-label="Ver trabajo 7" style="background-image:url('img/trabajos/daniela/DANIELA_acrilico_liso.jpeg')"></button>
+                <button class="team2__work-thumb" data-member="daniela" data-idx="7" aria-label="Ver trabajo 8" style="background-image:url('img/trabajos/daniela/DANIELA_gel_sencillo.jpeg')"></button>
+                <button class="team2__work-thumb" data-member="daniela" data-idx="8" aria-label="Ver trabajo 9" style="background-image:url('img/trabajos/daniela/DANIELA_gel_pies.jpg')"></button>
+                <button class="team2__work-thumb" data-member="daniela" data-idx="9" aria-label="Ver trabajo 10" style="background-image:url('img/trabajos/daniela/DANIELA_rubber_liso.jpeg')"></button>
+                <button class="team2__work-thumb" data-member="daniela" data-idx="10" aria-label="Ver trabajo 11" style="background-image:url('img/trabajos/daniela/DANIELA_rubber_sencillo.jpeg')"></button>
                 <button class="team2__works-all team-card__gallery-btn" data-member="daniela">Ver todos &rarr;</button>
               </div>
             </div>
@@ -961,9 +1091,14 @@
             <div class="team2__works">
               <p class="team2__works-label">Trabajos</p>
               <div class="team2__works-strip">
-                <button class="team2__work-thumb team2__work-thumb--placeholder" data-member="anette" data-idx="0" aria-label="Ver trabajo 1"><svg class="team2__work-thumb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></button>
-                <button class="team2__work-thumb team2__work-thumb--placeholder" data-member="anette" data-idx="1" aria-label="Ver trabajo 2"><svg class="team2__work-thumb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></button>
-                <button class="team2__work-thumb team2__work-thumb--placeholder" data-member="anette" data-idx="2" aria-label="Ver trabajo 3"><svg class="team2__work-thumb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></button>
+                <button class="team2__work-thumb" data-member="anette" data-idx="0" aria-label="Ver trabajo 1" style="background-image:url('img/trabajos/anette/ANETTE_0.jpeg')"></button>
+                <button class="team2__work-thumb" data-member="anette" data-idx="1" aria-label="Ver trabajo 2" style="background-image:url('img/trabajos/anette/ANETTE_1_acrilico_french.jpeg')"></button>
+                <button class="team2__work-thumb" data-member="anette" data-idx="2" aria-label="Ver trabajo 3" style="background-image:url('img/trabajos/anette/ANETTE_2_acrilico_elaborado.jpeg')"></button>
+                <button class="team2__work-thumb" data-member="anette" data-idx="3" aria-label="Ver trabajo 4" style="background-image:url('img/trabajos/anette/ANETTE_3_acrilico_sencillo.jpeg')"></button>
+                <button class="team2__work-thumb" data-member="anette" data-idx="4" aria-label="Ver trabajo 5" style="background-image:url('img/trabajos/anette/ANETTE_4_acripie.jpg')"></button>
+                <button class="team2__work-thumb" data-member="anette" data-idx="5" aria-label="Ver trabajo 6" style="background-image:url('img/trabajos/anette/ANETTE_5_gel_sencillo.jpeg')"></button>
+                <button class="team2__work-thumb" data-member="anette" data-idx="6" aria-label="Ver trabajo 7" style="background-image:url('img/trabajos/anette/ANETTE_6_rubber_sencillo.jpeg')"></button>
+                <button class="team2__work-thumb" data-member="anette" data-idx="7" aria-label="Ver trabajo 8" style="background-image:url('img/trabajos/anette/ANETTE_7_lashlifting.jpg')"></button>
                 <button class="team2__works-all team-card__gallery-btn" data-member="anette">Ver todos &rarr;</button>
               </div>
             </div>
@@ -996,9 +1131,13 @@
             <div class="team2__works">
               <p class="team2__works-label">Trabajos</p>
               <div class="team2__works-strip">
-                <button class="team2__work-thumb team2__work-thumb--placeholder" data-member="yuliana" data-idx="0" aria-label="Ver trabajo 1"><svg class="team2__work-thumb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></button>
-                <button class="team2__work-thumb team2__work-thumb--placeholder" data-member="yuliana" data-idx="1" aria-label="Ver trabajo 2"><svg class="team2__work-thumb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></button>
-                <button class="team2__work-thumb team2__work-thumb--placeholder" data-member="yuliana" data-idx="2" aria-label="Ver trabajo 3"><svg class="team2__work-thumb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></button>
+                <button class="team2__work-thumb" data-member="yuliana" data-idx="0" aria-label="Ver trabajo 1" style="background-image:url('img/trabajos/yuliana/YULY_clasico.jpg')"></button>
+                <button class="team2__work-thumb" data-member="yuliana" data-idx="1" aria-label="Ver trabajo 2" style="background-image:url('img/trabajos/yuliana/YULY_3d_rimel.jpg')"></button>
+                <button class="team2__work-thumb" data-member="yuliana" data-idx="2" aria-label="Ver trabajo 3" style="background-image:url('img/trabajos/yuliana/YULY_hawaiano.jpg')"></button>
+                <button class="team2__work-thumb" data-member="yuliana" data-idx="3" aria-label="Ver trabajo 4" style="background-image:url('img/trabajos/yuliana/YULY_mega_volumen.jpg')"></button>
+                <button class="team2__work-thumb" data-member="yuliana" data-idx="4" aria-label="Ver trabajo 5" style="background-image:url('img/trabajos/yuliana/YULY_volumen_5d.jpg')"></button>
+                <button class="team2__work-thumb" data-member="yuliana" data-idx="5" aria-label="Ver trabajo 6" style="background-image:url('img/trabajos/yuliana/YULY_wispy.jpg')"></button>
+                <button class="team2__work-thumb" data-member="yuliana" data-idx="6" aria-label="Ver trabajo 7" style="background-image:url('img/trabajos/yuliana/YULY_hibrido.jpg')"></button>
                 <button class="team2__works-all team-card__gallery-btn" data-member="yuliana">Ver todos &rarr;</button>
               </div>
             </div>
@@ -1031,9 +1170,11 @@
             <div class="team2__works">
               <p class="team2__works-label">Trabajos</p>
               <div class="team2__works-strip">
-                <button class="team2__work-thumb team2__work-thumb--placeholder" data-member="dafne" data-idx="0" aria-label="Ver trabajo 1"><svg class="team2__work-thumb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></button>
-                <button class="team2__work-thumb team2__work-thumb--placeholder" data-member="dafne" data-idx="1" aria-label="Ver trabajo 2"><svg class="team2__work-thumb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></button>
-                <button class="team2__work-thumb team2__work-thumb--placeholder" data-member="dafne" data-idx="2" aria-label="Ver trabajo 3"><svg class="team2__work-thumb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></button>
+                <button class="team2__work-thumb" data-member="dafne" data-idx="0" aria-label="Ver trabajo 1" style="background-image:url('img/trabajos/dafne/DAFNE.jpg')"></button>
+                <button class="team2__work-thumb" data-member="dafne" data-idx="1" aria-label="Ver trabajo 2" style="background-image:url('img/trabajos/dafne/DAFNE_1.jpg')"></button>
+                <button class="team2__work-thumb" data-member="dafne" data-idx="2" aria-label="Ver trabajo 3" style="background-image:url('img/trabajos/dafne/DAFNE_2.jpg')"></button>
+                <button class="team2__work-thumb" data-member="dafne" data-idx="3" aria-label="Ver trabajo 4" style="background-image:url('img/trabajos/dafne/DAFNE_3.jpg')"></button>
+                <button class="team2__work-thumb" data-member="dafne" data-idx="4" aria-label="Ver trabajo 5" style="background-image:url('img/trabajos/dafne/DAFNE_4.jpg')"></button>
                 <button class="team2__works-all team-card__gallery-btn" data-member="dafne">Ver todos &rarr;</button>
               </div>
             </div>
@@ -1066,9 +1207,16 @@
             <div class="team2__works">
               <p class="team2__works-label">Trabajos</p>
               <div class="team2__works-strip">
-                <button class="team2__work-thumb team2__work-thumb--placeholder" data-member="perla" data-idx="0" aria-label="Ver trabajo 1"><svg class="team2__work-thumb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></button>
-                <button class="team2__work-thumb team2__work-thumb--placeholder" data-member="perla" data-idx="1" aria-label="Ver trabajo 2"><svg class="team2__work-thumb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></button>
-                <button class="team2__work-thumb team2__work-thumb--placeholder" data-member="perla" data-idx="2" aria-label="Ver trabajo 3"><svg class="team2__work-thumb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></button>
+                <button class="team2__work-thumb" data-member="perla" data-idx="0" aria-label="Ver trabajo 1" style="background-image:url('img/trabajos/perla/PERLA_1.jpg')"></button>
+                <button class="team2__work-thumb" data-member="perla" data-idx="1" aria-label="Ver trabajo 2" style="background-image:url('img/trabajos/perla/PERLA_2.jpg')"></button>
+                <button class="team2__work-thumb" data-member="perla" data-idx="2" aria-label="Ver trabajo 3" style="background-image:url('img/trabajos/perla/PERLA_3.jpg')"></button>
+                <button class="team2__work-thumb" data-member="perla" data-idx="3" aria-label="Ver trabajo 4" style="background-image:url('img/trabajos/perla/PERLA_4.jpg')"></button>
+                <button class="team2__work-thumb" data-member="perla" data-idx="4" aria-label="Ver trabajo 5" style="background-image:url('img/trabajos/perla/PERLA_5.jpg')"></button>
+                <button class="team2__work-thumb" data-member="perla" data-idx="5" aria-label="Ver trabajo 6" style="background-image:url('img/trabajos/perla/PERLA_6.jpg')"></button>
+                <button class="team2__work-thumb" data-member="perla" data-idx="6" aria-label="Ver trabajo 7" style="background-image:url('img/trabajos/perla/PERLA_7.jpg')"></button>
+                <button class="team2__work-thumb" data-member="perla" data-idx="7" aria-label="Ver trabajo 8" style="background-image:url('img/trabajos/perla/PERLA_8.jpg')"></button>
+                <button class="team2__work-thumb" data-member="perla" data-idx="8" aria-label="Ver trabajo 9" style="background-image:url('img/trabajos/perla/PERLA_9.jpg')"></button>
+                <button class="team2__work-thumb" data-member="perla" data-idx="9" aria-label="Ver trabajo 10" style="background-image:url('img/trabajos/perla/PERLA_10.jpg')"></button>
                 <button class="team2__works-all team-card__gallery-btn" data-member="perla">Ver todos &rarr;</button>
               </div>
             </div>
@@ -1237,7 +1385,7 @@
                 <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
               </svg>
               <span>Av. Perimetral Sur #132, Col. Lomas del Poniente<br>Santa Catarina, Nuevo Le&oacute;n 66369</span>
-              <a href="https://maps.app.goo.gl/XU87Tw2pjYCSmGUz7" target="_blank" rel="noopener" class="maps-btn">
+              <a href="https://maps.app.goo.gl/XU87Tw2pjYCSmGUz7" target="_blank" rel="noopener noreferrer" class="maps-btn">
                 <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
                 Ver en Google Maps
               </a>
@@ -1259,6 +1407,10 @@
           <div class="form-group">
             <label for="clientPhone" class="form-label">Tel&eacute;fono / WhatsApp</label>
             <input type="tel" id="clientPhone" name="clientPhone" class="form-input" placeholder="+00 000 000 0000" required>
+          </div>
+          <div class="form-group">
+            <label for="clientEmail" class="form-label">Correo electr&oacute;nico</label>
+            <input type="email" id="clientEmail" name="clientEmail" class="form-input" placeholder="tu@correo.com" required>
           </div>
           <div class="form-group">
             <label for="serviceType" class="form-label">Servicio</label>
@@ -1306,6 +1458,13 @@
                 <option value="facial">Tratamiento Facial</option>
               </optgroup>
             </select>
+          </div>
+          <div class="form-group" id="empleadaGroup" style="display:none">
+            <label for="empleadaSelect" class="form-label">Especialista</label>
+            <select id="empleadaSelect" name="empleadaSelect" class="form-input">
+              <option value="" disabled selected>Selecciona una especialista</option>
+            </select>
+            <p class="form-note">Puedes elegir tu especialista de preferencia seg&uacute;n disponibilidad.</p>
           </div>
           <div class="form-row">
             <div class="form-group">
@@ -1363,7 +1522,7 @@
             <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13" style="vertical-align:middle;margin-right:4px;opacity:.8"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
             Av. Perimetral Sur #132, Col. Lomas del Poniente<br>Santa Catarina, N.L. 66369
           </p>
-          <a href="https://maps.app.goo.gl/XU87Tw2pjYCSmGUz7" target="_blank" rel="noopener" class="maps-btn maps-btn--footer">
+          <a href="https://maps.app.goo.gl/XU87Tw2pjYCSmGUz7" target="_blank" rel="noopener noreferrer" class="maps-btn maps-btn--footer">
             <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
             Ver en Google Maps
           </a>
@@ -1372,19 +1531,14 @@
         <div class="footer__social">
           <h4 class="footer__heading">S&iacute;guenos</h4>
           <div class="footer__social-links">
-            <a href="https://www.instagram.com/maria_josebys/" target="_blank" rel="noopener" class="footer__social-link" aria-label="Instagram">
+            <a href="https://www.instagram.com/maria_josebys/" target="_blank" rel="noopener noreferrer" class="footer__social-link" aria-label="Instagram">
               <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
                 <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
               </svg>
             </a>
-            <a href="https://www.facebook.com/SusNailss" target="_blank" rel="noopener" class="footer__social-link" aria-label="Facebook">
+            <a href="https://www.facebook.com/SusNailss" target="_blank" rel="noopener noreferrer" class="footer__social-link" aria-label="Facebook">
               <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
                 <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-              </svg>
-            </a>
-            <a href="https://wa.me/5218135727136?text=Hola%2C%20me%20gustar%C3%ADa%20agendar%20una%20cita%20%F0%9F%92%85" target="_blank" rel="noopener" class="footer__social-link" aria-label="WhatsApp">
-              <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
               </svg>
             </a>
           </div>
@@ -1399,7 +1553,7 @@
   </footer>
 
   <!-- WhatsApp Floating Button -->
-  <a href="https://wa.me/5218135727136?text=Hola%2C%20me%20gustar%C3%ADa%20agendar%20una%20cita%20%F0%9F%92%85" target="_blank" rel="noopener" class="whatsapp-float" aria-label="Contactar por WhatsApp">
+  <a href="https://wa.me/5218135727136?text=Hola%2C%20me%20gustar%C3%ADa%20agendar%20una%20cita" target="_blank" rel="noopener noreferrer" class="whatsapp-float" aria-label="Contactar por WhatsApp">
     <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28">
       <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
     </svg>
@@ -1443,6 +1597,8 @@
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-integration.js"></script>
   <script src="js/main.js"></script>
   <script src="js/hero3d.js"></script>
   <script src="js/enhancements.js"></script>
@@ -1467,6 +1623,32 @@
   </div>
 
   <!-- Script del feed de Instagram (Behold.so) -->
-  <script async src="https://w.beholdify.com/embed.js"></script>
+  <script>
+    (() => {
+      const d=document,s=d.createElement("script");s.type="module";
+      s.src="https://w.behold.so/widget.js";d.head.append(s);
+    })();
+
+    // Ocultar marca de agua Behold
+    const hideBehold = () => {
+      // Fuera del shadow DOM
+      document.querySelectorAll('behold-branding').forEach(el => el.remove());
+      // Dentro del shadow DOM
+      const widget = document.querySelector('behold-widget');
+      if (widget && widget.shadowRoot) {
+        widget.shadowRoot.querySelectorAll('behold-branding').forEach(el => el.remove());
+        const existing = widget.shadowRoot.querySelector('#hide-branding');
+        if (!existing) {
+          const style = document.createElement('style');
+          style.id = 'hide-branding';
+          style.textContent = 'behold-branding { display: none !important; }';
+          widget.shadowRoot.appendChild(style);
+        }
+      }
+    };
+    // Ejecutar periódicamente hasta que el widget cargue
+    const interval = setInterval(hideBehold, 300);
+    setTimeout(() => clearInterval(interval), 10000);
+  </script>
 </body>
 </html>

@@ -1980,6 +1980,20 @@ body {
   .espacio__card-arrow { transition: none; }
 }
 
+/* ── Object-position por imagen: desktop ── */
+.espacio-img--hero   { object-position: center 35%; }
+.espacio-img--tall   { object-position: center 40%; }
+.espacio-img--square { object-position: center 30%; }
+.espacio-img--wide   { object-position: center 40%; }
+
+/* ── Object-position por imagen: mobile — enfoca el sujeto ── */
+@media (max-width: 639px) {
+  .espacio-img--hero   { object-position: center 55%; } /* baja al centro de los sillones */
+  .espacio-img--tall   { object-position: center 62%; } /* baja a mesas y lámparas rosas */
+  .espacio-img--square { object-position: center 52%; } /* centra el mostrador "Maria José" */
+  .espacio-img--wide   { object-position: center 58%; } /* baja a estantes y mesa */
+}
+
 /* ============================================
    NUESTRO EQUIPO — CARRUSEL MAGAZINE v2
    ============================================ */

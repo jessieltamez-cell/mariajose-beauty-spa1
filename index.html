@@ -1749,50 +1749,39 @@
       d.head.append(s);
     })();
 
-    // Ocultar branding Behold — inyecta CSS dentro del Shadow DOM
-    const HIDE_CSS = `
-      behold-branding,
-      [class*="brand" i],
-      [class*="powered" i],
-      [class*="credit" i],
-      [class*="watermark" i],
-      a[href*="behold.so"],
-      a[href*="behold.co"] {
-        display: none !important;
-        visibility: hidden !important;
-        height: 0 !important;
-        overflow: hidden !important;
-        pointer-events: none !important;
-      }
-    `;
+    // Ocultar branding Behold
+    const REMOVE_SEL = 'behold-branding, a[href*="behold.so"], a[href*="behold.co"]';
+    const HIDE_CSS   = `${REMOVE_SEL} { display:none!important; visibility:hidden!important; }`;
+
+    const purge = root => root.querySelectorAll(REMOVE_SEL).forEach(el => el.remove());
 
     const hideBehold = () => {
       // Fuera del shadow DOM
-      document.querySelectorAll('behold-branding, a[href*="behold.so"]')
-        .forEach(el => (el.style.cssText = 'display:none!important'));
+      purge(document);
 
-      // Dentro del shadow DOM
       const w = document.querySelector('behold-widget');
       if (!w || !w.shadowRoot) return;
       const root = w.shadowRoot;
 
-      // Eliminar elementos directamente
-      root.querySelectorAll('behold-branding, a[href*="behold.so"], a[href*="behold.co"]')
-        .forEach(el => (el.style.cssText = 'display:none!important'));
+      // Eliminar del shadow DOM
+      purge(root);
 
-      // Inyectar hoja de estilos persistente en el shadow root
+      // Inyectar CSS persistente en el shadow root
       if (!root.querySelector('#bhide')) {
-        const style = document.createElement('style');
-        style.id = 'bhide';
-        style.textContent = HIDE_CSS;
-        root.appendChild(style);
+        const s = document.createElement('style');
+        s.id = 'bhide';
+        s.textContent = HIDE_CSS;
+        root.appendChild(s);
+
+        // Observar el shadow root: si Behold re-renderiza, eliminar de nuevo
+        new MutationObserver(() => purge(root))
+          .observe(root, { childList: true, subtree: true });
       }
     };
 
-    // Intentar de inmediato y cada 250ms hasta 8s
     hideBehold();
-    const iv = setInterval(hideBehold, 250);
-    setTimeout(() => clearInterval(iv), 8000);
+    const iv = setInterval(hideBehold, 200);
+    setTimeout(() => clearInterval(iv), 10000);
   </script>
 </body>
 </html>

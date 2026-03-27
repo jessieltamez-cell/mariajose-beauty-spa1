@@ -934,4 +934,37 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { threshold: 0.6 });
     counterEls.forEach(el => counterObserver.observe(el));
   }
+
+  // ---------- Ocultar branding Behold (Shadow DOM) ----------
+  function hideBeholdBranding() {
+    const widget = document.querySelector('behold-widget');
+    if (!widget) return false;
+    const root = widget.shadowRoot;
+    if (!root) return false;
+    const selectors = [
+      '[class*="brand"]', '[class*="Brand"]',
+      '[class*="powered"]', '[class*="Powered"]',
+      '[class*="credit"]', '[class*="Credit"]',
+      '[class*="watermark"]',
+      'a[href*="behold"]',
+      'a[href*="behold.so"]',
+    ];
+    let found = false;
+    selectors.forEach(sel => {
+      root.querySelectorAll(sel).forEach(el => {
+        el.style.setProperty('display', 'none', 'important');
+        found = true;
+      });
+    });
+    return found;
+  }
+
+  // Intentar al cargar y tras retardos por si el widget tarda en renderizar
+  if (!hideBeholdBranding()) {
+    [500, 1500, 3000].forEach(ms => setTimeout(hideBeholdBranding, ms));
+    const brandObserver = new MutationObserver(() => {
+      if (hideBeholdBranding()) brandObserver.disconnect();
+    });
+    brandObserver.observe(document.body, { childList: true, subtree: true });
+  }
 });

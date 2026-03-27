@@ -341,9 +341,11 @@ document.addEventListener('DOMContentLoaded', () => {
       return { text: '👁️ Extensiones de Pestañas:\n• Clásico: $400\n• 3D / Efecto Rímel: $500\n• Hawaiano: $550\n• Volumen 5D: $600\n• Híbrido / Wispy / Foxy: $650\n• MegaVolumen: $850',
         chips: [{ label: '📅 Agendar con Yuliana', action: 'agendar' }] };
     if (t.match(/masaje|terapia|relajaci|fisioter|corporal|perla/))
-      return { text: '💆 Masajes & Terapias con Perla Tobías:\n• Masajes relajantes y terapéuticos\n• Fisioterapia corporal y estética\n• 4 años de experiencia\n\nConsulta precios y disponibilidad:', waButton: true };
+      return { text: '💆 Masajes & Terapias:\n• Descontracturante (espalda/hombros): $400\n• Drenaje linfático: $300\n• Masaje sueco (cuerpo completo): $650\n• Gotas de lluvia: $300\n• Conoterapia: $250\n• Reflexología podal: $250\n• Relajante de piernas: $250',
+        chips: [{ label: '📋 Ver precios', action: 'ver-precios' }, { label: '📅 Agendar', action: 'agendar' }] };
     if (t.match(/maquill|peinado|boda|quincea|graduaci|evento|dafne/))
-      return { text: '💄 Maquillaje & Peinados con Dafne Adame:\n• Maquillaje social, de noche y editorial\n• Peinados para quinceañeras, bodas y graduaciones\n• 6 años de experiencia', waButton: true };
+      return { text: '💄 Maquillaje & Peinados:\n• Maquillaje social: $850\n• + Peinado sencillo: $900\n• + Peinado semirecogido: $1,000\n• + Peinado recogido: $1,100\n• Paquete novia: desde $2,500\n• Paquete XV años: desde $2,300',
+        chips: [{ label: '📋 Ver todos los precios', action: 'ver-precios' }, { label: '📅 Agendar', action: 'agendar' }] };
     if (t.match(/facial|cosmetol|piel|limpieza|sofia/))
       return { text: '✨ Cosmetología & Faciales con Sofia Sustaita:\n• Limpieza facial profunda\n• Hidratación y tratamientos anti-edad\n• Egresada Universidad Kirei 2022', waButton: true };
     if (t.match(/horar|qué días|que dias|cuándo abren|cuando abren|abre|cierra/))
@@ -576,7 +578,9 @@ document.addEventListener('DOMContentLoaded', () => {
     'maquillaje': ['Dafne Adame'],
     'peinado':    ['Dafne Adame'],
     'masaje':     ['Perla Tobías'],
-    'facial':     ['Perla Tobías'],
+    'facial':     ['Sofia Sustaita'],
+    'ceja':       ['Sofia Sustaita'],
+    'depilacion': ['Sofia Sustaita'],
   };
 
   const TIME_SLOTS = {

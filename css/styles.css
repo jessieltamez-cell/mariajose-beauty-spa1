@@ -1158,18 +1158,17 @@ behold-widget {
   overflow: hidden;
 }
 
-/* Tapa la marca de agua de Behold (bottom-right) */
+/* Tapa la marca de agua de Behold (franja inferior completa) */
 .gallery__instagram-feed::after {
   content: '';
   position: absolute;
   bottom: 0;
+  left: 0;
   right: 0;
-  width: 320px;
   height: 90px;
   background: var(--c-white);
   z-index: 100;
   pointer-events: none;
-  border-radius: 0 0 var(--r-xl) 0;
 }
 
 /* Mobile: edge-to-edge, sin radio de esquinas */

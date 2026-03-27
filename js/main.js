@@ -578,9 +578,7 @@ document.addEventListener('DOMContentLoaded', () => {
     'maquillaje': ['Dafne Adame'],
     'peinado':    ['Dafne Adame'],
     'masaje':     ['Perla Tobías'],
-    'facial':     ['Sofia Sustaita'],
-    'ceja':       ['Sofia Sustaita'],
-    'depilacion': ['Sofia Sustaita'],
+    'facial':     ['Perla Tobías'],
   };
 
   const TIME_SLOTS = {

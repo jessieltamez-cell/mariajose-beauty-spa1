@@ -1152,9 +1152,24 @@ behold-widget {
 }
 
 .gallery__instagram-feed {
+  position: relative;
   margin-bottom: 40px;
   border-radius: var(--r-xl);
   overflow: hidden;
+}
+
+/* Tapa la marca de agua de Behold (bottom-right) */
+.gallery__instagram-feed::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 320px;
+  height: 90px;
+  background: var(--c-white);
+  z-index: 100;
+  pointer-events: none;
+  border-radius: 0 0 var(--r-xl) 0;
 }
 
 /* Mobile: edge-to-edge, sin radio de esquinas */

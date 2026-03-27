@@ -1143,24 +1143,28 @@ button { font-family: inherit; }
   background: var(--c-white);
 }
 
-behold-branding { display: none !important; }
+behold-branding,
+a[href*="behold.so"] { display: none !important; }
+
+behold-widget {
+  display: block;
+  width: 100%;
+}
 
 .gallery__instagram-feed {
-  position: relative;
   margin-bottom: 40px;
   border-radius: var(--r-xl);
   overflow: hidden;
-  transform: translateZ(0);
 }
 
-.gallery__behold-cover {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 220px;
-  height: 60px;
-  background: var(--c-white);
-  z-index: 99999;
+/* Mobile: edge-to-edge, sin radio de esquinas */
+@media (max-width: 639px) {
+  .gallery__instagram-feed {
+    margin-left: -20px;
+    margin-right: -20px;
+    border-radius: 0;
+    margin-bottom: 28px;
+  }
 }
 
 .gallery__feed-placeholder {

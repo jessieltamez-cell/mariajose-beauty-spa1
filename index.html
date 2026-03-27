@@ -1049,7 +1049,6 @@
       <!-- Feed de Instagram @maria_josebys via Behold.so -->
       <div class="gallery__instagram-feed">
         <behold-widget feed-id="QIJEdOPVSFMsoDDJyoE1"></behold-widget>
-        <div class="gallery__behold-cover"></div>
       </div>
 
       <div class="gallery__cta">
@@ -1744,30 +1743,56 @@
   <!-- Script del feed de Instagram (Behold.so) -->
   <script>
     (() => {
-      const d=document,s=d.createElement("script");s.type="module";
-      s.src="https://w.behold.so/widget.js";d.head.append(s);
+      const d = document, s = d.createElement('script');
+      s.type = 'module';
+      s.src = 'https://w.behold.so/widget.js';
+      d.head.append(s);
     })();
 
-    // Ocultar marca de agua Behold
+    // Ocultar branding Behold — inyecta CSS dentro del Shadow DOM
+    const HIDE_CSS = `
+      behold-branding,
+      [class*="brand" i],
+      [class*="powered" i],
+      [class*="credit" i],
+      [class*="watermark" i],
+      a[href*="behold.so"],
+      a[href*="behold.co"] {
+        display: none !important;
+        visibility: hidden !important;
+        height: 0 !important;
+        overflow: hidden !important;
+        pointer-events: none !important;
+      }
+    `;
+
     const hideBehold = () => {
       // Fuera del shadow DOM
-      document.querySelectorAll('behold-branding').forEach(el => el.remove());
+      document.querySelectorAll('behold-branding, a[href*="behold.so"]')
+        .forEach(el => (el.style.cssText = 'display:none!important'));
+
       // Dentro del shadow DOM
-      const widget = document.querySelector('behold-widget');
-      if (widget && widget.shadowRoot) {
-        widget.shadowRoot.querySelectorAll('behold-branding').forEach(el => el.remove());
-        const existing = widget.shadowRoot.querySelector('#hide-branding');
-        if (!existing) {
-          const style = document.createElement('style');
-          style.id = 'hide-branding';
-          style.textContent = 'behold-branding { display: none !important; }';
-          widget.shadowRoot.appendChild(style);
-        }
+      const w = document.querySelector('behold-widget');
+      if (!w || !w.shadowRoot) return;
+      const root = w.shadowRoot;
+
+      // Eliminar elementos directamente
+      root.querySelectorAll('behold-branding, a[href*="behold.so"], a[href*="behold.co"]')
+        .forEach(el => (el.style.cssText = 'display:none!important'));
+
+      // Inyectar hoja de estilos persistente en el shadow root
+      if (!root.querySelector('#bhide')) {
+        const style = document.createElement('style');
+        style.id = 'bhide';
+        style.textContent = HIDE_CSS;
+        root.appendChild(style);
       }
     };
-    // Ejecutar periódicamente hasta que el widget cargue
-    const interval = setInterval(hideBehold, 300);
-    setTimeout(() => clearInterval(interval), 10000);
+
+    // Intentar de inmediato y cada 250ms hasta 8s
+    hideBehold();
+    const iv = setInterval(hideBehold, 250);
+    setTimeout(() => clearInterval(iv), 8000);
   </script>
 </body>
 </html>

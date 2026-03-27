@@ -243,7 +243,7 @@
         <article class="svc__card" style="--svc-hue: #D5A6B4;">
           <div class="svc__card-top">
             <span class="svc__num">04</span>
-            <span class="svc__price">Consultar</span>
+            <span class="svc__price">Desde $850</span>
           </div>
           <div class="svc__icon svc__icon--img" aria-hidden="true">
             <img src="img/servicios/maquillaje-icon.png" alt="Maquillaje y Peinados" class="svc__icon-img">
@@ -255,7 +255,7 @@
             <li>Peinados de evento</li>
             <li>6 a&ntilde;os exp.</li>
           </ul>
-          <a href="#contacto" class="svc__link">Agendar cita <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          <a href="#precios" class="svc__link" data-goto-tab="maquillaje">Ver precios <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         </article>
 
         <!-- 05 Masajes -->
@@ -484,6 +484,10 @@
           <!-- Ceja / arco -->
           <svg class="pricing2__tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10c2-4 6-6 9-6s7 2 9 6"/><path d="M7 14h10"/><circle cx="9" cy="17" r="1.5"/><circle cx="15" cy="17" r="1.5"/></svg>
           <span>Cejas</span>
+        </button>
+        <button class="pricing__tab pricing2__tab" data-tab="maquillaje" role="tab">
+          <svg class="pricing2__tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+          <span>Maquillaje</span>
         </button>
       </div>
 
@@ -874,6 +878,93 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- MAQUILLAJE & PEINADOS -->
+      <div class="pricing__panel" id="panel-maquillaje">
+
+        <div class="pricing__note">Servicios Sociales</div>
+        <div class="pricing__grid">
+          <div class="pricing__item">
+            <div class="pricing__item-top">
+              <h4 class="pricing__item-name">Maquillaje</h4>
+              <span class="pricing__item-price">$850</span>
+            </div>
+            <p class="pricing__item-desc">Preparaci&oacute;n para tu tipo de piel, maquillaje de alta duraci&oacute;n, dise&ntilde;o de sombras, pesta&ntilde;a de tira tipo mink.</p>
+          </div>
+          <div class="pricing__item">
+            <div class="pricing__item-top">
+              <h4 class="pricing__item-name">Maquillaje + Peinado Sencillo</h4>
+              <span class="pricing__item-price">$900</span>
+            </div>
+            <p class="pricing__item-desc">Maquillaje completo + peinado sencillo (planchado, curls, waves).</p>
+          </div>
+          <div class="pricing__item">
+            <div class="pricing__item-top">
+              <h4 class="pricing__item-name">Maquillaje + Peinado Semirecogido</h4>
+              <span class="pricing__item-price">$1,000</span>
+            </div>
+            <p class="pricing__item-desc">Maquillaje completo + peinado semirecogido con planchado, curls, waves u ondas al agua.</p>
+          </div>
+          <div class="pricing__item">
+            <div class="pricing__item-top">
+              <h4 class="pricing__item-name">Maquillaje + Peinado Recogido</h4>
+              <span class="pricing__item-price">$1,100</span>
+            </div>
+            <p class="pricing__item-desc">Maquillaje completo + peinado recogido en su totalidad.</p>
+          </div>
+        </div>
+
+        <div class="pricing__note" style="margin-top:28px;">Paquetes de Novia</div>
+        <div class="pricing__grid">
+          <div class="pricing__item">
+            <div class="pricing__item-top">
+              <h4 class="pricing__item-name">Maquillaje y Peinado Novia</h4>
+              <span class="pricing__item-price">$2,500</span>
+            </div>
+            <p class="pricing__item-desc">Preparaci&oacute;n de rostro, depilaci&oacute;n facial, mascarilla relajante, maquillaje de alta duraci&oacute;n, shimmer corporal, peinado a libre elecci&oacute;n. Arreglo el d&iacute;a del evento.</p>
+          </div>
+          <div class="pricing__item">
+            <div class="pricing__item-top">
+              <h4 class="pricing__item-name">Con Prueba</h4>
+              <span class="pricing__item-price">$3,200</span>
+            </div>
+            <p class="pricing__item-desc">Todo lo anterior + prueba de maquillaje y peinado (puede agendarse para sesi&oacute;n de fotos) + arreglo social para mam&aacute; de la novia.</p>
+          </div>
+          <div class="pricing__item pricing__item--highlight">
+            <div class="pricing__item-top">
+              <h4 class="pricing__item-name">Con Prueba + U&ntilde;as Acr&iacute;licas</h4>
+              <span class="pricing__item-price">$3,700</span>
+            </div>
+            <p class="pricing__item-desc">Paquete completo con prueba + arreglo mam&aacute; de la novia + u&ntilde;as acr&iacute;licas con dise&ntilde;o libre.</p>
+          </div>
+        </div>
+
+        <div class="pricing__note" style="margin-top:28px;">Paquetes de XV A&ntilde;os</div>
+        <div class="pricing__grid">
+          <div class="pricing__item">
+            <div class="pricing__item-top">
+              <h4 class="pricing__item-name">Maquillaje y Peinado XV</h4>
+              <span class="pricing__item-price">$2,300</span>
+            </div>
+            <p class="pricing__item-desc">Preparaci&oacute;n de rostro, depilaci&oacute;n de bozo y ceja con perfilador, mascarilla relajante, maquillaje de alta duraci&oacute;n, shimmer corporal, peinado a libre elecci&oacute;n. Arreglo el d&iacute;a del evento.</p>
+          </div>
+          <div class="pricing__item">
+            <div class="pricing__item-top">
+              <h4 class="pricing__item-name">Con Prueba XV</h4>
+              <span class="pricing__item-price">$3,200</span>
+            </div>
+            <p class="pricing__item-desc">Todo lo anterior + prueba de maquillaje y peinado (puede agendarse para sesi&oacute;n de fotos) + arreglo social para mam&aacute; de la XV.</p>
+          </div>
+          <div class="pricing__item pricing__item--highlight">
+            <div class="pricing__item-top">
+              <h4 class="pricing__item-name">Con Prueba + U&ntilde;as Acr&iacute;licas XV</h4>
+              <span class="pricing__item-price">$3,700</span>
+            </div>
+            <p class="pricing__item-desc">Paquete completo con prueba + arreglo mam&aacute; de la XV + u&ntilde;as acr&iacute;licas con dise&ntilde;o libre.</p>
+          </div>
+        </div>
+
       </div>
 
       <!-- CTA cierre de precios -->

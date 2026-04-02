@@ -318,7 +318,10 @@ button { font-family: inherit; }
   background: none;
   border: none;
   cursor: pointer;
-  padding: 8px;
+  padding: 11px 8px;
+  min-width: 44px;
+  min-height: 44px;
+  justify-content: center;
   z-index: 1001;
 }
 

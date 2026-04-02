@@ -374,29 +374,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }, { passive: true });
 
-    // Cargar thumbs de trabajos si las imágenes existen
-    document.querySelectorAll('.team2__work-thumb').forEach(thumb => {
-      const member = thumb.dataset.member;
-      const idx    = parseInt(thumb.dataset.idx, 10) + 1;
-      const imgSrc = `img/trabajos/${member}/${idx}.jpg`;
-      const probe  = new Image();
-      probe.onload = () => {
-        // La imagen existe — reemplazar placeholder
-        thumb.classList.remove('team2__work-thumb--placeholder');
-        const img = document.createElement('img');
-        img.src = imgSrc;
-        img.alt = `Trabajo ${idx}`;
-        img.loading = 'lazy';
-        thumb.innerHTML = '';
-        thumb.appendChild(img);
-        // Click abre galería en esa imagen
-        thumb.addEventListener('click', () => {
-          const galleryBtn = thumb.closest('.team2__card')?.querySelector('.team-card__gallery-btn');
-          if (galleryBtn) galleryBtn.click();
-        });
-      };
-      probe.src = imgSrc;
-    });
   }
 
 });

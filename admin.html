@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Maria José Beauty & Spa</title>
+  <meta name="robots" content="noindex, nofollow">
+  <!-- Content Security Policy — capa de defensa contra XSS e inyección -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; frame-ancestors 'none';">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+  <!-- ========== LOGIN ========== -->
+  <div class="login-page" id="loginPage">
+    <div class="login-card">
+      <div class="login-card__logo">Maria José Beauty & Spa</div>
+      <div class="login-card__sub">Panel de Administración</div>
+      <p class="login-card__title">Iniciar sesión</p>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="adminEmail" class="form-label">Correo</label>
+          <input type="email" id="adminEmail" class="form-input" placeholder="admin@ejemplo.com" required>
+        </div>
+        <div class="form-group">
+          <label for="adminPassword" class="form-label">Contraseña</label>
+          <input type="password" id="adminPassword" class="form-input" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="btn-login" id="btnLogin">Ingresar</button>
+        <p class="login-error" id="loginError"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========== PANEL ========== -->
+  <div class="admin-page" id="adminPage">
+
+    <header class="admin-header">
+      <div class="admin-header__brand">
+        Maria José Beauty & Spa
+        <span>Panel de Administración</span>
+      </div>
+      <nav class="admin-nav">
+        <button class="admin-nav__btn admin-nav__btn--hoy" data-section="hoy">Hoy</button>
+        <button class="admin-nav__btn active" data-section="citas">Citas</button>
+        <button class="admin-nav__btn" data-section="disponibilidad">Disponibilidad</button>
+        <button class="admin-nav__btn" data-section="finanzas">Finanzas</button>
+        <button class="admin-nav__btn" data-section="clientes">Clientes</button>
+      </nav>
+      <button class="btn-logout" id="btnLogout">Cerrar sesión</button>
+    </header>
+
+    <main class="admin-main">
+
+      <!-- ========== SECCIÓN HOY ========== -->
+      <section id="sectionHoy" style="display:none">
+
+        <div class="hoy-header">
+          <div>
+            <div class="hoy-fecha" id="hoyFechaLabel"></div>
+            <div class="hoy-sub" id="hoySub"></div>
+          </div>
+          <button class="btn-filter" id="btnNuevaCita" style="white-space:nowrap">+ Nueva cita</button>
+        </div>
+
+        <div class="hoy-stats" id="hoyStats">
+          <div class="hoy-stat"><span id="hoyStatTotal">—</span><small>Citas hoy</small></div>
+          <div class="hoy-stat hoy-stat--pend"><span id="hoyStatPend">—</span><small>Pendientes</small></div>
+          <div class="hoy-stat hoy-stat--conf"><span id="hoyStatConf">—</span><small>Confirmadas</small></div>
+          <div class="hoy-stat hoy-stat--comp"><span id="hoyStatComp">—</span><small>Completadas</small></div>
+        </div>
+
+        <!-- Métricas de la semana -->
+        <div class="dash-semana" id="dashSemana" style="display:none">
+          <div class="dash-semana__title">Esta semana</div>
+          <div class="dash-semana__cards">
+            <div class="dash-card">
+              <div class="dash-card__val" id="dashSemCitas">—</div>
+              <div class="dash-card__lbl">Citas totales</div>
+            </div>
+            <div class="dash-card dash-card--green">
+              <div class="dash-card__val" id="dashSemIngresos">—</div>
+              <div class="dash-card__lbl">Ingresos</div>
+            </div>
+            <div class="dash-card">
+              <div class="dash-card__val" id="dashSemServ">—</div>
+              <div class="dash-card__lbl">Servicio top</div>
+            </div>
+            <div class="dash-card">
+              <div class="dash-card__val" id="dashSemEmp">—</div>
+              <div class="dash-card__lbl">Empleada activa</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hoy-agenda" id="hoyAgenda">
+          <div class="empty-state"><strong>Cargando agenda del día...</strong></div>
+        </div>
+
+      </section>
+
+      <!-- ========== SECCIÓN CITAS ========== -->
+      <section id="sectionCitas">
+
+        <!-- Stats -->
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-card__num" id="statTotal">—</div>
+            <div class="stat-card__label">Total citas</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__num" id="statPendientes" style="color:var(--c-pendiente)">—</div>
+            <div class="stat-card__label">Pendientes</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__num" id="statConfirmadas" style="color:var(--c-confirmada)">—</div>
+            <div class="stat-card__label">Confirmadas</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__num" id="statCompletadas" style="color:var(--c-completada)">—</div>
+            <div class="stat-card__label">Completadas</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__num" id="statCanceladas" style="color:var(--c-cancelada)">—</div>
+            <div class="stat-card__label">Canceladas</div>
+          </div>
+        </div>
+
+        <!-- Filtros -->
+        <div class="filters-bar">
+          <div class="form-group">
+            <label class="form-label">Fecha inicio</label>
+            <input type="date" id="filtroFechaInicio" class="form-input">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Fecha fin</label>
+            <input type="date" id="filtroFechaFin" class="form-input">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Estado</label>
+            <select id="filtroEstado" class="form-input">
+              <option value="">Todos</option>
+              <option value="pendiente">Pendiente</option>
+              <option value="confirmada">Confirmada</option>
+              <option value="completada">Completada</option>
+              <option value="cancelada">Cancelada</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Empleada</label>
+            <select id="filtroEmpleada" class="form-input">
+              <option value="">Todas</option>
+              <option value="Sofia Sustaita">Sofia Sustaita</option>
+              <option value="Daniela Loera">Daniela Loera</option>
+              <option value="Anette Constantino">Anette Constantino</option>
+              <option value="Yuliana Pérez">Yuliana Pérez</option>
+              <option value="Dafne Adame">Dafne Adame</option>
+              <option value="Perla Tobías">Perla Tobías</option>
+            </select>
+          </div>
+          <button class="btn-filter" id="btnFiltrar">Filtrar</button>
+          <button class="btn-clear"  id="btnLimpiar">Limpiar</button>
+          <button class="btn-historial" id="btnAbrirHistorial">Historial cliente</button>
+        </div>
+
+        <!-- Tabla -->
+        <div class="table-card">
+          <div class="table-card__header">
+            <span class="table-card__title">Citas</span>
+            <div class="view-toggle" id="viewToggle">
+              <button class="view-toggle__btn active" data-view="lista">Lista</button>
+              <button class="view-toggle__btn" data-view="calendario">Calendario</button>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Hora</th>
+                  <th>Cliente</th>
+                  <th>Teléfono</th>
+                  <th>Servicio</th>
+                  <th>Empleada</th>
+                  <th>Estado</th>
+                  <th>Monto</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="citasBody">
+                <tr><td colspan="9"><div class="empty-state"><strong>Cargando...</strong></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Vista Calendario -->
+          <div class="calendar-view" id="calendarView" style="display:none">
+            <div class="calendar-nav">
+              <button class="btn-cal-nav" id="btnCalPrev">&#8592;</button>
+              <span class="calendar-nav__title" id="calNavTitle"></span>
+              <button class="btn-cal-nav" id="btnCalNext">&#8594;</button>
+              <button class="btn-cal-today" id="btnCalHoy">Hoy</button>
+            </div>
+            <div class="calendar-weekdays">
+              <div>Dom</div><div>Lun</div><div>Mar</div>
+              <div>Mié</div><div>Jue</div><div>Vie</div><div>Sáb</div>
+            </div>
+            <div class="calendar-grid" id="calendarGrid"></div>
+          </div>
+
+          <!-- Paginación -->
+          <div class="pagination">
+            <span class="pagination-info" id="paginacionInfo"></span>
+            <div id="paginacion" style="display:flex;gap:0.5rem;flex-wrap:wrap"></div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ========== SECCIÓN DISPONIBILIDAD ========== -->
+      <section id="sectionDisponibilidad" style="display:none">
+
+        <div class="dispon-grid dispon-grid--3">
+
+          <!-- ── Bloquear día completo ── -->
+          <div class="fin-card">
+            <div class="fin-card__header">
+              <span class="fin-card__title">Bloquear Día Completo</span>
+            </div>
+            <div class="dispon-form">
+              <div class="form-group">
+                <label class="form-label">Fecha a bloquear</label>
+                <input type="date" id="bloqueoFecha" class="form-input">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Motivo (opcional)</label>
+                <input type="text" id="bloqueoMotivo" class="form-input" placeholder="Ej: Día festivo, Mantenimiento...">
+              </div>
+              <button class="btn-filter" id="btnBloquearDia">Bloquear día</button>
+            </div>
+            <div class="dispon-list" id="listaDiasBloqueados">
+              <div class="empty-state"><p>Sin días bloqueados.</p></div>
+            </div>
+          </div>
+
+          <!-- ── Bloquear empleada por día ── -->
+          <div class="fin-card">
+            <div class="fin-card__header">
+              <span class="fin-card__title">Bloquear Empleada por Día</span>
+            </div>
+            <div class="dispon-form">
+              <div class="form-group">
+                <label class="form-label">Empleada</label>
+                <select id="bloqueoEmpleada" class="form-input">
+                  <option value="">Selecciona una empleada</option>
+                  <option value="Daniela Loera">Daniela Loera</option>
+                  <option value="Anette Constantino">Anette Constantino</option>
+                  <option value="Yuliana Pérez">Yuliana Pérez</option>
+                  <option value="Dafne Adame">Dafne Adame</option>
+                  <option value="Perla Tobías">Perla Tobías</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Fecha</label>
+                <input type="date" id="bloqueoEmpleadaFecha" class="form-input">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Motivo (opcional)</label>
+                <input type="text" id="bloqueoEmpleadaMotivo" class="form-input" placeholder="Ej: Permiso, Enfermedad...">
+              </div>
+              <button class="btn-filter" id="btnBloquearEmpleada">Bloquear empleada</button>
+            </div>
+            <div class="dispon-list" id="listaEmpleadasBloqueadas">
+              <div class="empty-state"><p>Sin bloqueos de empleadas.</p></div>
+            </div>
+          </div>
+
+          <!-- ── Bloquear horario específico ── -->
+          <div class="fin-card dispon-grid-full">
+            <div class="fin-card__header">
+              <span class="fin-card__title">Bloquear Horarios Específicos</span>
+              <span class="fin-card__sub">Selecciona uno o varios horarios</span>
+            </div>
+            <div class="dispon-form dispon-form--row">
+              <div class="form-group">
+                <label class="form-label">Fecha</label>
+                <input type="date" id="bloqueoHoraFecha" class="form-input">
+              </div>
+              <div class="form-group form-group--horas">
+                <div class="horas-label-row">
+                  <label class="form-label">Horarios a bloquear</label>
+                  <div class="horas-acciones">
+                    <button type="button" class="btn-hora-accion" id="btnSelTodos">Todos</button>
+                    <button type="button" class="btn-hora-accion" id="btnDeselTodos">Ninguno</button>
+                  </div>
+                </div>
+                <div class="horas-grid" id="horasGrid">
+                  <label class="hora-check"><input type="checkbox" name="horaBloqueo" value="09:30"><span>9:30 AM</span></label>
+                  <label class="hora-check"><input type="checkbox" name="horaBloqueo" value="10:00"><span>10:00 AM</span></label>
+                  <label class="hora-check"><input type="checkbox" name="horaBloqueo" value="11:00"><span>11:00 AM</span></label>
+                  <label class="hora-check"><input type="checkbox" name="horaBloqueo" value="12:00"><span>12:00 PM</span></label>
+                  <label class="hora-check"><input type="checkbox" name="horaBloqueo" value="13:00"><span>1:00 PM</span></label>
+                  <label class="hora-check"><input type="checkbox" name="horaBloqueo" value="14:00"><span>2:00 PM</span></label>
+                  <label class="hora-check"><input type="checkbox" name="horaBloqueo" value="15:00"><span>3:00 PM</span></label>
+                  <label class="hora-check"><input type="checkbox" name="horaBloqueo" value="16:00"><span>4:00 PM</span></label>
+                  <label class="hora-check"><input type="checkbox" name="horaBloqueo" value="17:00"><span>5:00 PM</span></label>
+                  <label class="hora-check"><input type="checkbox" name="horaBloqueo" value="18:00"><span>6:00 PM</span></label>
+                  <label class="hora-check"><input type="checkbox" name="horaBloqueo" value="19:00"><span>7:00 PM</span></label>
+                  <label class="hora-check"><input type="checkbox" name="horaBloqueo" value="20:00"><span>8:00 PM</span></label>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Motivo (opcional)</label>
+                <input type="text" id="bloqueoHoraMotivo" class="form-input" placeholder="Ej: Reunión, Descanso...">
+              </div>
+              <button class="btn-filter" id="btnBloquearHora">Bloquear seleccionados</button>
+            </div>
+            <div class="dispon-list" id="listaHorasBloqueadas">
+              <div class="empty-state"><p>Sin horarios bloqueados.</p></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ── Vista de disponibilidad semanal ── -->
+        <div class="table-card dispon-semana-card">
+          <div class="fin-card__header">
+            <span class="fin-card__title">Vista Semanal de Disponibilidad</span>
+            <div style="display:flex;gap:0.5rem;align-items:center">
+              <button class="btn-cal-nav" id="btnSemPrev">&#8592;</button>
+              <span class="dispon-semana-label" id="disponSemanaLabel"></span>
+              <button class="btn-cal-nav" id="btnSemNext">&#8594;</button>
+              <button class="btn-clear" id="btnSemHoy">Esta semana</button>
+            </div>
+          </div>
+          <div class="dispon-semana-wrap">
+            <div class="dispon-semana" id="disponSemana"></div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ========== SECCIÓN FINANZAS ========== -->
+      <section id="sectionFinanzas" style="display:none">
+
+        <!-- Filtro de periodo -->
+        <div class="filters-bar">
+          <div class="form-group">
+            <label class="form-label">Periodo inicio</label>
+            <input type="date" id="finFechaInicio" class="form-input">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Periodo fin</label>
+            <input type="date" id="finFechaFin" class="form-input">
+          </div>
+          <button class="btn-filter" id="btnGenerarCorte">Generar Corte</button>
+          <button class="btn-clear" id="btnSemanaActual">Esta semana</button>
+        </div>
+
+        <!-- Tarjetas resumen -->
+        <div class="stats-row fin-stats">
+          <div class="stat-card stat-card--efectivo">
+            <div class="stat-card__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M12 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M6 12h.01M18 12h.01"/></svg>
+            </div>
+            <div class="stat-card__num" id="finEfectivo">$0</div>
+            <div class="stat-card__label">Ingresos Efectivo</div>
+          </div>
+          <div class="stat-card stat-card--tarjeta">
+            <div class="stat-card__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+            </div>
+            <div class="stat-card__num" id="finTarjeta">$0</div>
+            <div class="stat-card__label">Ingresos Tarjeta</div>
+          </div>
+          <div class="stat-card stat-card--total">
+            <div class="stat-card__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><path d="M3 3v18h18"/><path d="M7 16l4-4 4 4 4-4"/></svg>
+            </div>
+            <div class="stat-card__num" id="finTotal">$0</div>
+            <div class="stat-card__label">Total Ingresos</div>
+          </div>
+          <div class="stat-card stat-card--egresos">
+            <div class="stat-card__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+            </div>
+            <div class="stat-card__num" id="finEgresos">$0</div>
+            <div class="stat-card__label">Total Egresos</div>
+          </div>
+          <div class="stat-card stat-card--neto">
+            <div class="stat-card__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/><path d="M9 12l2 2 4-4"/></svg>
+            </div>
+            <div class="stat-card__num" id="finNeto">$0</div>
+            <div class="stat-card__label">Balance Neto</div>
+          </div>
+        </div>
+
+        <div class="fin-grid">
+
+          <!-- Comisiones por empleada -->
+          <div class="fin-card">
+            <div class="fin-card__header">
+              <span class="fin-card__title">Comisiones por Empleada <span class="fin-card__sub">(13% por servicio)</span></span>
+            </div>
+            <div id="comisionesBody">
+              <div class="empty-state"><p>Genera un corte para ver comisiones.</p></div>
+            </div>
+          </div>
+
+          <!-- Egresos -->
+          <div class="fin-card">
+            <div class="fin-card__header">
+              <span class="fin-card__title">Egresos</span>
+              <button class="btn-add-egreso" id="btnAgregarEgreso">+ Agregar</button>
+            </div>
+            <div id="egresosBody">
+              <div class="empty-state"><p>Sin egresos registrados.</p></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Detalle de cobros del periodo -->
+        <div class="table-card" style="margin-top:1.5rem">
+          <div class="table-card__header">
+            <span class="table-card__title">Detalle de Servicios Cobrados</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Cliente</th>
+                  <th>Servicio</th>
+                  <th>Empleada</th>
+                  <th>Monto</th>
+                  <th>Método</th>
+                  <th>Comisión (13%)</th>
+                </tr>
+              </thead>
+              <tbody id="detalleBody">
+                <tr><td colspan="7"><div class="empty-state"><p>Genera un corte para ver el detalle.</p></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ========== SECCIÓN CLIENTES ========== -->
+      <section id="sectionClientes" style="display:none">
+
+        <!-- Stats resumen -->
+        <div class="stats-row clientes-stats-row">
+          <div class="stat-card">
+            <div class="stat-card__num" id="clienteStatTotal">—</div>
+            <div class="stat-card__label">Clientas totales</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__num" id="clienteStatVip">—</div>
+            <div class="stat-card__label">VIP (10+ citas)</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__num" id="clienteStatFiel">—</div>
+            <div class="stat-card__label">Fieles (5–9 citas)</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__num" id="clienteStatNuevo">—</div>
+            <div class="stat-card__label">Nuevas este mes</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__num" id="clienteStatGasto">—</div>
+            <div class="stat-card__label">Gasto promedio</div>
+          </div>
+        </div>
+
+        <!-- Búsqueda y filtros -->
+        <div class="filters-bar">
+          <div class="form-group" style="flex:2;min-width:180px">
+            <label class="form-label">Buscar clienta</label>
+            <input type="text" id="clienteBusqueda" class="form-input" placeholder="Nombre o teléfono...">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Ordenar por</label>
+            <select id="clienteOrden" class="form-input">
+              <option value="citas">Más citas</option>
+              <option value="reciente">Más reciente</option>
+              <option value="gasto">Mayor gasto</option>
+              <option value="nombre">Nombre A–Z</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Lealtad</label>
+            <select id="clienteFiltroLealtad" class="form-input">
+              <option value="">Todas</option>
+              <option value="vip">VIP</option>
+              <option value="fiel">Fiel</option>
+              <option value="regular">Regular</option>
+              <option value="nuevo">Nueva</option>
+            </select>
+          </div>
+          <button class="btn-filter" id="btnBuscarClientes">Buscar</button>
+        </div>
+
+        <!-- Tabla -->
+        <div class="table-card">
+          <div class="table-card__header">
+            <span class="table-card__title">Directorio de Clientas</span>
+            <span class="cliente-count" id="clienteCount" style="font-size:0.82rem;color:var(--c-gray-mid)"></span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Clienta</th>
+                  <th>Teléfono</th>
+                  <th>Lealtad</th>
+                  <th>Citas</th>
+                  <th>Última visita</th>
+                  <th>Servicio frecuente</th>
+                  <th>Gasto total</th>
+                  <th>Perfil</th>
+                </tr>
+              </thead>
+              <tbody id="clientesBody">
+                <tr><td colspan="8"><div class="empty-state"><strong>Cargando clientas...</strong></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ========== MODAL DÍA ========== -->
+  <div class="modal-overlay" id="modalDia">
+    <div class="modal modal--dia">
+      <div class="modal__header">
+        <div class="modal__title" id="modalDiaTitle">Citas del día</div>
+        <button class="modal__close" id="btnCerrarDia">&#10005;</button>
+      </div>
+      <div class="modal-dia__list" id="modalDiaList"></div>
+    </div>
+  </div>
+
+  <!-- ========== MODAL NOTAS ========== -->
+  <div class="modal-overlay" id="modalNotas">
+    <div class="modal">
+      <div class="modal__title">Agregar nota</div>
+      <textarea id="notasTextarea" placeholder="Escribe una nota sobre esta cita..."></textarea>
+      <div class="modal__actions">
+        <button class="btn-modal-cancel" id="btnCancelarModal">Cancelar</button>
+        <button class="btn-save" id="btnGuardarNota">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== MODAL COBRO ========== -->
+  <div class="modal-overlay" id="modalCobro">
+    <div class="modal modal--cobro">
+      <div class="modal__header">
+        <div class="modal__title">Registrar Cobro</div>
+        <button class="modal__close" id="btnCerrarCobro">&#10005;</button>
+      </div>
+      <p class="cobro-subtitle" id="cobroSubtitle"></p>
+      <div class="form-group">
+        <label class="form-label">Monto cobrado ($)</label>
+        <input type="number" id="cobroMonto" class="form-input" placeholder="0.00" min="0" step="0.50">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Método de pago</label>
+        <div class="metodo-pago">
+          <label class="metodo-pago__opt">
+            <input type="radio" name="metodoPago" value="efectivo" checked>
+            <span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M12 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/></svg>
+              Efectivo
+            </span>
+          </label>
+          <label class="metodo-pago__opt">
+            <input type="radio" name="metodoPago" value="tarjeta">
+            <span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+              Tarjeta
+            </span>
+          </label>
+        </div>
+      </div>
+      <div class="cobro-comision" id="cobroComisionPreview">
+        Comisión empleada (13%): <strong id="cobroComisionVal">$0.00</strong>
+      </div>
+      <div class="modal__actions">
+        <button class="btn-modal-cancel" id="btnCancelarCobro">Cancelar</button>
+        <button class="btn-save" id="btnGuardarCobro">Marcar como Completada</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== MODAL EGRESO ========== -->
+  <div class="modal-overlay" id="modalEgreso">
+    <div class="modal">
+      <div class="modal__title">Registrar Egreso</div>
+      <div class="form-group">
+        <label class="form-label">Razón / Concepto</label>
+        <input type="text" id="egresoRazon" class="form-input" placeholder="Ej: Insumos, Renta, Servicios...">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Monto ($)</label>
+        <input type="number" id="egresoMonto" class="form-input" placeholder="0.00" min="0" step="0.50">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Fecha</label>
+        <input type="date" id="egresoFecha" class="form-input">
+      </div>
+      <div class="modal__actions">
+        <button class="btn-modal-cancel" id="btnCancelarEgreso">Cancelar</button>
+        <button class="btn-save" id="btnGuardarEgreso">Guardar Egreso</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== MODAL ASIGNAR EMPLEADA ========== -->
+  <div class="modal-overlay" id="modalEmpleada">
+    <div class="modal">
+      <div class="modal__title">Asignar Empleada</div>
+      <p class="cobro-subtitle" id="empleadaSubtitle"></p>
+      <div class="form-group">
+        <label class="form-label">Especialista</label>
+        <select id="empleadaModalSelect" class="form-input">
+          <option value="">Sin asignar</option>
+          <option value="Sofia Sustaita">Sofia Sustaita</option>
+          <option value="Daniela Loera">Daniela Loera</option>
+          <option value="Anette Constantino">Anette Constantino</option>
+          <option value="Yuliana Pérez">Yuliana Pérez</option>
+          <option value="Dafne Adame">Dafne Adame</option>
+          <option value="Perla Tobías">Perla Tobías</option>
+        </select>
+      </div>
+      <div class="modal__actions">
+        <button class="btn-modal-cancel" id="btnCancelarEmpleada">Cancelar</button>
+        <button class="btn-save" id="btnGuardarEmpleada">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== MODAL NUEVA CITA ========== -->
+  <div class="modal-overlay" id="modalNuevaCita">
+    <div class="modal modal--nueva-cita">
+      <div class="modal__header">
+        <div class="modal__title">Nueva Cita</div>
+        <button class="modal__close" id="btnCerrarNuevaCita">&#10005;</button>
+      </div>
+      <div class="nueva-cita-form">
+        <div class="form-group">
+          <label class="form-label">Nombre del cliente</label>
+          <input type="text" id="ncNombre" class="form-input" placeholder="Nombre completo">
+        </div>
+        <div class="nueva-cita-row">
+          <div class="form-group">
+            <label class="form-label">Teléfono</label>
+            <input type="tel" id="ncTelefono" class="form-input" placeholder="8112345678">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email (opcional)</label>
+            <input type="email" id="ncEmail" class="form-input" placeholder="cliente@email.com">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Servicio</label>
+          <input type="text" id="ncServicio" class="form-input" placeholder="Ej: Uñas gel, Masaje...">
+        </div>
+        <div class="nueva-cita-row">
+          <div class="form-group">
+            <label class="form-label">Fecha</label>
+            <input type="date" id="ncFecha" class="form-input">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Hora</label>
+            <select id="ncHora" class="form-input">
+              <option value="09:30">9:30 AM</option>
+              <option value="10:00">10:00 AM</option>
+              <option value="11:00">11:00 AM</option>
+              <option value="12:00">12:00 PM</option>
+              <option value="13:00">1:00 PM</option>
+              <option value="14:00">2:00 PM</option>
+              <option value="15:00">3:00 PM</option>
+              <option value="16:00">4:00 PM</option>
+              <option value="17:00">5:00 PM</option>
+              <option value="18:00">6:00 PM</option>
+              <option value="19:00">7:00 PM</option>
+              <option value="20:00">8:00 PM</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Empleada (opcional)</label>
+          <select id="ncEmpleada" class="form-input">
+            <option value="">Sin asignar</option>
+            <option value="Sofia Sustaita">Sofia Sustaita</option>
+            <option value="Daniela Loera">Daniela Loera</option>
+            <option value="Anette Constantino">Anette Constantino</option>
+            <option value="Yuliana Pérez">Yuliana Pérez</option>
+            <option value="Dafne Adame">Dafne Adame</option>
+            <option value="Perla Tobías">Perla Tobías</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Estado inicial</label>
+          <select id="ncEstado" class="form-input">
+            <option value="pendiente">Pendiente</option>
+            <option value="confirmada">Confirmada</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal__actions">
+        <button class="btn-modal-cancel" id="btnCancelarNuevaCita">Cancelar</button>
+        <button class="btn-save" id="btnGuardarNuevaCita">Crear Cita</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== MODAL HISTORIAL CLIENTE ========== -->
+  <div class="modal-overlay" id="modalHistorial">
+    <div class="modal modal--historial">
+      <div class="modal__header">
+        <div class="modal__title">Historial de Cliente</div>
+        <button class="modal__close" id="btnCerrarHistorial">&#10005;</button>
+      </div>
+      <div class="form-group" style="margin-bottom:1rem">
+        <label class="form-label">Buscar por nombre o teléfono</label>
+        <div style="display:flex;gap:0.5rem">
+          <input type="text" id="historialBusqueda" class="form-input" placeholder="Ej: María o 8112345678">
+          <button class="btn-filter" id="btnBuscarHistorial">Buscar</button>
+        </div>
+      </div>
+      <div id="historialResultado">
+        <div class="empty-state"><p>Ingresa un nombre o teléfono para buscar.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== MODAL PERFIL CLIENTE ========== -->
+  <div class="modal-overlay" id="modalPerfilCliente">
+    <div class="modal modal--perfil-cliente">
+      <div class="modal__header">
+        <div class="modal__title" id="perfilClienteTitle">Perfil de Clienta</div>
+        <button class="modal__close" id="btnCerrarPerfil">&#10005;</button>
+      </div>
+      <div id="perfilClienteContent" class="perfil-cliente-content"></div>
+    </div>
+  </div>
+
+  <!-- ========== TOAST CONTAINER ========== -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-integration.js"></script>
+  <script src="js/admin.js"></script>
+
+</body>
+</html>

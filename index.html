@@ -25,7 +25,7 @@
   <meta name="twitter:image" content="img/local/espacio-1.jpg">
 
   <!-- Content Security Policy — capa de defensa contra XSS e inyección -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://w.behold.so 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://w.behold.so 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; media-src https://*.cdninstagram.com https://*.behold.so; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://graph.instagram.com https://*.behold.so; frame-ancestors 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; frame-ancestors 'none';">
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
   <meta http-equiv="X-Frame-Options" content="DENY">
 
@@ -1046,9 +1046,25 @@
         </p>
       </div>
 
-      <!-- Feed de Instagram @maria_josebys via Behold.so -->
-      <div class="gallery__instagram-feed">
-        <behold-widget feed-id="QIJEdOPVSFMsoDDJyoE1"></behold-widget>
+      <div class="gallery__grid">
+        <a href="https://www.instagram.com/maria_josebys/" target="_blank" rel="noopener noreferrer" class="gallery__item">
+          <img src="img/trabajos/daniela/DANIELA_gel_liso.jpeg" alt="Uñas gel liso" loading="lazy">
+        </a>
+        <a href="https://www.instagram.com/maria_josebys/" target="_blank" rel="noopener noreferrer" class="gallery__item">
+          <img src="img/trabajos/anette/ANETTE_1_acrilico_french.jpeg" alt="Acrílico french" loading="lazy">
+        </a>
+        <a href="https://www.instagram.com/maria_josebys/" target="_blank" rel="noopener noreferrer" class="gallery__item">
+          <img src="img/trabajos/yuliana/YULY_clasico.jpg" alt="Extensiones de pestañas clásico" loading="lazy">
+        </a>
+        <a href="https://www.instagram.com/maria_josebys/" target="_blank" rel="noopener noreferrer" class="gallery__item">
+          <img src="img/trabajos/daniela/DANIELA_acrilico_liso.jpeg" alt="Acrílico liso" loading="lazy">
+        </a>
+        <a href="https://www.instagram.com/maria_josebys/" target="_blank" rel="noopener noreferrer" class="gallery__item">
+          <img src="img/trabajos/anette/ANETTE_0.jpeg" alt="Trabajo Anette" loading="lazy">
+        </a>
+        <a href="https://www.instagram.com/maria_josebys/" target="_blank" rel="noopener noreferrer" class="gallery__item">
+          <img src="img/trabajos/perla/PERLA_1.jpg" alt="Tratamiento Perla" loading="lazy">
+        </a>
       </div>
 
       <div class="gallery__cta">
@@ -1741,55 +1757,5 @@
   </div>
 
   <!-- Script del feed de Instagram (Behold.so) -->
-  <script>
-    (() => {
-      const d = document, s = d.createElement('script');
-      s.type = 'module';
-      s.src = 'https://w.behold.so/widget.js';
-      d.head.append(s);
-    })();
-
-    // Ocultar branding Behold
-    const B_SEL = 'behold-branding, a.branding, a[href="https://behold.so"]';
-
-    const hideBehold = () => {
-      const w = document.querySelector('behold-widget');
-      if (!w || !w.shadowRoot) return;
-      const root = w.shadowRoot;
-
-      // 1. adoptedStyleSheets: persiste aunque Behold re-renderice el shadow root
-      if (!w._bsheet) {
-        try {
-          const sheet = new CSSStyleSheet();
-          sheet.replaceSync(`${B_SEL} { display:none!important; visibility:hidden!important; }`);
-          root.adoptedStyleSheets = [sheet];
-          w._bsheet = sheet;
-        } catch(e) {
-          // fallback navegadores sin adoptedStyleSheets
-          if (!root.querySelector('#bhide')) {
-            const s = document.createElement('style');
-            s.id = 'bhide';
-            s.textContent = `${B_SEL}{display:none!important}`;
-            root.appendChild(s);
-          }
-        }
-      }
-
-      // 2. Ocultar los elementos directamente (por si ya renderizaron)
-      root.querySelectorAll(B_SEL).forEach(el => {
-        el.style.cssText = 'display:none!important;visibility:hidden!important;';
-      });
-
-      // 3. Observer en el shadow root — relanza hideBehold si Behold re-renderiza
-      if (!w._bobs) {
-        w._bobs = new MutationObserver(hideBehold);
-        w._bobs.observe(root, { childList: true, subtree: true });
-      }
-    };
-
-    hideBehold();
-    const iv = setInterval(hideBehold, 200);
-    setTimeout(() => clearInterval(iv), 12000);
-  </script>
 </body>
 </html>

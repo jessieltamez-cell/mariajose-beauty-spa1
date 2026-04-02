@@ -1154,32 +1154,35 @@ behold-widget {
   width: 100%;
 }
 
-.gallery__instagram-feed {
-  position: relative;
+.gallery__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
   margin-bottom: 40px;
-  border-radius: var(--r-xl);
+}
+
+.gallery__item {
+  display: block;
+  aspect-ratio: 1 / 1;
   overflow: hidden;
+  border-radius: var(--r-md);
 }
 
-/* Tapa la marca de agua de Behold (franja inferior completa) */
-.gallery__instagram-feed::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 90px;
-  background: var(--c-white);
-  z-index: 100;
-  pointer-events: none;
+.gallery__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
 }
 
-/* Mobile: edge-to-edge, sin radio de esquinas */
+.gallery__item:hover img {
+  transform: scale(1.05);
+}
+
 @media (max-width: 639px) {
-  .gallery__instagram-feed {
-    margin-left: -20px;
-    margin-right: -20px;
-    border-radius: 0;
+  .gallery__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
     margin-bottom: 28px;
   }
 }

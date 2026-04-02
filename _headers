@@ -20,7 +20,7 @@
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
 
   # Content Security Policy
-  Content-Security-Policy: default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://w.behold.so 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://w.behold.so 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; media-src https://*.cdninstagram.com https://*.behold.so; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://*.behold.so https://graph.instagram.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self';
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; frame-ancestors 'none'; base-uri 'self'; form-action 'self';
 
   # Cross-Origin policies
   Cross-Origin-Opener-Policy: same-origin

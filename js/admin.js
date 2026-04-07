@@ -1083,7 +1083,7 @@ async function eliminarEgreso(id) {
 
 const EMPLEADAS_ACTIVAS = [
   'Daniela Loera', 'Anette Constantino',
-  'Yuliana Pérez', 'Dafne Adame', 'Perla Tobías'
+  'Yuliana Pérez', 'Dafne Adame', 'Perla Tobías', 'Melanie Joseline'
 ];
 
 // Mapa servicio → empleadas (mismo que en el formulario)

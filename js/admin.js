@@ -1097,6 +1097,8 @@ const EMPLEADAS_POR_SERVICIO_ADMIN = {
   'peinado':    ['Dafne Adame'],
   'masaje':     ['Perla Tobías'],
   'facial':     ['Perla Tobías'],
+  'ceja':       ['Anette Constantino'],
+  'depilacion': ['Anette Constantino'],
 };
 
 let disponSemanaOffset = 0; // semanas desde hoy

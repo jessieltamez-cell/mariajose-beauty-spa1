@@ -338,11 +338,18 @@ function renderTabla(citas) {
     aWa.title = 'WhatsApp cliente';
     aWa.innerHTML = WA_SVG;
 
+    const btnElim = document.createElement('button');
+    btnElim.className = 'btn-eliminar';
+    btnElim.title = 'Eliminar cita';
+    btnElim.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>';
+    btnElim.addEventListener('click', () => eliminarCita(c.id, c.nombre));
+
     div.appendChild(btnConf);
     div.appendChild(btnComp);
     div.appendChild(btnCanc);
     div.appendChild(btnNota);
     div.appendChild(aWa);
+    div.appendChild(btnElim);
     tdActions.appendChild(div);
     tr.appendChild(tdActions);
 
@@ -366,6 +373,15 @@ async function cambiarEstado(id, nuevoEstado, campos = {}, skipReload = false) {
     actualizarStats();
   }
   return true;
+}
+
+// ─── Eliminar Cita ───────────────────────────
+async function eliminarCita(id, nombre) {
+  if (!confirm(`¿Eliminar la cita de ${nombre}? Esta acción no se puede deshacer.`)) return;
+  const { error } = await supabaseClient.from('citas').delete().eq('id', id);
+  if (error) { alert('Error al eliminar: ' + error.message); return; }
+  cargarCitas();
+  actualizarStats();
 }
 
 // ─── WhatsApp cliente ────────────────────────
@@ -1400,7 +1416,6 @@ function abrirModalNuevaCita() {
   const hoy = new Date().toISOString().slice(0, 10);
   document.getElementById('ncNombre').value   = '';
   document.getElementById('ncTelefono').value = '';
-  document.getElementById('ncEmail').value    = '';
   document.getElementById('ncServicio').value = '';
   document.getElementById('ncFecha').value    = hoy;
   document.getElementById('ncHora').value     = '10:00';
@@ -1423,7 +1438,6 @@ document.getElementById('modalNuevaCita').addEventListener('click', (e) => {
 document.getElementById('btnGuardarNuevaCita').addEventListener('click', async () => {
   const nombre   = document.getElementById('ncNombre').value.trim();
   const telefono = document.getElementById('ncTelefono').value.trim();
-  const email    = document.getElementById('ncEmail').value.trim();
   const servicio = document.getElementById('ncServicio').value.trim();
   const fecha    = document.getElementById('ncFecha').value;
   const hora     = document.getElementById('ncHora').value;
@@ -1439,7 +1453,7 @@ document.getElementById('btnGuardarNuevaCita').addEventListener('click', async (
   btn.disabled = true; btn.textContent = 'Guardando...';
 
   const { error } = await supabaseClient.from('citas').insert([{
-    nombre, telefono, email: email || null, servicio, fecha, hora, empleada, estado
+    nombre, telefono, servicio, fecha, hora, empleada, estado
   }]);
 
   btn.disabled = false; btn.textContent = 'Crear Cita';

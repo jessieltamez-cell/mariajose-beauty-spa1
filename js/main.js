@@ -807,10 +807,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Listeners
   if (dateInput) {
-    dateInput.addEventListener('change', () => {
-      cachedDate = null; // invalidar cache
+    const onDateChange = () => {
+      cachedDate = null;
       actualizarFormulario();
-    });
+    };
+    dateInput.addEventListener('change', onDateChange);
+    dateInput.addEventListener('input', onDateChange);
   }
 
   if (serviceSelect) {

@@ -338,6 +338,12 @@ function renderTabla(citas) {
     aWa.title = 'WhatsApp cliente';
     aWa.innerHTML = WA_SVG;
 
+    const btnEdit = document.createElement('button');
+    btnEdit.className = 'btn-editar';
+    btnEdit.title = 'Editar cita';
+    btnEdit.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>';
+    btnEdit.addEventListener('click', () => abrirEditarCita(c));
+
     const btnElim = document.createElement('button');
     btnElim.className = 'btn-eliminar';
     btnElim.title = 'Eliminar cita';
@@ -349,6 +355,7 @@ function renderTabla(citas) {
     div.appendChild(btnCanc);
     div.appendChild(btnNota);
     div.appendChild(aWa);
+    div.appendChild(btnEdit);
     div.appendChild(btnElim);
     tdActions.appendChild(div);
     tr.appendChild(tdActions);
@@ -374,6 +381,72 @@ async function cambiarEstado(id, nuevoEstado, campos = {}, skipReload = false) {
   }
   return true;
 }
+
+// ─── Editar Cita ─────────────────────────────
+let editarCitaId = null;
+
+function abrirEditarCita(c) {
+  editarCitaId = c.id;
+  document.getElementById('ecNombre').value   = c.nombre   || '';
+  document.getElementById('ecTelefono').value = c.telefono || '';
+  document.getElementById('ecServicio').value = c.servicio || '';
+  document.getElementById('ecFecha').value    = c.fecha    || '';
+  document.getElementById('ecEstado').value   = c.estado   || 'pendiente';
+
+  const horaEl = document.getElementById('ecHora');
+  const horaVal = c.hora ? c.hora.slice(0,5) : '';
+  const opt = Array.from(horaEl.options).find(o => o.value === horaVal);
+  horaEl.value = opt ? horaVal : horaEl.options[0].value;
+
+  const empEl = document.getElementById('ecEmpleada');
+  const empOpt = Array.from(empEl.options).find(o => o.value === (c.empleada || ''));
+  empEl.value = empOpt ? (c.empleada || '') : '';
+
+  document.getElementById('modalEditarCita').classList.add('open');
+}
+
+function cerrarEditarCita() {
+  document.getElementById('modalEditarCita').classList.remove('open');
+  editarCitaId = null;
+}
+
+document.getElementById('btnCerrarEditarCita').addEventListener('click', cerrarEditarCita);
+document.getElementById('btnCancelarEditarCita').addEventListener('click', cerrarEditarCita);
+document.getElementById('modalEditarCita').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('modalEditarCita')) cerrarEditarCita();
+});
+
+document.getElementById('btnGuardarEditarCita').addEventListener('click', async () => {
+  if (!editarCitaId) return;
+  const nombre   = document.getElementById('ecNombre').value.trim();
+  const telefono = document.getElementById('ecTelefono').value.trim();
+  const servicio = document.getElementById('ecServicio').value.trim();
+  const fecha    = document.getElementById('ecFecha').value;
+  const hora     = document.getElementById('ecHora').value;
+  const empleada = document.getElementById('ecEmpleada').value || null;
+  const estado   = document.getElementById('ecEstado').value;
+
+  if (!nombre)   { alert('Ingresa el nombre.'); return; }
+  if (!telefono) { alert('Ingresa el teléfono.'); return; }
+  if (!servicio) { alert('Ingresa el servicio.'); return; }
+  if (!fecha)    { alert('Selecciona una fecha.'); return; }
+
+  const btn = document.getElementById('btnGuardarEditarCita');
+  btn.disabled = true; btn.textContent = 'Guardando...';
+
+  const { error } = await supabaseClient.from('citas')
+    .update({ nombre, telefono, servicio, fecha, hora, empleada, estado })
+    .eq('id', editarCitaId);
+
+  btn.disabled = false; btn.textContent = 'Guardar Cambios';
+
+  if (error) { alert('Error al guardar: ' + error.message); return; }
+
+  cerrarEditarCita();
+  mostrarToast('Cita actualizada', `${nombre} — ${servicio}`);
+  cargarCitas();
+  actualizarStats();
+});
 
 // ─── Eliminar Cita ───────────────────────────
 async function eliminarCita(id, nombre) {

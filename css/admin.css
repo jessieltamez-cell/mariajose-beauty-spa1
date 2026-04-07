@@ -440,6 +440,19 @@ tbody td:nth-child(7) { text-align: center; }
   background: var(--c-blush);
 }
 .btn-asignar:hover { opacity: 0.8; }
+.btn-editar {
+  background: transparent;
+  color: var(--c-gray-lt);
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 0.3rem 0.45rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.15s;
+  opacity: 0.5;
+}
+.btn-editar:hover { background: rgba(37,99,235,0.08); border-color: rgba(37,99,235,0.3); color: #2563eb; opacity: 1; }
 .btn-eliminar {
   background: transparent;
   color: var(--c-cancelada);

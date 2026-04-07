@@ -722,6 +722,80 @@
     </div>
   </div>
 
+  <!-- ========== MODAL EDITAR CITA ========== -->
+  <div class="modal-overlay" id="modalEditarCita">
+    <div class="modal modal--nueva-cita">
+      <div class="modal__header">
+        <div class="modal__title">Editar Cita</div>
+        <button class="modal__close" id="btnCerrarEditarCita">&#10005;</button>
+      </div>
+      <div class="nueva-cita-form">
+        <div class="form-group">
+          <label class="form-label">Nombre del cliente</label>
+          <input type="text" id="ecNombre" class="form-input">
+        </div>
+        <div class="nueva-cita-row">
+          <div class="form-group">
+            <label class="form-label">Teléfono</label>
+            <input type="tel" id="ecTelefono" class="form-input">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Servicio</label>
+          <input type="text" id="ecServicio" class="form-input">
+        </div>
+        <div class="nueva-cita-row">
+          <div class="form-group">
+            <label class="form-label">Fecha</label>
+            <input type="date" id="ecFecha" class="form-input">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Hora</label>
+            <select id="ecHora" class="form-input">
+              <option value="09:30">9:30 AM</option>
+              <option value="10:00">10:00 AM</option>
+              <option value="11:00">11:00 AM</option>
+              <option value="12:00">12:00 PM</option>
+              <option value="13:00">1:00 PM</option>
+              <option value="14:00">2:00 PM</option>
+              <option value="15:00">3:00 PM</option>
+              <option value="16:00">4:00 PM</option>
+              <option value="17:00">5:00 PM</option>
+              <option value="18:00">6:00 PM</option>
+              <option value="19:00">7:00 PM</option>
+              <option value="20:00">8:00 PM</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Empleada (opcional)</label>
+          <select id="ecEmpleada" class="form-input">
+            <option value="">Sin asignar</option>
+            <option value="Sofia Sustaita">Sofia Sustaita</option>
+            <option value="Daniela Loera">Daniela Loera</option>
+            <option value="Anette Constantino">Anette Constantino</option>
+            <option value="Yuliana Pérez">Yuliana Pérez</option>
+            <option value="Dafne Adame">Dafne Adame</option>
+            <option value="Perla Tobías">Perla Tobías</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Estado</label>
+          <select id="ecEstado" class="form-input">
+            <option value="pendiente">Pendiente</option>
+            <option value="confirmada">Confirmada</option>
+            <option value="completada">Completada</option>
+            <option value="cancelada">Cancelada</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal__actions">
+        <button class="btn-modal-cancel" id="btnCancelarEditarCita">Cancelar</button>
+        <button class="btn-save" id="btnGuardarEditarCita">Guardar Cambios</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ========== MODAL HISTORIAL CLIENTE ========== -->
   <div class="modal-overlay" id="modalHistorial">
     <div class="modal modal--historial">

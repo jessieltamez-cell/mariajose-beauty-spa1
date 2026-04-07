@@ -1088,17 +1088,17 @@ const EMPLEADAS_ACTIVAS = [
 
 // Mapa servicio → empleadas (mismo que en el formulario)
 const EMPLEADAS_POR_SERVICIO_ADMIN = {
-  'gel':        ['Daniela Loera', 'Anette Constantino'],
-  'rubber':     ['Daniela Loera', 'Anette Constantino'],
-  'acrilico':   ['Daniela Loera', 'Anette Constantino'],
-  'pedi':       ['Daniela Loera', 'Anette Constantino'],
+  'gel':        ['Daniela Loera', 'Anette Constantino', 'Melanie Joseline'],
+  'rubber':     ['Daniela Loera', 'Anette Constantino', 'Melanie Joseline'],
+  'acrilico':   ['Daniela Loera', 'Anette Constantino', 'Melanie Joseline'],
+  'pedi':       ['Daniela Loera', 'Anette Constantino', 'Melanie Joseline'],
   'lash':       ['Yuliana Pérez'],
   'maquillaje': ['Dafne Adame'],
   'peinado':    ['Dafne Adame'],
   'masaje':     ['Perla Tobías'],
   'facial':     ['Perla Tobías'],
-  'ceja':       ['Anette Constantino'],
-  'depilacion': ['Anette Constantino'],
+  'ceja':       ['Anette Constantino', 'Melanie Joseline'],
+  'depilacion': ['Anette Constantino', 'Melanie Joseline'],
 };
 
 let disponSemanaOffset = 0; // semanas desde hoy

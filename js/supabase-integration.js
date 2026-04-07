@@ -67,9 +67,8 @@ async function guardarCita(cita) {
     }]);
 
   if (error) {
-    // No exponer detalles internos al usuario público
-    console.warn('[citas] insert error:', error.code);
-    return { success: false, error: 'No se pudo guardar la cita. Intenta de nuevo.' };
+    console.warn('[citas] insert error:', error.code, error.message, error.details);
+    return { success: false, error: error.message || 'No se pudo guardar la cita. Intenta de nuevo.' };
   }
 
   return { success: true, error: null };

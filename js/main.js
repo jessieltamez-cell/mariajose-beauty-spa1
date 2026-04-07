@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!resultado.success) {
         submitBtn.disabled = false;
         submitBtn.textContent = 'Confirmar Cita';
-        alert('Hubo un problema al guardar tu cita. Por favor intenta de nuevo.');
+        alert('Error: ' + (resultado.error || 'No se pudo guardar la cita.'));
         return;
       }
 

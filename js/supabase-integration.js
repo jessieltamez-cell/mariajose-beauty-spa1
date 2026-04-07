@@ -14,6 +14,7 @@ const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 function validarCita(cita) {
   const nombre = String(cita.nombre || '').trim().slice(0, 120);
   const telefono = String(cita.telefono || '').replace(/[^\d\s\-+()]/g, '').trim().slice(0, 20);
+  const email = cita.email ? String(cita.email).trim().toLowerCase().slice(0, 200) : null;
   const servicio = String(cita.servicio || '').trim().slice(0, 200);
   const fecha = String(cita.fecha || '').trim();
   const hora = String(cita.hora || '').trim().slice(0, 20);
@@ -37,7 +38,7 @@ function validarCita(cita) {
   if (fechaDate < ayer)
     throw new Error('No se pueden agendar citas en fechas pasadas.');
 
-  return { nombre, telefono, servicio, fecha, hora, empleada };
+  return { nombre, telefono, email, servicio, fecha, hora, empleada };
 }
 
 /**
@@ -58,6 +59,7 @@ async function guardarCita(cita) {
     .insert([{
       nombre:   datos.nombre,
       telefono: datos.telefono,
+      email:    datos.email,
       servicio: datos.servicio,
       fecha:    datos.fecha,
       hora:     datos.hora,

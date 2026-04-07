@@ -93,6 +93,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const name = document.getElementById('clientName').value.trim();
       const phone = document.getElementById('clientPhone').value.trim();
+      const emailEl = document.getElementById('clientEmail');
+      const email = emailEl ? emailEl.value.trim() : '';
       const service = document.getElementById('serviceType');
       const serviceText = service.options[service.selectedIndex].text;
       const date = document.getElementById('appointmentDate').value;
@@ -119,6 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const resultado = await guardarCita({
         nombre:   name,
         telefono: phone,
+        email:    email || null,
         servicio: serviceText,
         fecha:    date,
         hora:     timeText,

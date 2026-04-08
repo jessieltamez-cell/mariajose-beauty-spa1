@@ -96,7 +96,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const emailEl = document.getElementById('clientEmail');
       const email = emailEl ? emailEl.value.trim() : '';
       const service = document.getElementById('serviceType');
-      const serviceText = service.options[service.selectedIndex].text;
+      const serviciosPrimario = service.options[service.selectedIndex].text;
+      const serviciosExtra = Array.from(document.querySelectorAll('.servicio-extra'))
+        .filter(s => s.value)
+        .map(s => s.options[s.selectedIndex].text);
+      const serviceText = [serviciosPrimario, ...serviciosExtra].join(' + ');
       const date = document.getElementById('appointmentDate').value;
       const time = document.getElementById('appointmentTime');
       const timeText = time.options[time.selectedIndex].text;
@@ -148,6 +152,89 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       `;
     });
+    // ── Servicios adicionales ──────────────────────────────────────
+    const MAX_EXTRA_SERVICIOS = 3;
+    const btnAgregarServicio = document.getElementById('btnAgregarServicio');
+    const extrasContainer    = document.getElementById('serviciosExtrasContainer');
+    const resumenDiv         = document.getElementById('serviciosResumen');
+
+    function actualizarResumen() {
+      if (!resumenDiv) return;
+      const primario = document.getElementById('serviceType');
+      const textos = [];
+      if (primario && primario.value) {
+        textos.push(primario.options[primario.selectedIndex].text);
+      }
+      document.querySelectorAll('.servicio-extra').forEach(sel => {
+        if (sel.value) textos.push(sel.options[sel.selectedIndex].text);
+      });
+
+      if (textos.length <= 1) {
+        resumenDiv.style.display = 'none';
+        resumenDiv.innerHTML = '';
+        return;
+      }
+
+      resumenDiv.style.display = 'flex';
+      resumenDiv.innerHTML =
+        '<span class="servicios-resumen__label">Seleccionados:</span>' +
+        textos.map((t, i) =>
+          (i > 0 ? '<span class="servicios-resumen__sep">+</span>' : '') +
+          `<span class="servicios-resumen__tag">${t}</span>`
+        ).join('');
+    }
+
+    // Actualizar resumen cuando cambie el servicio principal
+    const serviceSelectPrincipal = document.getElementById('serviceType');
+    if (serviceSelectPrincipal) {
+      serviceSelectPrincipal.addEventListener('change', actualizarResumen);
+    }
+
+    function actualizarVisibilidadBotonAgregar() {
+      if (!btnAgregarServicio || !extrasContainer) return;
+      const count = extrasContainer.querySelectorAll('.servicio-extra-row').length;
+      btnAgregarServicio.style.display = count >= MAX_EXTRA_SERVICIOS ? 'none' : '';
+    }
+
+    if (btnAgregarServicio && extrasContainer) {
+      btnAgregarServicio.addEventListener('click', () => {
+        const count = extrasContainer.querySelectorAll('.servicio-extra-row').length;
+        if (count >= MAX_EXTRA_SERVICIOS) return;
+
+        const row = document.createElement('div');
+        row.className = 'servicio-extra-row';
+
+        const sel = document.createElement('select');
+        sel.className = 'form-input servicio-extra';
+        sel.addEventListener('change', actualizarResumen);
+
+        const defaultOpt = document.createElement('option');
+        defaultOpt.value = '';
+        defaultOpt.textContent = 'Selecciona un servicio adicional';
+        sel.appendChild(defaultOpt);
+
+        const originalSelect = document.getElementById('serviceType');
+        Array.from(originalSelect.querySelectorAll('optgroup')).forEach(og => {
+          sel.appendChild(og.cloneNode(true));
+        });
+
+        const btnQ = document.createElement('button');
+        btnQ.type = 'button';
+        btnQ.className = 'btn-quitar-servicio';
+        btnQ.setAttribute('aria-label', 'Quitar servicio');
+        btnQ.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M19 13H5v-2h14v2z"/></svg>';
+        btnQ.addEventListener('click', () => {
+          row.remove();
+          actualizarVisibilidadBotonAgregar();
+          actualizarResumen();
+        });
+
+        row.appendChild(sel);
+        row.appendChild(btnQ);
+        extrasContainer.appendChild(row);
+        actualizarVisibilidadBotonAgregar();
+      });
+    }
   }
 
   // ---------- Smooth scroll for anchor links ----------

@@ -2270,3 +2270,21 @@ tbody td:nth-child(7) { text-align: center; }
 }
 .btn-eliminar-cliente:disabled { opacity: 0.5; cursor: not-allowed; }
 .btn-eliminar-cliente:focus-visible { outline: 2px solid var(--c-cancelada); outline-offset: 2px; }
+
+/* ── Tags de múltiples servicios ─────────────────────── */
+.servicio-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.servicio-tag-admin {
+  display: inline-block;
+  background: var(--c-blush);
+  color: var(--c-principal-dk);
+  font-size: 0.72rem;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 20px;
+  border: 1px solid rgba(194,123,137,0.25);
+  white-space: nowrap;
+}

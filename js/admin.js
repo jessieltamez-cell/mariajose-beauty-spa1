@@ -13,6 +13,14 @@ function escapeHtml(str) {
     .replace(/'/g, '&#x27;');
 }
 
+// Renderiza un campo servicio como tags si contiene múltiples servicios (separados por " + ")
+function renderServicioTags(servicio) {
+  if (!servicio) return '—';
+  const partes = String(servicio).split(' + ').map(s => s.trim()).filter(Boolean);
+  if (partes.length <= 1) return escapeHtml(servicio);
+  return `<span class="servicio-tags">${partes.map(p => `<span class="servicio-tag-admin">${escapeHtml(p)}</span>`).join('')}</span>`;
+}
+
 const ITEMS_PER_PAGE = 25;
 const COMISION_PCT   = 0.13;
 
@@ -258,8 +266,8 @@ function renderTabla(citas) {
 
     // Servicio
     const tdServ = document.createElement('td');
-    tdServ.style.cssText = 'max-width:160px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis';
-    tdServ.textContent = c.servicio || '';
+    tdServ.style.cssText = 'max-width:200px';
+    tdServ.innerHTML = renderServicioTags(c.servicio);
     tr.appendChild(tdServ);
 
     // Empleada
@@ -851,7 +859,7 @@ function abrirModalDia(fechaStr, citas) {
           <span class="badge badge--${c.estado}">${estadoLabel}</span>
         </div>
         <div class="modal-dia__name">${c.nombre}</div>
-        <div class="modal-dia__info">${c.servicio} · <a href="tel:${c.telefono}" style="color:var(--c-principal)">${c.telefono}</a></div>
+        <div class="modal-dia__info">${renderServicioTags(c.servicio)} · <a href="tel:${c.telefono}" style="color:var(--c-principal)">${c.telefono}</a></div>
         ${empleadaHtml}${montoHtml}${notasHtml}
         <div class="modal-dia__actions">
           <button class="btn-confirmar" ${disabledConf}
@@ -1682,7 +1690,7 @@ async function cargarAgendaHoy() {
         <div class="hoy-cita__hora">${(c.hora||'').slice(0,5)}</div>
         <div class="hoy-cita__body">
           <div class="hoy-cita__nombre">${c.nombre} <span class="badge badge--${c.estado}">${estadoLabel}</span></div>
-          <div class="hoy-cita__servicio">${c.servicio}</div>
+          <div class="hoy-cita__servicio">${renderServicioTags(c.servicio)}</div>
           <div class="hoy-cita__meta">
             ${c.empleada ? `<span>👩 ${c.empleada}</span>` : ''}
             <a href="tel:${c.telefono}" style="color:var(--c-principal)">${c.telefono}</a>

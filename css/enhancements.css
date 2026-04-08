@@ -3322,3 +3322,104 @@ body {
   /* Mostrar todos los ítems en mobile */
   .info-strip__item--hide-sm { display: flex; }
 }
+
+/* ============================================
+   SERVICIOS ADICIONALES — FORMULARIO
+   ============================================ */
+
+.btn-agregar-servicio {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: none;
+  border: 1.5px dashed var(--c-rose-mid, #C28A9A);
+  border-radius: var(--r-md, 10px);
+  color: var(--c-rose-mid, #C28A9A);
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  padding: 9px 16px;
+  cursor: pointer;
+  margin-bottom: 22px;
+  transition: background 0.18s ease, border-color 0.18s ease;
+  width: 100%;
+  justify-content: center;
+}
+
+.btn-agregar-servicio:hover {
+  background: rgba(194, 138, 154, 0.08);
+  border-color: var(--c-rose, #C28A9A);
+}
+
+.servicio-extra-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.servicio-extra-row .form-input {
+  flex: 1;
+  min-width: 0;
+}
+
+.btn-quitar-servicio {
+  flex-shrink: 0;
+  background: none;
+  border: 1.5px solid var(--c-border, #E8D5D5);
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  cursor: pointer;
+  color: var(--c-text-soft, #888);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease;
+}
+
+.btn-quitar-servicio:hover {
+  border-color: #B94A4A;
+  color: #B94A4A;
+  background: rgba(185, 74, 74, 0.06);
+}
+
+/* ── Resumen de servicios seleccionados ─────────────── */
+.servicios-resumen {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  background: rgba(194, 138, 154, 0.07);
+  border: 1px solid rgba(194, 138, 154, 0.22);
+  border-radius: var(--r-md, 10px);
+  margin-bottom: 12px;
+}
+
+.servicios-resumen__label {
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--c-text-soft);
+  margin-right: 2px;
+  white-space: nowrap;
+}
+
+.servicios-resumen__tag {
+  background: rgba(194, 138, 154, 0.18);
+  color: var(--c-rose, #C27B89);
+  font-size: 0.78rem;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: 1px solid rgba(194, 138, 154, 0.3);
+  white-space: nowrap;
+}
+
+.servicios-resumen__sep {
+  color: var(--c-text-muted);
+  font-size: 0.8rem;
+}

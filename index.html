@@ -1518,7 +1518,7 @@
             <label for="clientEmail" class="form-label">Correo electr&oacute;nico <span style="font-weight:400;color:#999;font-size:0.85em">(opcional)</span></label>
             <input type="email" id="clientEmail" name="clientEmail" class="form-input" placeholder="tu@correo.com" autocomplete="email">
           </div>
-          <div class="form-group">
+          <div class="form-group" id="serviciosPrincipalGroup">
             <label for="serviceType" class="form-label">Servicio</label>
             <select id="serviceType" name="serviceType" class="form-input" required>
               <option value="" disabled selected>Selecciona un servicio</option>
@@ -1593,6 +1593,12 @@
               </optgroup>
             </select>
           </div>
+          <div id="serviciosExtrasContainer"></div>
+          <div id="serviciosResumen" class="servicios-resumen" style="display:none"></div>
+          <button type="button" id="btnAgregarServicio" class="btn-agregar-servicio">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+            Agregar otro servicio
+          </button>
           <div class="form-group" id="empleadaGroup" style="display:none">
             <label for="empleadaSelect" class="form-label">Especialista</label>
             <select id="empleadaSelect" name="empleadaSelect" class="form-input">

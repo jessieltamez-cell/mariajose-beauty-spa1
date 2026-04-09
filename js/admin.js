@@ -1501,11 +1501,16 @@ function abrirModalNuevaCita() {
   const hoy = new Date().toISOString().slice(0, 10);
   document.getElementById('ncNombre').value   = '';
   document.getElementById('ncTelefono').value = '';
-  document.getElementById('ncServicio').value = '';
+  document.getElementById('ncServicio').selectedIndex = 0;
   document.getElementById('ncFecha').value    = hoy;
   document.getElementById('ncHora').value     = '10:00';
   document.getElementById('ncEmpleada').value = '';
   document.getElementById('ncEstado').value   = 'pendiente';
+  // Limpiar servicios extras
+  const extrasContainer = document.getElementById('ncServiciosExtrasContainer');
+  if (extrasContainer) extrasContainer.innerHTML = '';
+  const btnAgregar = document.getElementById('ncBtnAgregarServicio');
+  if (btnAgregar) btnAgregar.style.display = '';
   document.getElementById('modalNuevaCita').classList.add('open');
 }
 
@@ -1520,10 +1525,65 @@ document.getElementById('modalNuevaCita').addEventListener('click', (e) => {
   if (e.target === document.getElementById('modalNuevaCita')) cerrarModalNuevaCita();
 });
 
+// ── Servicios extras en modal nueva cita ─────────────────
+const NC_MAX_EXTRAS = 3;
+
+function ncGetOpcionesClone() {
+  const original = document.getElementById('ncServicio');
+  const frag = document.createDocumentFragment();
+  Array.from(original.querySelectorAll('optgroup')).forEach(og => {
+    frag.appendChild(og.cloneNode(true));
+  });
+  return frag;
+}
+
+function ncActualizarBotonAgregar() {
+  const extrasContainer = document.getElementById('ncServiciosExtrasContainer');
+  const btnAgregar = document.getElementById('ncBtnAgregarServicio');
+  if (!extrasContainer || !btnAgregar) return;
+  const count = extrasContainer.querySelectorAll('.nc-servicio-extra-row').length;
+  btnAgregar.style.display = count >= NC_MAX_EXTRAS ? 'none' : '';
+}
+
+document.getElementById('ncBtnAgregarServicio').addEventListener('click', () => {
+  const extrasContainer = document.getElementById('ncServiciosExtrasContainer');
+  if (!extrasContainer) return;
+  const count = extrasContainer.querySelectorAll('.nc-servicio-extra-row').length;
+  if (count >= NC_MAX_EXTRAS) return;
+
+  const row = document.createElement('div');
+  row.className = 'nc-servicio-extra-row';
+
+  const sel = document.createElement('select');
+  sel.className = 'form-input nc-servicio-extra';
+  const defaultOpt = document.createElement('option');
+  defaultOpt.value = '';
+  defaultOpt.textContent = 'Selecciona un servicio adicional';
+  sel.appendChild(defaultOpt);
+  sel.appendChild(ncGetOpcionesClone());
+
+  const btnQ = document.createElement('button');
+  btnQ.type = 'button';
+  btnQ.className = 'nc-btn-quitar';
+  btnQ.setAttribute('aria-label', 'Quitar');
+  btnQ.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M19 13H5v-2h14v2z"/></svg>';
+  btnQ.addEventListener('click', () => { row.remove(); ncActualizarBotonAgregar(); });
+
+  row.appendChild(sel);
+  row.appendChild(btnQ);
+  extrasContainer.appendChild(row);
+  ncActualizarBotonAgregar();
+});
+
 document.getElementById('btnGuardarNuevaCita').addEventListener('click', async () => {
   const nombre   = document.getElementById('ncNombre').value.trim();
   const telefono = document.getElementById('ncTelefono').value.trim();
-  const servicio = document.getElementById('ncServicio').value.trim();
+  const selectPrincipal = document.getElementById('ncServicio');
+  const servicioPrincipal = selectPrincipal.value;
+  const serviciosExtra = Array.from(document.querySelectorAll('.nc-servicio-extra'))
+    .filter(s => s.value)
+    .map(s => s.value);
+  const servicio = [servicioPrincipal, ...serviciosExtra].filter(Boolean).join(' + ');
   const fecha    = document.getElementById('ncFecha').value;
   const hora     = document.getElementById('ncHora').value;
   const empleada = document.getElementById('ncEmpleada').value || null;
@@ -1531,7 +1591,7 @@ document.getElementById('btnGuardarNuevaCita').addEventListener('click', async (
 
   if (!nombre)   { alert('Ingresa el nombre del cliente.'); return; }
   if (!telefono) { alert('Ingresa el teléfono.'); return; }
-  if (!servicio) { alert('Ingresa el servicio.'); return; }
+  if (!servicio) { alert('Selecciona al menos un servicio.'); return; }
   if (!fecha)    { alert('Selecciona una fecha.'); return; }
 
   const btn = document.getElementById('btnGuardarNuevaCita');

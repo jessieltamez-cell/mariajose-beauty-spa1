@@ -2271,6 +2271,57 @@ tbody td:nth-child(7) { text-align: center; }
 .btn-eliminar-cliente:disabled { opacity: 0.5; cursor: not-allowed; }
 .btn-eliminar-cliente:focus-visible { outline: 2px solid var(--c-cancelada); outline-offset: 2px; }
 
+/* ── Servicios adicionales en modal nueva cita ──────── */
+.btn-agregar-servicio-admin {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 1.5px dashed var(--c-principal);
+  border-radius: 8px;
+  color: var(--c-principal);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 500;
+  padding: 7px 14px;
+  cursor: pointer;
+  margin-bottom: 16px;
+  width: 100%;
+  justify-content: center;
+  transition: background 0.15s;
+}
+.btn-agregar-servicio-admin:hover {
+  background: rgba(194,123,137,0.08);
+}
+.nc-servicio-extra-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.nc-servicio-extra-row .form-input {
+  flex: 1;
+  min-width: 0;
+}
+.nc-btn-quitar {
+  flex-shrink: 0;
+  background: none;
+  border: 1.5px solid var(--c-border, #E0D0D4);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  color: #999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s, color 0.15s;
+}
+.nc-btn-quitar:hover {
+  border-color: var(--c-cancelada);
+  color: var(--c-cancelada);
+}
+
 /* ── Tags de múltiples servicios ─────────────────────── */
 .servicio-tags {
   display: flex;

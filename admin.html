@@ -682,8 +682,84 @@
         </div>
         <div class="form-group">
           <label class="form-label">Servicio</label>
-          <input type="text" id="ncServicio" class="form-input" placeholder="Ej: Uñas gel, Masaje...">
+          <select id="ncServicio" class="form-input">
+            <option value="" disabled selected>Selecciona un servicio</option>
+            <optgroup label="Gel Semipermanente">
+              <option value="Gel Liso — $190">Gel Liso — $190</option>
+              <option value="Gel Diseño Sencillo — $250">Gel Diseño Sencillo — $250</option>
+              <option value="Gel Diseño Elaborado — $280–$320">Gel Diseño Elaborado — $280–$320</option>
+            </optgroup>
+            <optgroup label="Rubber">
+              <option value="Rubber — desde $380">Rubber — desde $380</option>
+              <option value="Rubber Gel Liso — $420">Rubber Gel Liso — $420</option>
+              <option value="Rubber Diseño Sencillo — $450–$480">Rubber Diseño Sencillo — $450–$480</option>
+              <option value="Rubber Diseño Elaborado — $480–$580">Rubber Diseño Elaborado — $480–$580</option>
+            </optgroup>
+            <optgroup label="Acrílico">
+              <option value="Acrílico Liso — $430">Acrílico Liso — $430</option>
+              <option value="Acrílico Diseño Sencillo — $450–$470">Acrílico Diseño Sencillo — $450–$470</option>
+              <option value="Acrílico French — $490">Acrílico French — $490</option>
+              <option value="Acrílico Diseño Elaborado — $590–$740">Acrílico Diseño Elaborado — $590–$740</option>
+            </optgroup>
+            <optgroup label="Pedicura">
+              <option value="Pedicure Gel Liso — $410">Pedicure Gel Liso — $410</option>
+              <option value="Pedicure con French — $460">Pedicure con French — $460</option>
+              <option value="Pedicure Acripie Sencillo — $460">Pedicure Acripie Sencillo — $460</option>
+              <option value="Pedicure Acripie Completo — $530">Pedicure Acripie Completo — $530</option>
+              <option value="Reconstrucción Ungueal — $650">Reconstrucción Ungueal — $650</option>
+            </optgroup>
+            <optgroup label="Extensiones de Pestañas">
+              <option value="Look Clásico — $400">Look Clásico — $400</option>
+              <option value="3D / Efecto Rímel — $500">3D / Efecto Rímel — $500</option>
+              <option value="Hawaiano — $550">Hawaiano — $550</option>
+              <option value="Volumen 5D — $600">Volumen 5D — $600</option>
+              <option value="Híbrido — $650">Híbrido — $650</option>
+              <option value="Wispy — $650">Wispy — $650</option>
+              <option value="Foxy — $650">Foxy — $650</option>
+              <option value="Volumen Artesanal — $700">Volumen Artesanal — $700</option>
+              <option value="MegaVolumen — $850">MegaVolumen — $850</option>
+            </optgroup>
+            <optgroup label="Maquillaje &amp; Peinados">
+              <option value="Maquillaje Social — $850">Maquillaje Social — $850</option>
+              <option value="Maquillaje + Peinado Sencillo — $900">Maquillaje + Peinado Sencillo — $900</option>
+              <option value="Maquillaje + Peinado Semirecogido — $1,000">Maquillaje + Peinado Semirecogido — $1,000</option>
+              <option value="Maquillaje + Peinado Recogido — $1,100">Maquillaje + Peinado Recogido — $1,100</option>
+              <option value="Paquete Novia — $2,500">Paquete Novia — $2,500</option>
+              <option value="Paquete Novia con Prueba — $3,200">Paquete Novia con Prueba — $3,200</option>
+              <option value="Paquete Novia con Prueba + Uñas — $3,700">Paquete Novia con Prueba + Uñas — $3,700</option>
+              <option value="Paquete XV Años — $2,300">Paquete XV Años — $2,300</option>
+              <option value="Paquete XV con Prueba — $3,200">Paquete XV con Prueba — $3,200</option>
+              <option value="Paquete XV con Prueba + Uñas — $3,700">Paquete XV con Prueba + Uñas — $3,700</option>
+            </optgroup>
+            <optgroup label="Masajes &amp; Terapias">
+              <option value="Masaje Descontracturante — $400">Masaje Descontracturante — $400</option>
+              <option value="Drenaje Linfático — $300">Drenaje Linfático — $300</option>
+              <option value="Masaje Sueco — $650">Masaje Sueco — $650</option>
+              <option value="Gotas de Lluvia — $300">Gotas de Lluvia — $300</option>
+              <option value="Conoterapia — $250">Conoterapia — $250</option>
+              <option value="Reflexología Podal — $250">Reflexología Podal — $250</option>
+              <option value="Relajante de Piernas — $250">Relajante de Piernas — $250</option>
+            </optgroup>
+            <optgroup label="Faciales &amp; Cosmetología">
+              <option value="Facial Básico + Microdermoabrasión — $350">Facial Básico + Microdermoabrasión — $350</option>
+              <option value="Facial Completo +12 Pasos — $500">Facial Completo +12 Pasos — $500</option>
+            </optgroup>
+            <optgroup label="Cejas &amp; Depilaciones">
+              <option value="Laminado de Ceja — $240">Laminado de Ceja — $240</option>
+              <option value="Ceja HD — $360">Ceja HD — $360</option>
+              <option value="Lashlifting — $360">Lashlifting — $360</option>
+              <option value="Depilación de Ceja — $70">Depilación de Ceja — $70</option>
+              <option value="Depilación Bozo — $40">Depilación Bozo — $40</option>
+              <option value="Depilación Patillas — $100">Depilación Patillas — $100</option>
+              <option value="Depilación Cara Completa — $270">Depilación Cara Completa — $270</option>
+            </optgroup>
+          </select>
         </div>
+        <div id="ncServiciosExtrasContainer"></div>
+        <button type="button" id="ncBtnAgregarServicio" class="btn-agregar-servicio-admin">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+          Agregar otro servicio
+        </button>
         <div class="nueva-cita-row">
           <div class="form-group">
             <label class="form-label">Fecha</label>

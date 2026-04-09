@@ -2331,6 +2331,96 @@ tbody td:nth-child(7) { text-align: center; }
 .btn-eliminar-cliente:disabled { opacity: 0.5; cursor: not-allowed; }
 .btn-eliminar-cliente:focus-visible { outline: 2px solid var(--c-cancelada); outline-offset: 2px; }
 
+/* ── Autocomplete clientas ────────────────────────────── */
+.nc-field-wrap {
+  position: relative;
+}
+
+.nc-sugerencias {
+  display: none;
+  position: absolute;
+  top: calc(100% - 4px);
+  left: 0;
+  right: 0;
+  background: var(--c-surface);
+  border: 1.5px solid var(--c-principal);
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  z-index: 50;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.nc-sugerencias.visible {
+  display: block;
+}
+
+.nc-sug-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 1rem;
+  cursor: pointer;
+  border-bottom: 1px solid var(--c-border);
+  transition: background 0.12s;
+}
+.nc-sug-item:last-child { border-bottom: none; }
+.nc-sug-item:hover, .nc-sug-item.is-active {
+  background: rgba(194,123,137,0.1);
+}
+
+.nc-sug-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--c-blush), var(--c-secondary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--c-principal-dk);
+  flex-shrink: 0;
+}
+
+.nc-sug-info { flex: 1; min-width: 0; }
+.nc-sug-nombre {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--c-gray);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.nc-sug-tel {
+  font-size: 0.75rem;
+  color: var(--c-gray-lt);
+  margin-top: 1px;
+}
+.nc-sug-badge {
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 20px;
+  background: rgba(194,123,137,0.12);
+  color: var(--c-principal-dk);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.nc-sug-empty {
+  padding: 0.75rem 1rem;
+  font-size: 0.82rem;
+  color: var(--c-gray-lt);
+  text-align: center;
+}
+
+/* Cuando el input tiene foco con sugerencias, redondear solo arriba */
+.nc-field-wrap.has-suggestions .form-input {
+  border-radius: var(--r-md, 10px) var(--r-md, 10px) 0 0;
+  border-bottom-color: var(--c-principal);
+}
+
 /* ── Tags de múltiples servicios ─────────────────────── */
 .servicio-tags {
   display: flex;

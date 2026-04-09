@@ -1496,6 +1496,100 @@ async function cargarMetricasDashboard() {
   document.getElementById('dashSemana').style.display    = '';
 }
 
+// ─── Autocomplete clientas ─────────────────────────────
+let _clientesCache = null; // null = no cargado, [] = vacío
+
+async function getClientesCache() {
+  if (_clientesCache !== null) return _clientesCache;
+
+  const { data, error } = await supabaseClient
+    .from('citas')
+    .select('nombre, telefono')
+    .order('fecha', { ascending: false });
+
+  if (error || !data) { _clientesCache = []; return _clientesCache; }
+
+  // Deduplicar por teléfono (queda la aparición más reciente = más actual)
+  const seen = new Map();
+  for (const row of data) {
+    const tel = (row.telefono || '').replace(/\s/g, '');
+    const key = tel || row.nombre;
+    if (!seen.has(key)) seen.set(key, { nombre: row.nombre || '', telefono: row.telefono || '' });
+  }
+  _clientesCache = Array.from(seen.values());
+  return _clientesCache;
+}
+
+function normStr(s) {
+  return String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
+function iniciales(nombre) {
+  return (nombre || '').split(' ').slice(0, 2).map(p => p[0] || '').join('').toUpperCase();
+}
+
+function renderSugerencias(items, containerId, fieldWrapInput) {
+  const box = document.getElementById(containerId);
+  const wrap = fieldWrapInput.closest('.nc-field-wrap');
+  if (!box) return;
+
+  if (!items.length) {
+    box.classList.remove('visible');
+    wrap.classList.remove('has-suggestions');
+    return;
+  }
+
+  box.innerHTML = items.slice(0, 7).map((c, i) => `
+    <div class="nc-sug-item" data-idx="${i}" data-nombre="${escapeHtml(c.nombre)}" data-tel="${escapeHtml(c.telefono)}">
+      <div class="nc-sug-avatar">${escapeHtml(iniciales(c.nombre))}</div>
+      <div class="nc-sug-info">
+        <div class="nc-sug-nombre">${escapeHtml(c.nombre)}</div>
+        <div class="nc-sug-tel">${escapeHtml(c.telefono || 'Sin teléfono')}</div>
+      </div>
+    </div>
+  `).join('');
+
+  box.classList.add('visible');
+  wrap.classList.add('has-suggestions');
+
+  box.querySelectorAll('.nc-sug-item').forEach(el => {
+    el.addEventListener('mousedown', (e) => {
+      e.preventDefault(); // evita blur antes del click
+      seleccionarClienteSugerencia(el.dataset.nombre, el.dataset.tel);
+    });
+  });
+}
+
+function seleccionarClienteSugerencia(nombre, telefono) {
+  document.getElementById('ncNombre').value   = nombre;
+  document.getElementById('ncTelefono').value = telefono;
+  cerrarSugerencias();
+}
+
+function cerrarSugerencias() {
+  ['ncSugerenciasNombre', 'ncSugerenciasTel'].forEach(id => {
+    const box = document.getElementById(id);
+    if (box) box.classList.remove('visible');
+  });
+  document.querySelectorAll('.nc-field-wrap').forEach(w => w.classList.remove('has-suggestions'));
+}
+
+async function onNcNombreInput() {
+  const q = normStr(document.getElementById('ncNombre').value.trim());
+  if (q.length < 2) { cerrarSugerencias(); return; }
+  const clientes = await getClientesCache();
+  const filtered = clientes.filter(c => normStr(c.nombre).includes(q));
+  renderSugerencias(filtered, 'ncSugerenciasNombre', document.getElementById('ncNombre'));
+}
+
+async function onNcTelInput() {
+  const q = document.getElementById('ncTelefono').value.replace(/\D/g, '');
+  if (q.length < 3) { cerrarSugerencias(); return; }
+  const clientes = await getClientesCache();
+  const filtered = clientes.filter(c => c.telefono.replace(/\D/g, '').includes(q));
+  renderSugerencias(filtered, 'ncSugerenciasTel', document.getElementById('ncTelefono'));
+}
+
 // ─── Modal Nueva Cita ────────────────────────
 function abrirModalNuevaCita() {
   const hoy = new Date().toISOString().slice(0, 10);
@@ -1506,10 +1600,15 @@ function abrirModalNuevaCita() {
   document.getElementById('ncHora').value     = '10:00';
   document.getElementById('ncEmpleada').value = '';
   document.getElementById('ncEstado').value   = 'pendiente';
+  cerrarSugerencias();
+  // Pre-cargar caché en background
+  getClientesCache();
   document.getElementById('modalNuevaCita').classList.add('open');
+  setTimeout(() => document.getElementById('ncNombre').focus(), 100);
 }
 
 function cerrarModalNuevaCita() {
+  cerrarSugerencias();
   document.getElementById('modalNuevaCita').classList.remove('open');
 }
 
@@ -1519,6 +1618,17 @@ document.getElementById('btnCancelarNuevaCita').addEventListener('click', cerrar
 document.getElementById('modalNuevaCita').addEventListener('click', (e) => {
   if (e.target === document.getElementById('modalNuevaCita')) cerrarModalNuevaCita();
 });
+
+// ── Listeners autocomplete ──────────────────────────────
+document.getElementById('ncNombre').addEventListener('input', onNcNombreInput);
+document.getElementById('ncNombre').addEventListener('blur', () => setTimeout(cerrarSugerencias, 150));
+
+document.getElementById('ncTelefono').addEventListener('input', onNcTelInput);
+document.getElementById('ncTelefono').addEventListener('blur', () => setTimeout(cerrarSugerencias, 150));
+
+// Cerrar con Escape
+document.getElementById('ncNombre').addEventListener('keydown', (e) => { if (e.key === 'Escape') cerrarSugerencias(); });
+document.getElementById('ncTelefono').addEventListener('keydown', (e) => { if (e.key === 'Escape') cerrarSugerencias(); });
 
 document.getElementById('btnGuardarNuevaCita').addEventListener('click', async () => {
   const nombre   = document.getElementById('ncNombre').value.trim();
@@ -1545,6 +1655,7 @@ document.getElementById('btnGuardarNuevaCita').addEventListener('click', async (
 
   if (error) { alert('Error: ' + error.message); return; }
 
+  _clientesCache = null; // invalidar caché para incluir la nueva clienta
   cerrarModalNuevaCita();
   mostrarToast('Cita creada', `${nombre} — ${servicio} · ${fecha} ${hora}`);
 

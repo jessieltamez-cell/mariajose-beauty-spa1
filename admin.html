@@ -673,14 +673,16 @@
         <button class="modal__close" id="btnCerrarNuevaCita">&#10005;</button>
       </div>
       <div class="nueva-cita-form">
-        <div class="form-group">
+        <div class="form-group nc-field-wrap">
           <label class="form-label">Nombre del cliente</label>
-          <input type="text" id="ncNombre" class="form-input" placeholder="Nombre completo">
+          <input type="text" id="ncNombre" class="form-input" placeholder="Nombre completo" autocomplete="off">
+          <div class="nc-sugerencias" id="ncSugerenciasNombre"></div>
         </div>
         <div class="nueva-cita-row">
-          <div class="form-group">
+          <div class="form-group nc-field-wrap">
             <label class="form-label">Teléfono</label>
-            <input type="tel" id="ncTelefono" class="form-input" placeholder="8112345678">
+            <input type="tel" id="ncTelefono" class="form-input" placeholder="8112345678" autocomplete="off">
+            <div class="nc-sugerencias" id="ncSugerenciasTel"></div>
           </div>
         </div>
         <div class="form-group">

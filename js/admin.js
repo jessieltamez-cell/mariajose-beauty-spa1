@@ -176,7 +176,7 @@ async function cargarCitas(resetPage = false) {
   let query = supabaseClient
     .from('citas')
     .select('*', { count: 'exact' })
-    .order('fecha', { ascending: false })
+    .order('fecha', { ascending: true })
     .order('hora', { ascending: true })
     .range(currentPage * ITEMS_PER_PAGE, (currentPage + 1) * ITEMS_PER_PAGE - 1);
 

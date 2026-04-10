@@ -2,6 +2,14 @@
    Panel de Administración - Maria José Beauty & Spa
    ============================================ */
 
+// ─── Fecha local (evita desfase UTC en México) ──────────────────────────────
+function localDateStr(d) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
 // ─── Seguridad: escapar HTML para prevenir XSS ───
 function escapeHtml(str) {
   if (str === null || str === undefined) return '';
@@ -726,8 +734,8 @@ async function cargarCalendario() {
   const gridEnd = new Date(lastOfMonth);
   gridEnd.setDate(lastOfMonth.getDate() + (6 - lastOfMonth.getDay()));
 
-  const fechaInicio = gridStart.toISOString().slice(0, 10);
-  const fechaFin    = gridEnd.toISOString().slice(0, 10);
+  const fechaInicio = localDateStr(gridStart);
+  const fechaFin    = localDateStr(gridEnd);
 
   let query = supabaseClient
     .from('citas')
@@ -760,7 +768,7 @@ function renderCalendario() {
   const grid    = document.getElementById('calendarGrid');
   grid.innerHTML = '';
 
-  const todayStr     = new Date().toISOString().slice(0, 10);
+  const todayStr     = localDateStr(new Date());
   const firstOfMonth = new Date(calYear, calMonth, 1);
   const lastOfMonth  = new Date(calYear, calMonth + 1, 0);
 
@@ -768,7 +776,7 @@ function renderCalendario() {
   cursor.setDate(firstOfMonth.getDate() - firstOfMonth.getDay());
 
   for (let i = 0; i < 42; i++) {
-    const dateStr    = cursor.toISOString().slice(0, 10);
+    const dateStr    = localDateStr(cursor);
     const citas      = calendarData[dateStr] || [];
     const isToday    = dateStr === todayStr;
     const otherMonth = cursor.getMonth() !== calMonth;
@@ -910,8 +918,8 @@ function getSemanaActual() {
   const domingo = new Date(lunes);
   domingo.setDate(lunes.getDate() + 6);
   return {
-    inicio: lunes.toISOString().slice(0, 10),
-    fin:    domingo.toISOString().slice(0, 10),
+    inicio: localDateStr(lunes),
+    fin:    localDateStr(domingo),
   };
 }
 
@@ -1050,7 +1058,7 @@ function renderEgresos(egresos) {
 document.getElementById('btnAgregarEgreso').addEventListener('click', () => {
   document.getElementById('egresoRazon').value = '';
   document.getElementById('egresoMonto').value = '';
-  document.getElementById('egresoFecha').value = new Date().toISOString().slice(0, 10);
+  document.getElementById('egresoFecha').value = localDateStr(new Date());
   document.getElementById('modalEgreso').classList.add('open');
 });
 
@@ -1327,8 +1335,8 @@ document.getElementById('btnSemHoy').addEventListener('click', () => { disponSem
 
 async function renderDisponSemana() {
   const dias = getSemanaConOffset(disponSemanaOffset);
-  const inicio = dias[0].toISOString().slice(0, 10);
-  const fin    = dias[6].toISOString().slice(0, 10);
+  const inicio = localDateStr(dias[0]);
+  const fin    = localDateStr(dias[6]);
 
   // Label de semana
   const label = document.getElementById('disponSemanaLabel');
@@ -1371,11 +1379,11 @@ async function renderDisponSemana() {
   grid.innerHTML = '';
 
   dias.forEach(diaDate => {
-    const fechaStr = diaDate.toISOString().slice(0, 10);
+    const fechaStr = localDateStr(diaDate);
     const esBloqueado = diasBloqSet.has(fechaStr);
     const esDom = diaDate.getDay() === 0;
     const esSab = diaDate.getDay() === 6;
-    const esHoy = fechaStr === new Date().toISOString().slice(0, 10);
+    const esHoy = fechaStr === localDateStr(new Date());
     const empBloqHoy = empBloqMap[fechaStr] || new Set();
 
     const col = document.createElement('div');
@@ -1592,7 +1600,7 @@ async function onNcTelInput() {
 
 // ─── Modal Nueva Cita ────────────────────────
 function abrirModalNuevaCita() {
-  const hoy = new Date().toISOString().slice(0, 10);
+  const hoy = localDateStr(new Date());
   document.getElementById('ncNombre').value   = '';
   document.getElementById('ncTelefono').value = '';
   document.getElementById('ncServicio').value = '';
@@ -1752,7 +1760,7 @@ async function buscarHistorial() {
 
 // ─── Agenda Hoy ──────────────────────────────
 async function cargarAgendaHoy() {
-  const hoy = new Date().toISOString().slice(0, 10);
+  const hoy = localDateStr(new Date());
 
   // Label de fecha
   const labelFecha = new Date().toLocaleDateString('es-MX', {
@@ -1939,7 +1947,7 @@ async function cargarClientes() {
 
   // Calcular stats
   const ahora        = new Date();
-  const primerDiaMes = new Date(ahora.getFullYear(), ahora.getMonth(), 1).toISOString().split('T')[0];
+  const primerDiaMes = localDateStr(new Date(ahora.getFullYear(), ahora.getMonth(), 1));
   const nuevasMes    = todosClientesData.filter(c => c.primeraVisita >= primerDiaMes).length;
   const vip          = todosClientesData.filter(c => c.loyalty.nivel === 'vip').length;
   const fiel         = todosClientesData.filter(c => c.loyalty.nivel === 'fiel').length;

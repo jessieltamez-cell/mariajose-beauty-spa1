@@ -59,6 +59,7 @@ document.querySelectorAll('.admin-nav__btn').forEach(btn => {
     if (sec === 'finanzas')       iniciarFinanzas();
     if (sec === 'disponibilidad') iniciarDisponibilidad();
     if (sec === 'hoy')            { cargarAgendaHoy(); cargarMetricasDashboard(); }
+    if (sec === 'citas')          { cargarCitas(true); actualizarStats(); }
     if (sec === 'clientes')       cargarClientes();
   });
 });

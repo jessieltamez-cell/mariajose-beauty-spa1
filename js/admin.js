@@ -393,8 +393,13 @@ async function cambiarEstado(id, nuevoEstado, campos = {}, skipReload = false) {
     return false;
   }
   if (!skipReload) {
-    cargarCitas();
-    actualizarStats();
+    if (document.getElementById('sectionCitas').style.display !== 'none') {
+      cargarCitas();
+      actualizarStats();
+    }
+    if (document.getElementById('sectionHoy').style.display !== 'none') {
+      cargarAgendaHoy();
+    }
   }
   return true;
 }
@@ -550,10 +555,15 @@ document.getElementById('btnGuardarCobro').addEventListener('click', async () =>
     return;
   }
 
-  const ok = await cambiarEstado(modalCobroId, 'completada', { monto, metodo_pago: metodo });
+  const ok = await cambiarEstado(modalCobroId, 'completada', { monto, metodo_pago: metodo }, true);
   if (!ok) return;
   cerrarModalCobro();
   mostrarToast('Cita completada', `Monto: $${monto.toLocaleString('es-MX')} · ${metodo}`);
+  // Refrescar la vista activa
+  const secHoy   = document.getElementById('sectionHoy');
+  const secCitas = document.getElementById('sectionCitas');
+  if (secHoy.style.display !== 'none')   cargarAgendaHoy();
+  if (secCitas.style.display !== 'none') { cargarCitas(); actualizarStats(); }
 });
 
 document.getElementById('btnCerrarCobro').addEventListener('click', cerrarModalCobro);

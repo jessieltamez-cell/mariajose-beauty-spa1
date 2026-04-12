@@ -56,7 +56,7 @@ document.querySelectorAll('.admin-nav__btn').forEach(btn => {
     document.getElementById('sectionDisponibilidad').style.display= sec === 'disponibilidad'? '' : 'none';
     document.getElementById('sectionFinanzas').style.display      = sec === 'finanzas'      ? '' : 'none';
     document.getElementById('sectionClientes').style.display      = sec === 'clientes'      ? '' : 'none';
-    if (sec === 'finanzas')       iniciarFinanzas();
+    if (sec === 'finanzas')       { if (puedeVerFinanzas()) iniciarFinanzas(); }
     if (sec === 'disponibilidad') iniciarDisponibilidad();
     if (sec === 'hoy')            { cargarAgendaHoy(); cargarMetricasDashboard(); }
     if (sec === 'citas')          { cargarCitas(true); actualizarStats(); }
@@ -64,10 +64,19 @@ document.querySelectorAll('.admin-nav__btn').forEach(btn => {
   });
 });
 
+// ─── Permisos por sección ────────────────────────
+const EMAILS_FINANZAS = ['jessieltamez@gmail.com', 'sustaita.sofy07@gmail.com'];
+let _emailActual = '';
+
+function puedeVerFinanzas() {
+  return EMAILS_FINANZAS.includes(_emailActual.toLowerCase().trim());
+}
+
 // ─── Auth ───────────────────────────────────────
 async function checkSession() {
   const { data: { session } } = await supabaseClient.auth.getSession();
   if (session) {
+    _emailActual = session.user?.email || '';
     mostrarPanel();
   } else {
     mostrarLogin();
@@ -85,6 +94,10 @@ function mostrarPanel() {
   const now = new Date();
   calYear  = now.getFullYear();
   calMonth = now.getMonth();
+
+  // Ocultar nav de Finanzas si no tiene permiso
+  const btnFinNav = document.querySelector('.admin-nav__btn[data-section="finanzas"]');
+  if (btnFinNav) btnFinNav.style.display = puedeVerFinanzas() ? '' : 'none';
 
   // Abrir en sección Hoy por defecto
   document.querySelectorAll('.admin-nav__btn').forEach(b => b.classList.remove('active'));
@@ -140,6 +153,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
   } else {
     _loginAttempts = 0;
     _loginLockedUntil = 0;
+    _emailActual = email;
     mostrarPanel();
   }
 });

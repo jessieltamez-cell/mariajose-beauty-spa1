@@ -292,6 +292,21 @@ body {
 
 .btn-clear:hover { border-color: var(--c-gray-lt); color: var(--c-gray); }
 
+.btn-pdf {
+  padding: 0.75rem 1.1rem;
+  background: transparent;
+  border: 1.5px solid var(--c-principal);
+  border-radius: 8px;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--c-principal);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  font-weight: 600;
+}
+.btn-pdf:hover { background: var(--c-principal); color: #fff; }
+
 /* ========== TABLA ========== */
 .table-card {
   background: var(--c-surface);

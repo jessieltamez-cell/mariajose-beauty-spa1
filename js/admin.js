@@ -946,6 +946,7 @@ document.getElementById('btnSemanaActual').addEventListener('click', () => {
 });
 
 document.getElementById('btnGenerarCorte').addEventListener('click', generarCorte);
+document.getElementById('btnExportarPDF').addEventListener('click', exportarPDF);
 
 async function generarCorte() {
   const inicio = document.getElementById('finFechaInicio').value;
@@ -980,12 +981,16 @@ async function generarCorte() {
     const { data: egresos, error: eError } = await eQuery;
     if (eError) console.warn('[admin] egresos:', eError.message);
 
+    _ultimoCorte = { citas: citas || [], egresos: egresos || [], inicio, fin };
     renderFinanzas(citas || [], egresos || []);
+    document.getElementById('btnExportarPDF').style.display = '';
   } finally {
     btn.textContent = 'Generar Corte';
     btn.disabled = false;
   }
 }
+
+let _ultimoCorte = null;
 
 function renderFinanzas(citas, egresos) {
   // ── Totales de ingresos
@@ -1057,6 +1062,143 @@ function renderFinanzas(citas, egresos) {
         </tr>`;
     }).join('');
   }
+}
+
+function exportarPDF() {
+  if (!_ultimoCorte) return;
+  const { citas, egresos, inicio, fin } = _ultimoCorte;
+
+  let totalEfectivo = 0, totalTarjeta = 0;
+  citas.forEach(c => {
+    const m = parseFloat(c.monto) || 0;
+    if (c.metodo_pago === 'tarjeta') totalTarjeta += m; else totalEfectivo += m;
+  });
+  const totalIngresos = totalEfectivo + totalTarjeta;
+  const totalEgresos  = egresos.reduce((s, e) => s + (parseFloat(e.monto) || 0), 0);
+  const neto = totalIngresos - totalEgresos;
+
+  const fmt = n => `$${n.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
+  const fmtFecha = f => f ? new Date(f + 'T00:00:00').toLocaleDateString('es-MX', { day: 'numeric', month: 'long', year: 'numeric' }) : '—';
+  const periodo = (inicio || fin) ? `${fmtFecha(inicio)} — ${fmtFecha(fin)}` : 'Todo el historial';
+  const generado = new Date().toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+
+  // Comisiones
+  const comisiones = {};
+  citas.forEach(c => {
+    const emp = c.empleada || 'Sin asignar';
+    if (!comisiones[emp]) comisiones[emp] = { total: 0, servicios: 0 };
+    const m = parseFloat(c.monto) || 0;
+    comisiones[emp].total    += m * COMISION_PCT;
+    comisiones[emp].servicios += 1;
+  });
+
+  const comRows = Object.entries(comisiones).map(([emp, d]) => `
+    <tr>
+      <td>${emp}</td>
+      <td style="text-align:center">${d.servicios}</td>
+      <td style="text-align:right;color:#c0507a"><strong>${fmt(d.total)}</strong></td>
+    </tr>`).join('') || '<tr><td colspan="3" style="text-align:center;color:#999">Sin servicios completados</td></tr>';
+
+  const detalleRows = citas.map(c => {
+    const fecha = new Date(c.fecha + 'T00:00:00').toLocaleDateString('es-MX', { day: 'numeric', month: 'short' });
+    const monto = parseFloat(c.monto) || 0;
+    return `
+    <tr>
+      <td>${fecha}</td>
+      <td>${c.nombre}</td>
+      <td>${c.servicio}</td>
+      <td>${c.empleada || '—'}</td>
+      <td style="text-align:right"><strong>${fmt(monto)}</strong></td>
+      <td style="text-align:center">${c.metodo_pago === 'tarjeta' ? 'Tarjeta' : 'Efectivo'}</td>
+      <td style="text-align:right;color:#c0507a">${fmt(monto * COMISION_PCT)}</td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="7" style="text-align:center;color:#999">Sin servicios en este periodo</td></tr>';
+
+  const egresoRows = egresos.map(e => {
+    const fecha = new Date(e.fecha + 'T00:00:00').toLocaleDateString('es-MX', { day: 'numeric', month: 'short' });
+    return `<tr><td>${fecha}</td><td>${e.razon}</td><td style="text-align:right;color:#c0534a">-${fmt(parseFloat(e.monto))}</td></tr>`;
+  }).join('') || '<tr><td colspan="3" style="text-align:center;color:#999">Sin egresos</td></tr>';
+
+  const html = `<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Corte de Caja — Maria José Beauty & Spa</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 12px; color: #222; background: #fff; padding: 32px; }
+    .header { display:flex; justify-content:space-between; align-items:flex-start; border-bottom: 2px solid #c0507a; padding-bottom: 16px; margin-bottom: 24px; }
+    .header__brand { }
+    .header__name { font-size: 22px; font-weight: 700; color: #c0507a; letter-spacing: -0.5px; }
+    .header__sub  { font-size: 11px; color: #888; margin-top: 2px; }
+    .header__info { text-align:right; font-size: 11px; color: #555; line-height: 1.6; }
+    .header__info strong { color: #222; }
+    h2 { font-size: 13px; font-weight: 700; color: #c0507a; text-transform: uppercase; letter-spacing: 0.5px; margin: 24px 0 10px; border-bottom: 1px solid #f0e0e8; padding-bottom: 5px; }
+    .resumen { display:grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 8px; }
+    .res-card { border: 1px solid #eee; border-radius: 8px; padding: 10px 12px; text-align: center; }
+    .res-card__label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; color: #888; margin-bottom: 4px; }
+    .res-card__val { font-size: 15px; font-weight: 700; color: #222; }
+    .res-card--neto .res-card__val { color: ${neto >= 0 ? '#3a8a4a' : '#c0534a'}; }
+    table { width: 100%; border-collapse: collapse; font-size: 11px; }
+    th { background: #faf0f5; color: #c0507a; font-weight: 600; text-align: left; padding: 7px 8px; border-bottom: 1px solid #e8d0dc; }
+    td { padding: 6px 8px; border-bottom: 1px solid #f5f5f5; vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    .footer { margin-top: 32px; padding-top: 12px; border-top: 1px solid #eee; text-align: center; font-size: 10px; color: #bbb; }
+    @media print {
+      body { padding: 16px; }
+      @page { margin: 1.5cm; size: A4; }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="header__brand">
+      <div class="header__name">Maria José Beauty &amp; Spa</div>
+      <div class="header__sub">Corte de Caja</div>
+    </div>
+    <div class="header__info">
+      <div><strong>Periodo:</strong> ${periodo}</div>
+      <div><strong>Generado:</strong> ${generado}</div>
+      <div><strong>Servicios cobrados:</strong> ${citas.length}</div>
+    </div>
+  </div>
+
+  <h2>Resumen</h2>
+  <div class="resumen">
+    <div class="res-card"><div class="res-card__label">Efectivo</div><div class="res-card__val">${fmt(totalEfectivo)}</div></div>
+    <div class="res-card"><div class="res-card__label">Tarjeta</div><div class="res-card__val">${fmt(totalTarjeta)}</div></div>
+    <div class="res-card"><div class="res-card__label">Total Ingresos</div><div class="res-card__val">${fmt(totalIngresos)}</div></div>
+    <div class="res-card"><div class="res-card__label">Egresos</div><div class="res-card__val">${fmt(totalEgresos)}</div></div>
+    <div class="res-card res-card--neto"><div class="res-card__label">Balance Neto</div><div class="res-card__val">${fmt(Math.abs(neto))}</div></div>
+  </div>
+
+  <h2>Comisiones por Empleada (13%)</h2>
+  <table>
+    <thead><tr><th>Empleada</th><th style="text-align:center">Servicios</th><th style="text-align:right">Comisión</th></tr></thead>
+    <tbody>${comRows}</tbody>
+  </table>
+
+  <h2>Egresos del Periodo</h2>
+  <table>
+    <thead><tr><th>Fecha</th><th>Concepto</th><th style="text-align:right">Monto</th></tr></thead>
+    <tbody>${egresoRows}</tbody>
+  </table>
+
+  <h2>Detalle de Servicios Cobrados</h2>
+  <table>
+    <thead><tr><th>Fecha</th><th>Cliente</th><th>Servicio</th><th>Empleada</th><th style="text-align:right">Monto</th><th style="text-align:center">Método</th><th style="text-align:right">Comisión</th></tr></thead>
+    <tbody>${detalleRows}</tbody>
+  </table>
+
+  <div class="footer">Maria José Beauty &amp; Spa · mariajosebeautys.com</div>
+
+  <script>window.onload = () => window.print();<\/script>
+</body>
+</html>`;
+
+  const win = window.open('', '_blank');
+  win.document.write(html);
+  win.document.close();
 }
 
 function renderEgresos(egresos) {

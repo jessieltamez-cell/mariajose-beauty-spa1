@@ -1668,15 +1668,17 @@ async function cargarMetricasDashboard() {
 
   const { data: citas } = await supabaseClient
     .from('citas')
-    .select('estado, monto, servicio, empleada')
+    .select('estado, servicio, empleada, nombre, telefono')
     .gte('fecha', inicio)
     .lte('fecha', fin)
     .neq('estado', 'cancelada');
 
   if (!citas || citas.length === 0) return;
 
-  const completadas = citas.filter(c => c.estado === 'completada');
-  const ingresos = completadas.reduce((s, c) => s + (parseFloat(c.monto) || 0), 0);
+  // Clientas únicas (por teléfono, o por nombre si no hay tel)
+  const clientasUnicas = new Set(
+    citas.map(c => (c.telefono || '').replace(/\s/g, '') || c.nombre)
+  );
 
   // Servicio más frecuente
   const servCount = {};
@@ -1689,7 +1691,7 @@ async function cargarMetricasDashboard() {
   const topEmp = Object.entries(empCount).sort((a, b) => b[1] - a[1])[0];
 
   document.getElementById('dashSemCitas').textContent    = citas.length;
-  document.getElementById('dashSemIngresos').textContent = ingresos > 0 ? `$${ingresos.toLocaleString('es-MX')}` : '$0';
+  document.getElementById('dashSemClientas').textContent = clientasUnicas.size;
   document.getElementById('dashSemServ').textContent     = topServ ? topServ[0].split(' ')[0] : '—';
   document.getElementById('dashSemEmp').textContent      = topEmp  ? topEmp[0].split(' ')[0]  : '—';
   document.getElementById('dashSemana').style.display    = '';

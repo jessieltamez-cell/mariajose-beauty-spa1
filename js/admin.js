@@ -951,26 +951,40 @@ async function generarCorte() {
   const inicio = document.getElementById('finFechaInicio').value;
   const fin    = document.getElementById('finFechaFin').value;
 
-  // Cargar citas completadas del periodo
-  let query = supabaseClient
-    .from('citas')
-    .select('*')
-    .eq('estado', 'completada');
+  const btn = document.getElementById('btnGenerarCorte');
+  btn.textContent = 'Cargando…';
+  btn.disabled = true;
 
-  if (inicio) query = query.gte('fecha', inicio);
-  if (fin)    query = query.lte('fecha', fin);
+  try {
+    // Cargar citas completadas del periodo
+    let query = supabaseClient
+      .from('citas')
+      .select('*')
+      .eq('estado', 'completada')
+      .order('fecha', { ascending: false });
 
-  const { data: citas, error } = await query;
-  if (error) { console.warn("[admin] query error"); return; }
+    if (inicio) query = query.gte('fecha', inicio);
+    if (fin)    query = query.lte('fecha', fin);
 
-  // Cargar egresos del periodo
-  let eQuery = supabaseClient.from('egresos').select('*').order('fecha', { ascending: false });
-  if (inicio) eQuery = eQuery.gte('fecha', inicio);
-  if (fin)    eQuery = eQuery.lte('fecha', fin);
+    const { data: citas, error } = await query;
+    if (error) {
+      mostrarToast('Error al cargar citas', error.message, 'error');
+      return;
+    }
 
-  const { data: egresos } = await eQuery;
+    // Cargar egresos del periodo
+    let eQuery = supabaseClient.from('egresos').select('*').order('fecha', { ascending: false });
+    if (inicio) eQuery = eQuery.gte('fecha', inicio);
+    if (fin)    eQuery = eQuery.lte('fecha', fin);
 
-  renderFinanzas(citas || [], egresos || []);
+    const { data: egresos, error: eError } = await eQuery;
+    if (eError) console.warn('[admin] egresos:', eError.message);
+
+    renderFinanzas(citas || [], egresos || []);
+  } finally {
+    btn.textContent = 'Generar Corte';
+    btn.disabled = false;
+  }
 }
 
 function renderFinanzas(citas, egresos) {

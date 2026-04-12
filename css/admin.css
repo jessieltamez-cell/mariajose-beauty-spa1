@@ -1642,6 +1642,25 @@ tbody td:nth-child(7) { text-align: center; }
 }
 .btn-historial:hover { background: var(--c-principal); color: #fff; }
 
+.btn-toggle-completadas {
+  padding: 0.55rem 1rem;
+  background: transparent;
+  color: var(--c-gray-mid);
+  border: 1.5px dashed var(--c-border);
+  border-radius: 8px;
+  font-size: 0.84rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-toggle-completadas:hover { border-color: var(--c-gray-mid); color: var(--c-gray); }
+.btn-toggle-completadas[data-activo="1"] {
+  background: #f0f0f0;
+  border-style: solid;
+  border-color: var(--c-gray-mid);
+  color: var(--c-gray);
+}
+
 .hist-cliente {
   border: 1px solid var(--c-border);
   border-radius: 10px;

@@ -193,6 +193,8 @@ document.getElementById('viewToggle').addEventListener('click', (e) => {
 });
 
 // ─── Cargar Citas (lista) ────────────────────
+let mostrarCompletadas = false;
+
 async function cargarCitas(resetPage = false) {
   if (resetPage) currentPage = 0;
 
@@ -206,6 +208,7 @@ async function cargarCitas(resetPage = false) {
   if (filtros.fechaInicio) query = query.gte('fecha', filtros.fechaInicio);
   if (filtros.fechaFin)    query = query.lte('fecha', filtros.fechaFin);
   if (filtros.estado)      query = query.eq('estado', filtros.estado);
+  else if (!mostrarCompletadas) query = query.in('estado', ['pendiente', 'confirmada']);
   if (filtros.empleada)    query = query.eq('empleada', filtros.empleada);
 
   const { data, count, error } = await query;
@@ -746,6 +749,13 @@ document.getElementById('btnLimpiar').addEventListener('click', () => {
   document.querySelectorAll('.stat-card').forEach(c => c.classList.remove('stat-card--active'));
   if (currentView === 'lista') cargarCitas(true);
   else cargarCalendario();
+});
+
+document.getElementById('btnToggleCompletadas').addEventListener('click', function() {
+  mostrarCompletadas = !mostrarCompletadas;
+  this.dataset.activo = mostrarCompletadas ? '1' : '0';
+  this.textContent = mostrarCompletadas ? 'Ocultar completadas' : 'Mostrar completadas';
+  cargarCitas(true);
 });
 
 // ─── Calendario: Cargar datos ────────────────

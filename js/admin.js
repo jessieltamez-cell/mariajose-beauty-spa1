@@ -1289,23 +1289,23 @@ async function eliminarEgreso(id) {
 // ─── DISPONIBILIDAD ──────────────────────────
 
 const EMPLEADAS_ACTIVAS = [
-  'Daniela Loera', 'Anette Constantino',
+  'Daniela Loera',
   'Yuliana Pérez', 'Dafne Adame', 'Perla Tobías', 'Melanie Joseline'
 ];
 
 // Mapa servicio → empleadas (mismo que en el formulario)
 const EMPLEADAS_POR_SERVICIO_ADMIN = {
-  'gel':        ['Daniela Loera', 'Anette Constantino', 'Melanie Joseline'],
-  'rubber':     ['Daniela Loera', 'Anette Constantino', 'Melanie Joseline'],
-  'acrilico':   ['Daniela Loera', 'Anette Constantino', 'Melanie Joseline'],
-  'pedi':       ['Daniela Loera', 'Anette Constantino', 'Melanie Joseline'],
+  'gel':        ['Daniela Loera', 'Melanie Joseline'],
+  'rubber':     ['Daniela Loera', 'Melanie Joseline'],
+  'acrilico':   ['Daniela Loera', 'Melanie Joseline'],
+  'pedi':       ['Daniela Loera', 'Melanie Joseline'],
   'lash':       ['Yuliana Pérez'],
   'maquillaje': ['Dafne Adame'],
   'peinado':    ['Dafne Adame'],
   'masaje':     ['Perla Tobías'],
   'facial':     ['Perla Tobías'],
-  'ceja':       ['Anette Constantino', 'Melanie Joseline'],
-  'depilacion': ['Anette Constantino', 'Melanie Joseline'],
+  'ceja':       ['Melanie Joseline'],
+  'depilacion': ['Melanie Joseline'],
 };
 
 let disponSemanaOffset = 0; // semanas desde hoy

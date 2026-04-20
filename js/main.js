@@ -478,7 +478,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (t.match(/ubicaci|donde|dirección|llegar|domicil/))
       return { text: '📍 Nos encontramos en:\nAv. Perimetral Sur #132\nCol. Lomas del Poniente\nSanta Catarina, N.L. 66369', mapsButton: true, waButton: true };
     if (t.match(/equipo|personal|especialista|quien|quién|chica/))
-      return { text: 'Somos 6 especialistas certificadas 💕\n• Sofia — Cosmetología & Acrílico\n• Daniela — Manicura & Pedicura\n• Anette — Nail Art\n• Yuliana — Extensiones de Pestañas\n• Dafne — Maquillaje & Peinados\n• Perla — Masajes & Terapias',
+      return { text: 'Somos especialistas certificadas 💕\n• Sofia — Cosmetología & Acrílico\n• Daniela — Manicura & Pedicura\n• Yuliana — Extensiones de Pestañas\n• Dafne — Maquillaje & Peinados\n• Perla — Masajes & Terapias\n• Melanie — Nail Art & Cejas',
         chips: [{ label: '👩 Ver equipo', action: 'ver-equipo' }] };
     if (t.match(/servicio|ofrecen|hacen/))
       return { text: 'Ofrecemos:\n💅 Manicura (Gel, Rubber, Acrílico)\n🦶 Pedicura spa\n👁️ Extensiones de Pestañas\n💄 Maquillaje & Peinados\n💆 Masajes & Terapias\n✨ Cosmetología & Faciales',
@@ -537,19 +537,6 @@ document.addEventListener('DOMContentLoaded', () => {
         'img/trabajos/daniela/DANIELA_gel_pies.jpg',
         'img/trabajos/daniela/DANIELA_rubber_liso.jpeg',
         'img/trabajos/daniela/DANIELA_rubber_sencillo.jpeg'
-      ]
-    },
-    anette: {
-      name: 'Anette Constantino — Trabajos',
-      images: [
-        'img/trabajos/anette/ANETTE_0.jpeg',
-        'img/trabajos/anette/ANETTE_1_acrilico_french.jpeg',
-        'img/trabajos/anette/ANETTE_2_acrilico_elaborado.jpeg',
-        'img/trabajos/anette/ANETTE_3_acrilico_sencillo.jpeg',
-        'img/trabajos/anette/ANETTE_4_acripie.jpg',
-        'img/trabajos/anette/ANETTE_5_gel_sencillo.jpeg',
-        'img/trabajos/anette/ANETTE_6_rubber_sencillo.jpeg',
-        'img/trabajos/anette/ANETTE_7_lashlifting.jpg'
       ]
     },
     yuliana: {
@@ -693,17 +680,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ---------- Disponibilidad: configuración ----------
   const EMPLEADAS_POR_SERVICIO = {
-    'gel':        ['Daniela Loera', 'Anette Constantino', 'Melanie Joseline'],
-    'rubber':     ['Daniela Loera', 'Anette Constantino', 'Melanie Joseline'],
-    'acrilico':   ['Daniela Loera', 'Anette Constantino', 'Melanie Joseline'],
-    'pedi':       ['Daniela Loera', 'Anette Constantino', 'Melanie Joseline'],
+    'gel':        ['Daniela Loera', 'Melanie Joseline'],
+    'rubber':     ['Daniela Loera', 'Melanie Joseline'],
+    'acrilico':   ['Daniela Loera', 'Melanie Joseline'],
+    'pedi':       ['Daniela Loera', 'Melanie Joseline'],
     'lash':       ['Yuliana Pérez'],
     'maquillaje': ['Dafne Adame'],
     'peinado':    ['Dafne Adame'],
     'masaje':     ['Perla Tobías'],
     'facial':     ['Perla Tobías'],
-    'ceja':       ['Anette Constantino', 'Melanie Joseline'],
-    'depilacion': ['Anette Constantino', 'Melanie Joseline'],
+    'ceja':       ['Melanie Joseline'],
+    'depilacion': ['Melanie Joseline'],
   };
 
   const TIME_SLOTS = {
